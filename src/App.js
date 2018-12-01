@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import {BrowserRouter ,Route, Switch} from 'react-router-dom'
 
-import Navbar from "./components/Navbar/Navbar"
+import Navbar from "./components/Layout/NavBar/Navbar"
 import Profile from './components/profile';
 import Newfeed from './components/newfeed';
 import People from './components/people';
@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header/>
+        <Navbar/>
         <div class="container">
           <div class="row">
             <Profile/>
