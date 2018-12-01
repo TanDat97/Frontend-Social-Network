@@ -5,7 +5,7 @@ import '../App.css';
 class Newfeed extends Component {
   render() {
     return (
-        <div>
+        <div class="col-sm-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="media">

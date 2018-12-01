@@ -4,7 +4,7 @@ import '../App.css';
 class Header extends Component {
   render() {
     return (
-      <div>
+      <div class="col-sm-3">
         <div class="panel panel-default panel-custom">
           <div class="panel-heading">
             <h3 class="panel-title">

@@ -13,15 +13,11 @@ class App extends Component {
         <Header/>
         <div class="container">
           <div class="row">
-            <div class="col-sm-3">
-              <Profile/>
-            </div>
-            <div class="col-sm-6">
-              <Newfeed/>
-            </div>
-            <div class="col-sm-3">
-             <People/>
-            </div>
+            <Profile/>
+            
+            <Newfeed/>
+           
+            <People/> 
           </div>
         </div>
       </div>

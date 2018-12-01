@@ -4,7 +4,7 @@ import '../App.css';
 class Profile extends Component {
   render() {
     return (
-        <div>
+        <div class="col-sm-3">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <a href="#"><img class="img-responsive" alt="" src="http://placehold.it/800x500"/></a>
