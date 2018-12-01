@@ -6,11 +6,8 @@
     "axios": "^0.18.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-<<<<<<< HEAD
     "react-router-dom": "^4.3.1",
-=======
     "react-grid-gallery": "^0.5.3",
->>>>>>> 9fe8e61fba33bf1d3a0e6691b67962974853f5ff
     "react-scripts": "2.1.1"
   },
   "scripts": {
