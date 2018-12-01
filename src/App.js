@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
-import Header from './components/header';
+
+import {BrowserRouter ,Route, Switch} from 'react-router-dom'
+
+import Navbar from "./components/Layout/NavBar/Navbar"
 import Profile from './components/profile';
 import Newfeed from './components/newfeed';
 import People from './components/people';
-import './App.css';
+
+
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Header/>
+        <Navbar/>
         <div class="container">
           <div class="row">
             <Profile/>
@@ -20,7 +23,8 @@ class App extends Component {
             <People/> 
           </div>
         </div>
-      </div>
+        </div>
+        
     );
   }
 }
