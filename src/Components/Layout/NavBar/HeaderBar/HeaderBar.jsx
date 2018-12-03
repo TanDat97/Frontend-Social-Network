@@ -3,38 +3,32 @@ import React, { Component } from 'react';
 class Navbar extends Component {
     render() {
         return (
-            <div className="navbar navbar-default navbar-static-top">
-            <div className="container">
-                <div>
-                    <ul className="nav navbar-nav">
-                        <li >
-                            <a href="#fake"><span className="glyphicon glyphicon-home"></span> Home</a>
-                        </li>
-                        <li>
-                            <a href="#fake"><span className="glyphicon glyphicon-bell"></span> 
-                                Notifications<span class="badge badge-light">4</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fake"><span className="glyphicon glyphicon-envelope"></span> 
-                                Messages<span class="badge badge-light">4</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <div className="navbar-form navbar-right">
-                    <div className="form-group has-feedback">
-                        <input type="text" className="form-control-nav" id="search" aria-describedby="search1"/>
-                        
-                        <span className="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
-                    </div>
-
-                    <button className="btn btn-primary" type="submit" aria-label="Left Align">
-                        <span className="glyphicon glyphicon-pencil" aria-hidden="true"> </span> Tweet
-                    </button>
-                    </div>
-                </div>
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div className = "container">
+            <a class="navbar-brand" href="#">Forest</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+              </ul>
+              
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+              </form>
             </div>
-        </div>
+            </div>
+          </nav>
+          
         );
     }
 }
