@@ -5,21 +5,26 @@ class Navbar extends Component {
         return (
             <div className="navbar navbar-default navbar-static-top">
             <div className="container">
-                <div className="navbar-collapse navbar-collapse-1 collapse" aria-expanded="true">
+                <div>
                     <ul className="nav navbar-nav">
-                    <li >
-                        <a href="#fake"><span className="glyphicon glyphicon-home"></span> Home</a>
-                    </li>
-                    <li>
-                        <a href="#fake"><span className="glyphicon glyphicon-bell"></span> Notifications</a>
-                    </li>
-                    <li>
-                        <a href="#fake"><span className="glyphicon glyphicon-envelope"></span> Messages</a>
-                    </li>
+                        <li >
+                            <a href="#fake"><span className="glyphicon glyphicon-home"></span> Home</a>
+                        </li>
+                        <li>
+                            <a href="#fake"><span className="glyphicon glyphicon-bell"></span> 
+                                Notifications<span class="badge badge-light">4</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fake"><span className="glyphicon glyphicon-envelope"></span> 
+                                Messages<span class="badge badge-light">4</span>
+                            </a>
+                        </li>
                     </ul>
                     <div className="navbar-form navbar-right">
                     <div className="form-group has-feedback">
                         <input type="text" className="form-control-nav" id="search" aria-describedby="search1"/>
+                        
                         <span className="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                     </div>
 
