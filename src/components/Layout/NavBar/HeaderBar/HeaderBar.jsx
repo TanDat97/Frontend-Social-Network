@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Navbar extends Component {
+class HeaderBar extends Component {
     render() {
         return (
             <div className="navbar navbar-default navbar-static-top">
@@ -39,4 +39,4 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+export default HeaderBar;

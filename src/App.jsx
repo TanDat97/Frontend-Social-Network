@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import {BrowserRouter ,Route, Switch} from 'react-router-dom';
 
-import Navbar from "./Components/Layout/NavBar/HeaderBar/HeaderBar";
+import HeaderBar from "./Components/Layout/NavBar/HeaderBar/HeaderBar";
 import Newfeed from './Components/Newsfeed/Newsfeed';
 import Following from './Components/Layout/Follow/Following';
 
@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
         <div>
-          <Navbar/>
+          <HeaderBar/>
           <BrowserRouter >
               <div>
               <Switch>
