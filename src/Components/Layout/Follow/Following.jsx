@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Profile from '../NavBar/LeftBar/Profile';
 import FollowCard from './FollowCard';
-import '../../../style/style.css';
 
 const card = {
     marginRight:"10px",
