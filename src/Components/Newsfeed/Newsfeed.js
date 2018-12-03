@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-imp
+
 
 class Newfeed extends Component {
   render() {
