@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import {Form,FormGroup,Col,Button,ControlLabel,FormControl,Checkbox} from 'react-bootstrap'
+
 class Profile extends Component{
     handleChange = (e) =>  {
         this.setState({
@@ -12,46 +14,64 @@ class Profile extends Component{
         e.preventDefault();
         
     }
+    
 render(){
 
     return (
 
         <div class="panel rounded shadow">
-                    
-            <div className="row">
-            <h2><strong>Profile</strong> </h2>
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form onSubmit = {this.handleSubmit} className = "white"> 
-                        
-                        
-                        <div>
-                            <label htmlFor = "text">FirstName</label>
-                            <input text type ="text" id = "firstName" onChange= {this.handleChange} style = {{maxWidth:1000}}/>
-                        </div>
 
-                        <div className = "input-field">
-                            <label htmlFor = "text">LastName</label>
-                            <input type ="text" id = "lastName" onChange= {this.handleChange}/>
-                        </div>
+            <Form horizontal>
+            
+            <FormGroup controlId="formHorizontalText">
+                    <Col componentClass={ControlLabel} sm={2}>
+                    First Name
+                    </Col>
+                    <Col sm={10}>
+                    <FormControl type="text" value = "Doe"/>
+                    </Col>
+                </FormGroup>
+                <FormGroup controlId="formHorizontalText">
+                    <Col componentClass={ControlLabel} sm={2}>
+                    Last Name
+                    </Col>
+                    <Col sm={10}>
+                    <FormControl type="text" value = "John" />
+                    </Col>
+                </FormGroup>
+                <FormGroup controlId="formHorizontalEmail">
+                    <Col componentClass={ControlLabel} sm={2}>
+                    Email
+                    </Col>
+                    <Col sm={10}>
+                    <FormControl type="email" value = "nguyenthanhdai97@gmail.com" />
+                    </Col>
+                </FormGroup>
 
-                        <div className = "input-field">
-                            <label htmlFor = "email">Email</label>
-                            <input type ="email" id = "email" onChange= {this.handleChange}/>
-                        </div>
-                        
-                        <div className = "input-field">
-                            <label htmlFor = "password">Password</label>
-                            <input type ="password" id = "password" onChange= {this.handleChange}/>
-                        </div>
-
-                        <div className = "input-field">
-                            <button type="submit" class="btn btn-primary blue">Submit</button>
-                        </div>
-                        
-                    </form>
-            </div>
-            </div>
-        </div>
+                <FormGroup controlId="formHorizontalText">
+                    <Col componentClass={ControlLabel} sm={2}>
+                    Your Job
+                    </Col>
+                    <Col sm={10}>
+                    <FormControl type="text" value = "Web Designer"/>
+                    </Col>
+                </FormGroup>
+                <FormGroup controlId="formHorizontalNumber">
+                    <Col componentClass={ControlLabel} sm={2}>
+                    Phone
+                    </Col>
+                    <Col sm={10}>
+                    <FormControl type="number" value = "0972002914"/>
+                    </Col>
+                </FormGroup>
+                
+                <FormGroup>
+                    <Col smOffset={2} sm={10}>
+                    <Button type="submit">Submit</Button>
+                    </Col>
+                </FormGroup>
+                </Form> 
+        </div> 
 
     )
 }
