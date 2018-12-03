@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Posttest from './Posttest'
+import Posttest from './Post'
 
 
-class PersonalPage extends Component {
+class HomePage extends Component {
   render() {
     return (
         <div>
@@ -98,4 +98,4 @@ class PersonalPage extends Component {
   }
 }
 
-export default PersonalPage;
+export default HomePage;

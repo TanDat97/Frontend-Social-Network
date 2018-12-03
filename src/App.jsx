@@ -4,7 +4,7 @@ import {BrowserRouter ,Route, Switch} from 'react-router-dom'
 
 import Navbar from "./Components/Layout/NavBar/HeaderBar/HeaderBar"
 import Newfeed from './Components/Newsfeed/Newsfeed';
-import PersonalPage from './Components/Profile/PersonalPage'
+import HomePage from './Components/Profile/HomePage'
 import SettingProfile from './Components/Profile/SettingProfile'
 
 
@@ -18,7 +18,7 @@ class App extends Component {
               <div>
               <Switch>
               <Route exact path="/" component={Newfeed}/>
-              <Route exact path = "/HomePage" component ={PersonalPage}/>
+              <Route exact path = "/HomePage" component ={HomePage}/>
               <Route exact path="/Setting" component ={SettingProfile}/>
               </Switch>
               </div>
