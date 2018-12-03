@@ -4,7 +4,7 @@ import {BrowserRouter ,Route, Switch} from 'react-router-dom'
 
 import Navbar from "./components/Layout/NavBar/HeaderBar/HeaderBar"
 import Profile from './components/Layout/LeftBar/profile';
-import Newfeed from './components/Newsfeed/newfeed';
+import Newfeed from './Components/Newsfeed/Newsfeed';
 import People from './components/Layout/RightBar/people';
 import {BrowserRouter ,Route, Switch} from 'react-router-dom'
 
