@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 
 import {BrowserRouter ,Route, Switch} from 'react-router-dom'
 
-import Navbar from "./components/Layout/NavBar/HeaderBar/HeaderBar"
-import Profile from './components/Layout/LeftBar/profile';
+import Navbar from "./Components/Layout/NavBar/HeaderBar/HeaderBar"
 import Newfeed from './Components/Newsfeed/Newsfeed';
-import People from './components/Layout/RightBar/people';
-import {BrowserRouter ,Route, Switch} from 'react-router-dom'
+
+
 
 
 class App extends Component {
