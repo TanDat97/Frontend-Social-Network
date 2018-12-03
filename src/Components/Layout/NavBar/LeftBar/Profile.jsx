@@ -1,40 +1,34 @@
 import React, { Component } from 'react';
+import {Col, Row } from "react-bootstrap"
 
-class Profile extends Component {
-  render() {
+
+const Profile = () => { 
     return (
-        <div class="col-sm-3">
+        <Col xs={6} md={3}>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="#"><img class="img-responsive" alt="" src="http://placehold.it/800x500"/></a>
-                    <div class="row">
-                        <div class="col-xs-3">
+                    <a href="#"><img class="img-responsive" alt="" src="https://cdnmedia.baotintuc.vn/Upload/a7srThwxbojBCucvUWgnxA/files/2018/12/03/cp.jpg"/></a>
+                    <Row>
+                        <Col xs={6} md={6}>
                         <h5>
-                            <small>TWEETS</small>
-                            <a href="#">1,545</a>
-                        </h5>
-                        </div>
-                        <div class="col-xs-4">
-                        <h5>
-                            <small>FOLLOWING</small>
+                            <small>FOLLOWING: </small>
                             <a href="#">251</a>
-                        </h5>
-                        </div>
-                        <div class="col-xs-5">
+                            </h5>
+                        </Col>
+                        <Col xs={6} md={6}>
                         <h5>
-                            <small>FOLLOWERS</small>
+                            <small>FOLLOWERS: </small>
                             <a href="#">153</a>
-                        </h5>
-                        </div>
-                    </div>
+                            </h5>
+                        </Col>
+                    </Row>
                 </div>
             </div>
 
             <div class="panel panel-default panel-custom">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Trends
-                        <small><a href="#">ciao</a></small>
+                        <a href = "#" >Followers</a>
                     </h3>
                 </div>
 
@@ -50,9 +44,8 @@ class Profile extends Component {
                     </ul>
                 </div>
             </div>
-        </div>
-    );
-  }
+        </Col>
+    )
 }
 
 export default Profile;

@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
+import {Col, Row} from "react-bootstrap"
 
+const avatarFollowing = { 
+  height: "auto",
+  width: "auto",
+  maxWidth: "50px",
+  maxHeight: "50px",
+}
 
-class Header extends Component {
-  render() {
-    return (
-      <div class="col-sm-3">
+const People = () => {
+  return (
+    <Col xs={6} md={3}>
         <div class="panel panel-default panel-custom">
           <div class="panel-heading">
             <h3 class="panel-title">
-              Who to follow
-              <small><a href="#">Refresh</a> ● <a href="#">View all</a></small>
+              Followers
             </h3>
           </div>
           <div class="panel-body">
+            
             <div class="media">
               <div class="media-left">
-                <img src="http://placehold.it/32x32" alt="" class="media-object img-rounded"/>
+                <img src="https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt="" style = {avatarFollowing} className ="img-rounded"/>
               </div>
               <div class="media-body">
                 <h4 class="media-heading">Nome e cognome</h4>
@@ -26,40 +32,17 @@ class Header extends Component {
                 </a>
               </div>
             </div>
-            <div class="media">
-              <div class="media-left">
-                <img src="http://placehold.it/32x32" alt="" class="media-object img-rounded"/>
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">Nome e cognome</h4>
-                <a href="#" class="btn btn-default btn-xs">
-                  +
-                  <span class="glyphicon glyphicon-user"></span>
-                  Follow
-                </a>
-              </div>
-            </div>
-            <div class="media">
-              <div class="media-left">
-                <img src="http://placehold.it/32x32" alt="" class="media-object img-rounded"/>
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">Nome e cognome</h4>
-                <a href="#" class="btn btn-default btn-xs">
-                  +
-                  <span class="glyphicon glyphicon-user"></span>
-                  Follow
-                </a>
-              </div>
-            </div>
+            
+
+
           </div>
           <div class="panel-footer">
-            <a href="www.google.it">
-              <span class="glyphicon glyphicon-user"></span>
-              Find people you know
+            <a href="#FindFollower">
+              <i class="glyphicon glyphicon-user"></i>  Find people you know
             </a>
           </div>
         </div>
+
         <div class="well well-sm">
           <ul class="list-inline">
             <li>© 2015 Twitter</li>
@@ -80,11 +63,10 @@ class Header extends Component {
             <li><a href="#">Developers</a></li>
           </ul>
         </div>
-      </div>
-    );
-  }
+      </Col>
+  )
 }
 
-export default Header;
+export default People;
 
 
