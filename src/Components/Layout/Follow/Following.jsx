@@ -2,22 +2,21 @@ import React, { Component } from 'react';
 
 import Profile from '../NavBar/LeftBar/Profile';
 import FollowCard from './FollowCard';
+import {Row, Col} from "react-bootstrap"
 
-const card = {
-    marginRight:"10px",
-    marginBottom:"10px",
-    width: '260px',    
-    backgroundColor: "#d4ecf6",
-}
+
 
 class Following extends Component {
   render() {
     return (
-        <div>
+        
+        <Row>
+            <Col xs={6} md={3}>
             <Profile/>
-            <div className="col-sm-8">
-                <div className="panel panel-default">
-                    <div className="panel-body">
+            </Col>
+            <Col xs={6} md={9}>
+                <div className="card">
+                    <div className="card-body">
                         <div className="row">
                             <div className="col-xs-2">
                                 <h5>
@@ -36,31 +35,37 @@ class Following extends Component {
                         </div>
                     </div>
                 </div>
+                <br/>
                 <div class="card-group">
-                    <div class = "col-sm-4" style = {card}>
+                <Row>
+                    <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
-                    <div class = "col-sm-4" style = {card}>
+                        </Col>
+                        <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
-                    <div class = "col-sm-4" style = {card}>
+                        </Col>
+                        <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
-                    <div class = "col-sm-4" style = {card}>
+                        </Col>
+                        <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
-                    <div class = "col-sm-4" style = {card}>
+                        </Col>
+                        <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
-                    <div class = "  col-sm-4" style = {card}>
+                        </Col>
+                        <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
-                    <div class = "col-sm-4" style = {card}>
+                        </Col>
+                        <Col xs = {6} md = {4}>
                         <FollowCard/>
-                    </div>
+                        </Col>
+                        <Col xs = {6} md = {4}>
+                        <FollowCard/>
+                        </Col>
+                        </Row>
                 </div>
-            </div>
-        </div>
+                </Col>
+        </Row>
     );
   }
 }

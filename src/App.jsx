@@ -13,8 +13,9 @@ class App extends Component {
     return (
         <div>
           <HeaderBar/>
+          <br/>
           <BrowserRouter >
-              <div>
+              <div className = "container">
               <Switch>
                 <Route exact path="/" component={Newfeed}/>
                 <Route exact path="/:id/following" component={Following}/>

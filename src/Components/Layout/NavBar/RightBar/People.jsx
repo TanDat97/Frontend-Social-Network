@@ -1,69 +1,69 @@
 import React, { Component } from 'react';
-import {Col, Row} from "react-bootstrap"
+import {Col, Well, Media} from "react-bootstrap"
 
 const avatarFollowing = { 
   height: "auto",
   width: "auto",
-  maxWidth: "50px",
-  maxHeight: "50px",
+  maxWidth: "60px",
+  maxHeight: "60px",
 }
 
 const People = () => {
   return (
-    <Col xs={6} md={3}>
-        <div class="panel panel-default panel-custom">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Followers
-            </h3>
-          </div>
-          <div class="panel-body">
+    
+
+
+    <div>
+        <div className = "card">
+          <div className = "card-body">
+          <h5 className ="card-title text-secondary">Followings</h5>
+          
+          
             
             <div class="media">
-              <div class="media-left">
-                <img src="https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt="" style = {avatarFollowing} className ="img-rounded"/>
-              </div>
+              
+              <img src="https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt="" style = {avatarFollowing} className ="mr-3"/>
+              
               <div class="media-body">
-                <h4 class="media-heading">Nome e cognome</h4>
-                <a href="#" class="btn btn-default btn-xs">
+                <h6 class="mt-0">Nome e cognome</h6>
+                <button href="#" class="btn btn-default btn-xs">
                   +
-                  <span class="glyphicon glyphicon-user"></span>
+                  <i class="fa fa-user"></i>
                   Follow
-                </a>
+                </button>
               </div>
             </div>
-            
-
-
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <a href="#FindFollower">
-              <i class="glyphicon glyphicon-user"></i>  Find people you know
+              <i class="fa fa-user"></i>  Find people you know
             </a>
           </div>
         </div>
-
-        <div class="well well-sm">
+  <br/>
+        <div className = "card">
+        <div className = "card-body">
+          <h5 className ="card-title text-secondary">@Forest Copr</h5>
+          
           <ul class="list-inline">
-            <li>© 2015 Twitter</li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Help</a></li>
-            <li><a href="#">Terms</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Cookies</a></li>
-            <li><a href="#">Ads info</a></li>
-            <li><a href="#">Brand</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Status</a></li>
-            <li><a href="#">Apps</a></li>
-            <li><a href="#">Jobs</a></li>
-            <li><a href="#">Advertise</a></li>
-            <li><a href="#">Businesses</a></li>
-            <li><a href="#">Media</a></li>
-            <li><a href="#">Developers</a></li>
+            
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            <li className = "list-inline-item"><a href="#">About</a></li>
+            
           </ul>
-        </div>
-      </Col>
+          </div>
+          </div>
+          </div>
   )
 }
 
