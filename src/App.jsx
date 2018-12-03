@@ -13,7 +13,7 @@ class App extends Component {
     return (
         <div>
           <Navbar/>
-          <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <BrowserRouter >
               <div>
               <Switch>
                 <Route exact path="/" component={Newfeed}/>
