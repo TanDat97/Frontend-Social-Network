@@ -17,12 +17,10 @@ class PersonalPage extends Component {
                                         <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="John Doe"/>
                                     </li>
                                     <li class="text-center">
-                                        <h4 class="text-capitalize">John Doe</h4>
-                                        <p class="text-muted text-capitalize">web designer</p>
+                                        <h4 class="text-capitalize">Nguyễn Thanh Đại</h4>
+                                        <p class="text-muted text-capitalize">Student</p>
                                     </li>
-                                    <li>
-                                        <a href="" class="btn btn-success text-center btn-block">PRO Account</a>
-                                    </li>
+                                   
                                     <li><br/></li>
                                     <li>
                                         <div class="btn-group-vertical btn-block">
@@ -49,9 +47,9 @@ class PersonalPage extends Component {
                         </div>
                         <div class="panel-body no-padding rounded">
                             <ul class="list-group no-margin">
-                                <li class="list-group-item"><i class="fa fa-envelope mr-5"></i> support@bootdey.com</li>
+                                <li class="list-group-item"><i class="fa fa-envelope mr-5"></i> nguyenthanhdai97@gmail.com</li>
                                 <li class="list-group-item"><i class="fa fa-globe mr-5"></i> www.bootdey.com</li>
-                                <li class="list-group-item"><i class="fa fa-phone mr-5"></i> +6281 903 xxx xxx</li>
+                                <li class="list-group-item"><i class="fa fa-phone mr-5"></i>0972002914</li>
                             </ul>
                         </div>
                     </div>

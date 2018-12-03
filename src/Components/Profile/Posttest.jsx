@@ -29,7 +29,7 @@ render(){
                                           <img src="http://bootdey.com/img/Content/avatar/avatar2.png" alt="..." class="img-circle img-post"/>
                                       </div>
                                       <div class="media-body">
-                                          <a href="#" class="media-heading block mb-0 h4 text-white">John Doe</a>
+                                          <a href="#" class="media-heading block mb-0 h4 text-white">Nguyễn Thanh Đại  </a>
                                           <span class="text-white h6">on 8th June, 2014</span>
                                       </div>
                                   </div>
@@ -50,7 +50,7 @@ render(){
                                       <img src="http://bootdey.com/img/Content/avatar/avatar6.png" alt="..." class="img-post2"/>
                                   </div>
                                   <div class="media-body">
-                                      <a href="#" class="h4">John Doe</a>
+                                      <a href="#" class="h4"> Đạt Trần </a>
                                       <small class="block text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </small>
                                       <em class="text-xs text-muted">Posted on <span class="text-danger">Dec 08, 2014</span></em>
                                   </div>
@@ -61,7 +61,7 @@ render(){
                                       <img src="http://bootdey.com/img/Content/avatar/avatar4.png" alt="..." class="img-post2"/>
                                   </div>
                                   <div class="media-body">
-                                      <a href="#" class="h4">John Doe</a>
+                                      <a href="#" class="h4">Duy Trương </a>
                                       <small class="block text-muted">Quaerat, impedit minus non commodi facere doloribus nemo ea voluptate nesciunt deleniti.</small>
                                       <em class="text-xs text-muted">Posted on <span class="text-danger">Dec 08, 2014</span></em>
                                   </div>
@@ -86,7 +86,7 @@ render(){
                                           <img src="http://bootdey.com/img/Content/avatar/avatar6.png" alt="..." class="img-circle img-post"/>
                                       </div>
                                       <div class="media-body">
-                                          <a href="#" class="media-heading block mb-0 h4 text-white">John Doe</a>
+                                          <a href="#" class="media-heading block mb-0 h4 text-white">Nguyễn Thanh Đại  </a>
                                           <span class="text-white h6">on 8th June, 2014</span>
                                       </div>
                                   </div>
@@ -118,7 +118,7 @@ render(){
                                       <img src="http://bootdey.com/img/Content/avatar/avatar3.png" alt="..." class="img-post2"/>
                                   </div>
                                   <div class="media-body">
-                                      <a href="#" class="h4">John Doe</a>
+                                      <a href="#" class="h4">Duy Harry </a>
                                       <small class="block text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </small>
                                       <em class="text-xs text-muted">Posted on <span class="text-danger">Dec 08, 2014</span></em>
                                   </div>
@@ -129,7 +129,7 @@ render(){
                                       <img src="http://bootdey.com/img/Content/avatar/avatar5.png" alt="..." class="img-post2"/>
                                   </div>
                                   <div class="media-body">
-                                      <a href="#" class="h4">John Doe</a>
+                                      <a href="#" class="h4">Đạt  </a>
                                       <small class="block text-muted">Quaerat, impedit minus non commodi facere doloribus nemo ea voluptate nesciunt deleniti.</small>
                                       <em class="text-xs text-muted">Posted on <span class="text-danger">Dec 08, 2014</span></em>
                                   </div>

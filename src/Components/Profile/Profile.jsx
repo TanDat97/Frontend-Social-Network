@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {Form,FormGroup,Col,Button,ControlLabel,FormControl,Checkbox} from 'react-bootstrap'
+import {Form,FormGroup,Col,Button,ControlLabel,FormControl,ButtonToolbar,Dropdown,Glyphicon,MenuItem} from 'react-bootstrap'
 
 class Profile extends Component{
     handleChange = (e) =>  {
@@ -28,7 +28,7 @@ render(){
                     First Name
                     </Col>
                     <Col sm={10}>
-                    <FormControl type="text" value = "Doe"/>
+                    <FormControl type="text" value = "Nguyễn"/>
                     </Col>
                 </FormGroup>
                 <FormGroup controlId="formHorizontalText">
@@ -36,9 +36,31 @@ render(){
                     Last Name
                     </Col>
                     <Col sm={10}>
-                    <FormControl type="text" value = "John" />
+                    <FormControl type="text" value = "Thanh Đại" />
                     </Col>
                 </FormGroup>
+                <FormGroup controlId="formHorizontalText">
+               < ButtonToolbar>
+               <Col componentClass={ControlLabel} sm={2}>
+                   Giới tính
+                    </Col>
+                    <Col  sm={10}>
+                    <Dropdown id="dropdown-custom-1">
+                        <Dropdown.Toggle>
+                        Nam
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="super-colors">
+                        <MenuItem eventKey="1">Nam</MenuItem>
+                        <MenuItem eventKey="2">Nữ</MenuItem>
+                       
+                       
+                       
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </Col>
+                 </ ButtonToolbar>  
+
+                 </FormGroup> 
                 <FormGroup controlId="formHorizontalEmail">
                     <Col componentClass={ControlLabel} sm={2}>
                     Email
@@ -53,7 +75,7 @@ render(){
                     Your Job
                     </Col>
                     <Col sm={10}>
-                    <FormControl type="text" value = "Web Designer"/>
+                    <FormControl type="text" value = "Student"/>
                     </Col>
                 </FormGroup>
                 <FormGroup controlId="formHorizontalNumber">
