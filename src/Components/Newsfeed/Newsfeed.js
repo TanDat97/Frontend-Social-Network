@@ -1,10 +1,14 @@
 
 import React, { Component } from 'react';
 
+import Profile from "../Layout/NavBar/LeftBar/Profile"
+import People from "../Layout/NavBar/RightBar/People"
 
 class Newfeed extends Component {
   render() {
     return (
+        <div>
+            <Profile/>
         <div class="col-sm-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -54,6 +58,9 @@ class Newfeed extends Component {
                     </ul>
                 </div>
             </div>
+        </div>
+
+        <People/>
         </div>
     );
   }
