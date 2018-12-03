@@ -1,11 +1,10 @@
 
 import React, { Component } from 'react';
+import {Col, Row, FormGroup, FormControl, Button, Media} from "react-bootstrap";
 
-import Profile from "../Layout/NavBar/LeftBar/Profile"
-import People from "../Layout/NavBar/RightBar/People"
-import Post from "./Post"
-import {Col, Row, FormGroup, ControlLabel, FormControl, Button} from "react-bootstrap"
-
+import Profile from "../Layout/NavBar/LeftBar/Profile";
+import People from "../Layout/NavBar/RightBar/People";
+import Post from "./Post";
 
 const avatarUser = {
     height: "50px",
@@ -16,51 +15,57 @@ const avatarUser = {
 class Newfeed extends Component {
   render() {
     return (
-        <div className = "container">
-            
-            <Row>
-            <Profile/>
+        <Row>
+            <Col xs= {6} md = {3}>
+                <Profile/>
+            </Col>
             <Col xs={6} md={6}>
-
-            <div className="panel panel-info">
-                <div className="panel-heading">
-                    <div className="media">
-                        <a className="media-left" href="#fake">
-                            <img alt=""  style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
-                        </a>
-                        <div className="media-body">
-                            <div className="form-group has-feedback">
-                                {/* <label className="control-label sr-only" for="inputSuccess5">Hidden label</label>
-                                <input type="text" className="form-control" id="search2" aria-describedby="search"/>
-                                <span id="search2" className="sr-only">(success)</span> */}
-                                <FormGroup controlId="formControlsTextarea">
-                                    <ControlLabel>Tạo bài viết</ControlLabel>
-                                    <FormControl componentClass="textarea" placeholder = "What's up?..."/>
-                                </FormGroup>
-                                <Button type="submit" className ="pull-right">Post</Button>
-                                <ul class="nav nav-pills">
-                                    <li><a href="#"><i class="fa fa-user"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-camera"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-smile-o"></i></a></li>
-                                </ul>
-                                
-    
-                            </div>
+                <div className ="card bg-light">
+                    <div className = "card-body">
+                        <h5 className ="card-title text-secondary">Tạo bài viết</h5>
+                        <div className = "card-text">
+                            <Media>
+                                <Media.Left>
+                                    <a className="mr-3" href="#fake">
+                                        <img alt=""  style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+                                    </a>
+                                </Media.Left>
+                                <Media.Body>
+                                    <FormGroup controlId="formControlsTextarea">
+                                        <FormControl componentClass="textarea" placeholder = "What's up?..."/>
+                                    </FormGroup>
+                                    <Button type="submit" className ="float-right">Post</Button>
+                                    <ul className="nav">
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i class="fa fa-user"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i class="fa fa-map-marker"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i class="fa fa-camera"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i class="fa fa-smile-o"></i></a>
+                                        </li>
+                                    </ul>
+                                </Media.Body>
+                            </Media>
                         </div>
-                    </div>
+                    </div>  
                 </div>
-                
+                <br/>
                 <Post/>
-                
-
-            </div>
-
-        </Col>
-        <People/>
+                <br/>
+                <Post/>                
+                <br/>
+                <Post/>
+                <br/>
+            </Col>
+            <Col xs={6} md={3}>
+                <People/>
+            </Col>
         </Row>
-        
-        </div>
     );
   }
 }
