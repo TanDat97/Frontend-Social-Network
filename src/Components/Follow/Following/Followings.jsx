@@ -3,14 +3,14 @@ import {Row, Col} from "react-bootstrap";
 import { connect } from 'react-redux';
 
 import Profile from '../../Layout/NavBar/LeftBar/Profile';
-import FollowCard from './FollowingCard';
+import FollowingCard from './FollowingCard';
 
 class Following extends Component {
   render() {
     return (
         <Row>
             <Col xs={6} md={3}>
-            <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                <Profile Follower = {this.props.follower} Following = {this.props.following}/>
             </Col>
             <Col xs={6} md={9}>
                 <div className="card">
@@ -39,7 +39,7 @@ class Following extends Component {
                         {this.props.following.Following_List.map ( each => {
                         return (
                             <Col xs = {6} md = {4}> 
-                                <FollowCard Card = {each}/>
+                                <FollowingCard Card = {each}/>
                             </Col>
                             )
                         })}
