@@ -20,22 +20,21 @@ const Post = ( {getPost}) => {
                 <Media>
                     <Media.Body>
                         
-                            <ul className="list-inline">
-                                <li className="list-inline-item">
-                                    <a href="#fake">
-                                        <img alt="" className = "img-fluid" style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
-                                    </a>        
-                                </li>
-                                    
-                                <li className="list-inline-item">
-                                    <blockquote className="blockquote">
-                                        <a href = "#posterProfile"><h5 className="">{getPost.userPost}</h5></a>   
-                                        <footer><h6>{getPost.postTime}</h6></footer>
-                                    </blockquote>
-                                </li>
-                            </ul>
+                        <ul className="list-inline">
+                            <li className="list-inline-item">
+                                <a href="#fake">
+                                    <img alt="" className = "img-fluid" style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+                                </a>        
+                            </li>
+                                
+                            <li className="list-inline-item">
+                                <blockquote className="blockquote">
+                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost}</h5></a>   
+                                    <footer><h6>{getPost.postTime}</h6></footer>
+                                </blockquote>
+                            </li>
+                        </ul>
                         
-
                         <p>{getPost.text}</p>
                         <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" />                  
                         <ul className="nav">

@@ -10,7 +10,7 @@ const FollowerCard = (props) => {
   return (
     <div>
       <div className="card">
-        <img className="card-img-top"  src={Card.avatar} alt="Card image cap"/>
+        <img className="card-img-top"  src={Card.image} alt="Card image cap"/>
         <div className="card-body">
         <div className="media">      
           <div className="media-body">

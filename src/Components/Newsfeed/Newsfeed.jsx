@@ -1,17 +1,14 @@
-
 import React, { Component } from 'react';
 import {Col, Row, FormGroup, FormControl, Button, Media} from "react-bootstrap";
+
+//Connect redux
+import { connect } from 'react-redux';
+//Plugin
+import InfiniteScrool from "react-infinite-scroller"
 
 import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
-
-//Connect redux
-import { connect } from 'react-redux';
-
-//Plugin
-import InfiniteScrool from "react-infinite-scroller"
-
 
 const avatarUser = {
     height: "50px",

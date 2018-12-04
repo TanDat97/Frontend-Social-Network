@@ -1,8 +1,6 @@
 import React from 'react';
 import {Col, Row } from "react-bootstrap"
 import FollowerBar from "./FollowerBar"
-import { connect } from 'react-redux';
-
 
 const Profile = (props) => {
     const Follower = props.Follower;
