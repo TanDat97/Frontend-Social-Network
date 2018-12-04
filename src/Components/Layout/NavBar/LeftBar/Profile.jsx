@@ -14,7 +14,7 @@ const Profile = ( {getFollower}) => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="thayTenODay/follower">{getFollower.length}</a></Row>
+                                <Row><a href="thayTenODay/follower">{getFollower? getFollower.length : "#Nan"}</a></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
