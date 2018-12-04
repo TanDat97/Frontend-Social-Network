@@ -4,9 +4,9 @@ const FollowerBar = ( {Follower}) => {
     return (
         <div className ="card">
         <div className = "card-body">
-        <a href="thayTenODay/follower"><h3 className ="card-title text-secondary">Followers</h3> </a>
+        <a href="/thayTenODay/follower"><h3 className ="card-title text-secondary">Followers</h3> </a>
             <div className = "card-text">
-                <ul class="list-unstyled"> 
+                <ul className="list-unstyled"> 
                     {
                         Follower.Follower_List.map(each => { 
                             return (

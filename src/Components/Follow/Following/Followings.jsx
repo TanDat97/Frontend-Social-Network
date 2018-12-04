@@ -34,7 +34,7 @@ class Following extends Component {
                     </div>
                 </div>
                 <br/>
-                <div class="card-group">
+                <div className="card-group">
                     <Row>
                         {this.props.following.Following_List.map ( each => {
                         return (
