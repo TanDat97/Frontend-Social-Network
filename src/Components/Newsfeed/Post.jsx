@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import { Media, Modal, Button, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
+import React from 'react';
+import { Media} from "react-bootstrap";
 
 // Connect Redux
-
 
 import Comments from "./Comments"
 
@@ -19,7 +18,6 @@ const Post = ( {getPost}) => {
             <div className="card-body">
                 <Media>
                     <Media.Body>
-                        
                         <ul className="list-inline">
                             <li className="list-inline-item">
                                 <a href="#fake">
@@ -36,7 +34,7 @@ const Post = ( {getPost}) => {
                         </ul>
                         
                         <p>{getPost.text}</p>
-                        <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" />                  
+                        <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
                             <li className = "nav-item">
                                 <a className = "nav-link" href="/"><i className="fa fa-thumbs-up"></i></a>
@@ -49,7 +47,6 @@ const Post = ( {getPost}) => {
                             </li>
                             <li className = "nav-item">
                                 <a className = "nav-link" onClick={() => this.setState({showModal: true})}  ><i className="fa fa-share "></i></a>
-                                
                             </li>
                         </ul>
                         <div className="dropdown-divider"></div>
@@ -62,7 +59,5 @@ const Post = ( {getPost}) => {
         </div>
     );
 };
+
 export default Post;
-
-
-
