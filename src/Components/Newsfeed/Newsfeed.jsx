@@ -92,10 +92,12 @@ class Newfeed extends Component {
 
 
 const  mapStateToProps = (state) => {
+    console.log(state)
     return {
         post: state.post,
         follower: state.follower,
         following: state.following,
+        
     };
 }
 

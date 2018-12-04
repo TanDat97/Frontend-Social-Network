@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 const Profile = (props) => {
     const Follower = props.Follower;
     const Following = props.Following;
+    
     console.log(Follower.Follower_List)
     return (
         <div>
