@@ -19,7 +19,7 @@ class Profile extends Component{
         var auth = this.props.auth
         return (
 
-            <div class="panel rounded shadow bg-white">
+            <div className="panel rounded shadow bg-white">
                 <div className = "card-body bg-white">
                 <Form horizontal>
                 
