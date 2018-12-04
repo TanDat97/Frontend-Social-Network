@@ -8,11 +8,11 @@ const FollowerBar = ( {getFollower}) => {
             <div className = "card-text">
                 <ul class="list-unstyled"> 
                     {
-                        getFollower.map(each => { 
-                            return (
-                                <li><a href = "#follower" >#{each.name}</a></li>
-                            )
-                        })
+                        // getFollower.map(each => { 
+                        //     return (
+                        //         <li><a href = "#follower" >#{each.name}</a></li>
+                        //     )
+                        // })
                     }
                 </ul>
             </div>

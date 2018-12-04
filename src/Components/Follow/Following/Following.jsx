@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Row, Col} from "react-bootstrap";
+import { connect } from 'react-redux';
 
 import Profile from '../../Layout/NavBar/LeftBar/Profile';
 import FollowCard from './FollowingCard';
@@ -15,18 +16,18 @@ class Following extends Component {
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-2">
+                            <div className="col-4">
                                 <h5>
-                                    <small>FOLLOWING</small>
+                                    <big>FOLLOWING</big>
                                     <br/>
-                                    <a href="/">1,545</a>
+                                    <a href="/12/following">{this.props.Following_List.length}</a>
                                 </h5>
                             </div>
-                            <div className="col-2">
+                            <div className="col-4">
                                 <h5>
                                     <small>FOLLOWER</small>
                                     <br/>   
-                                    <a href="/">251</a>
+                                    <a href="/">{this.props.Follower_List.length}</a>
                                 </h5>
                             </div>
                         </div>
@@ -35,30 +36,13 @@ class Following extends Component {
                 <br/>
                 <div class="card-group">
                     <Row>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
-                        <Col xs = {6} md = {4}>
-                            <FollowCard/>
-                        </Col>
+                        {this.props.Following_List.map ( each => {
+                        return (
+                            <Col xs = {6} md = {4}> 
+                                <FollowCard Card = {each}/>
+                            </Col>
+                            )
+                        })}
                     </Row>
                 </div>
             </Col>
@@ -67,5 +51,16 @@ class Following extends Component {
   }
 }
 
-export default Following;
+const  mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        Following_List: state.following.Following_List,
+        Follower_List: state.follower.Follower_List,
+    };
+}
+
+
+export default connect(
+    mapStateToProps,
+)(Following);
 
