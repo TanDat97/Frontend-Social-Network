@@ -11,13 +11,13 @@ const Profile = () => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="/">251</a></Row>
+                                <Row><a href="thayTenODay/follower">231</a></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followings </small></Row>
-                                <Row><a href="/">153</a></Row>
+                                <Row><a href="thayTenODay/following">153</a></Row>
                             </h5>
                         </Col>
                     </Row>
@@ -26,7 +26,7 @@ const Profile = () => {
             <br/>
             <div className ="card">
                 <div className = "card-body">
-                    <h3 className ="card-title text-secondary">Followers</h3>
+                <a href="thayTenODay/follower"><h3 className ="card-title text-secondary">Followers</h3> </a>
                     <div className = "card-text">
                         <ul class="list-unstyled">
                             <li><a href="/">#Cras justo odio</a></li>

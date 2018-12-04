@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Row, Col} from "react-bootstrap";
 
-import Profile from '../NavBar/LeftBar/Profile';
-import FollowCard from './FollowCard';
+import Profile from '../../NavBar/LeftBar/Profile';
+import FollowCard from './FollowingCard';
 
 class Following extends Component {
   render() {

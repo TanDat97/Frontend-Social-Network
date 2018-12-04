@@ -7,12 +7,12 @@ const avatarFollowing = {
   maxHeight: "60px",
 }
 
-const People = () => {
+const Followings = () => {
   return (
     <div>
       <div className = "card">
         <div className = "card-body">
-          <h5 className ="card-title text-secondary">Followings</h5> 
+          <a href = "thayTenOday/following"><h5 className ="card-title text-secondary">Followings</h5></a>
           <div class="media">
             <img src="https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt="" style = {avatarFollowing} className ="mr-3"/>
             <div class="media-body">
@@ -51,6 +51,6 @@ const People = () => {
   )
 }
 
-export default People;
+export default Followings;
 
 
