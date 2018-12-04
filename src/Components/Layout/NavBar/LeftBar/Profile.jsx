@@ -1,7 +1,10 @@
 import React from 'react';
 import {Col, Row } from "react-bootstrap"
+import FollowerBar from "./FollowerBar"
+import { connect } from 'react-redux';
 
-const Profile = () => { 
+
+const Profile = ( {getFollower}) => { 
     return (
         <div>
             <div className ="card" >
@@ -11,7 +14,7 @@ const Profile = () => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="thayTenODay/follower">231</a></Row>
+                                <Row><a href="thayTenODay/follower">{getFollower.length}</a></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
@@ -24,24 +27,13 @@ const Profile = () => {
                 </div>  
             </div>
             <br/>
-            <div className ="card">
-                <div className = "card-body">
-                <a href="thayTenODay/follower"><h3 className ="card-title text-secondary">Followers</h3> </a>
-                    <div className = "card-text">
-                        <ul class="list-unstyled">
-                            <li><a href="/">#Cras justo odio</a></li>
-                            <li><a href="/">#Dapibus ac facilisis in</a></li>
-                            <li><a href="/">#Morbi leo risus</a></li>
-                            <li><a href="/">#Porta ac consectetur ac</a></li>
-                            <li><a href="/">#Vestibulum at eros</a></li>
-                            <li><a href="/">#Vestibulum at eros</a></li>
-                            <li><a href="/">#Vestibulum at eros</a></li>
-                        </ul>
-                    </div>
-                </div>  
-            </div>
+            <FollowerBar getFollower = {getFollower}/>
         </div>
     )
 }
 
-export default Profile;
+
+export default Profile
+
+
+

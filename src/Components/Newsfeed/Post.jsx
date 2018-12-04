@@ -65,17 +65,5 @@ const Post = ( {getPost}) => {
 };
 export default Post;
 
-// const  mapStateToProps = (state) => {
-//     console.log(state);
-    
-//     return {
-//         post: state.newsfeed
-//     };
-// }
-
-
-// export default connect(
-//     mapStateToProps,
-// )(Post);
 
 

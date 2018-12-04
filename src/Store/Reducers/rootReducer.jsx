@@ -1,12 +1,13 @@
 import {combineReducers} from 'redux'
 
 //Actions
-
-import newsfeedReducers from "./newsfeedReducer"
+import followerReducer from "./followerReducer"
+import postReducer from "./postReducer"
 
 
 const rootReducer = combineReducers( { 
-    newsfeed: newsfeedReducers,
+    post: postReducer,
+    follower: followerReducer,
 })
 
 export default  rootReducer

@@ -9,6 +9,9 @@ import Post from "./Post";
 //Connect redux
 import { connect } from 'react-redux';
 
+//Plugin
+import InfiniteScrool from "react-infinite-scroller"
+
 
 const avatarUser = {
     height: "50px",
@@ -28,7 +31,7 @@ class Newfeed extends Component {
     return (
         <Row>
             <Col xs= {6} md = {3}>
-                <Profile/>
+                <Profile getFollower = {this.props.follower} />
             </Col>
             <Col xs={6} md={6}>
                 <div className ="card bg-light">
@@ -74,6 +77,8 @@ class Newfeed extends Component {
                         </div>
                     )
                 })}
+
+                
             </Col>
             <Col xs={6} md={3}>
                 <People/>
@@ -86,10 +91,9 @@ class Newfeed extends Component {
 
 
 const  mapStateToProps = (state) => {
-    console.log(state);
-    
     return {
-        post: state.newsfeed
+        post: state.post,
+        follower: state.follower
     };
 }
 
