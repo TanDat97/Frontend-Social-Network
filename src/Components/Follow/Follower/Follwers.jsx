@@ -34,7 +34,7 @@ class Follwer extends Component {
                         </div>
                     </div>
                     <br/>
-                    <div class="card-group">
+                    <div className="card-group">
                         <Row>
                             {this.props.follower.Follower_List.map ( each => {
                             return (
