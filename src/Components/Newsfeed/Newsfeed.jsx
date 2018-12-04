@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {Col, Row, FormGroup, FormControl, Button, Media} from "react-bootstrap";
 
 import Profile from "../Layout/NavBar/LeftBar/Profile";
-import People from "../Layout/NavBar/RightBar/People";
+import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
 const avatarUser = {
@@ -26,7 +26,7 @@ class Newfeed extends Component {
                         <div className = "card-text">
                             <Media>
                                 <Media.Left>
-                                    <a className="mr-3" href="#fake">
+                                    <a className="mr-3" href="/profile">
                                         <img alt=""  style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
                                     </a>
                                 </Media.Left>

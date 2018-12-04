@@ -1,31 +1,43 @@
 import React, { Component } from 'react';
 
+const avatarUser = {
+  height: "50px",
+  width: "50px",
+  borderRadius: "50%"
+}
+
+
 class HeaderBar extends Component {
+
+
   render() {
     return (
-      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <div className = "container">
-          <a class="navbar-brand mb-0 h1" href="/">Forest</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+          <a className="navbar-brand mb-0 h1" href="/">Forest</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="/"><i class="fa fa-home fa-1x"></i>Home<span class="sr-only">(current)</span></a>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="/"><i className="fa fa-home fa-1x"></i>Home<span className="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item">
-                <button class="nav-link btn btn-outline-primary" href="#"><i class="fa fa-bell fa-1x"></i>Notification <span class="badge badge-primary">4</span></button>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fa fa-bell fa-1x"></i>Notification <span className="badge badge-primary ">4</span></a>
               </li>
-              <li class="nav-item">
-                <button class="nav-link btn btn-outline-primary" href="#"><i class="fa fa-comments fa-1x"></i>Message <span class="badge badge-primary">4</span></button>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fa fa-comments fa-1x"></i>Message <span className="badge badge-primary">4</span></a>
               </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-              <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+            <form className="form-inline my-2 my-lg-0">
+              <input className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+              
             </form>
+            
           </div>
+          <img alt="avatar" className="rounded-circle img-fluid" style={avatarUser}  src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+          
         </div>
       </nav>
     );
