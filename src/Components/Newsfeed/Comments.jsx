@@ -21,7 +21,7 @@ const Comments = () => {
         <br/>
         <div class="dropdown-divider"></div>
             <FormGroup controlId="formControlsTextarea">
-                <FormControl componentClass="textarea" placeholder = "What's up?..."/>
+                <FormControl componentClass="textarea" placeholder = "Write comments here..."/>
             </FormGroup>
             
             <Button type="submit" className ="float-right">Post</Button>
