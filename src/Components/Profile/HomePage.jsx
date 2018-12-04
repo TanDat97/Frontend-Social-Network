@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import Posttest from './Post'
-
+import Post from '../Newsfeed/Post'
+import Profile from "../Layout/NavBar/LeftBar/Profile"
+import {Col, Row} from "react-bootstrap"
+//Connect redux
+import { connect } from 'react-redux';
 
 class HomePage extends Component {
+    
   render() {
+    var auth = this.props.auth
     return (
         <div>
             <div class="container bootstrap snippets">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4">
-                    <div class="panel rounded shadow">
+                    <div class="panel rounded shadow bg-white">
                         <div class="panel-body">
                             <div class="inner-all">
                                 <ul class="list-unstyled">
@@ -17,8 +22,8 @@ class HomePage extends Component {
                                         <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="John Doe"/>
                                     </li>
                                     <li class="text-center">
-                                        <h4 class="text-capitalize">Nguyễn Thanh Đại</h4>
-                                        <p class="text-muted text-capitalize">Student</p>
+                                        <h4 class="text-capitalize">{auth.firstName + " " + auth.lastName}</h4>
+                                        <p class="text-muted text-capitalize"> <i class="fa fa-phone"></i> {auth.phone}</p>
                                     </li>
                                    
                                     <li><br/></li>
@@ -47,9 +52,9 @@ class HomePage extends Component {
                         </div>
                         <div class="panel-body no-padding rounded">
                             <ul class="list-group no-margin">
-                                <li class="list-group-item"><i class="fa fa-envelope mr-5"></i> nguyenthanhdai97@gmail.com</li>
+                                <li className="list-group-item text-truncate" ><i class="fa fa-envelope mr-5"></i> {auth.email}</li>
                                 <li class="list-group-item"><i class="fa fa-globe mr-5"></i> www.bootdey.com</li>
-                                <li class="list-group-item"><i class="fa fa-phone mr-5"></i>0972002914</li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -68,8 +73,8 @@ class HomePage extends Component {
                                     <i class="fa fa-bars"></i>
                                 </button>
                                 <ul class="dropdown-menu pull-right no-border" role="menu">
-                                    <li class="active"><a href="/HomePage"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
-                                    <li><a href="/Setting"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                                    <li class="active"><a href="/profile"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+                                    <li><a href="/profile/setting"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
                                     <li><a href="#"><i class="fa fa-fw fa-photo"></i> <span>Photos</span> <small>(98)</small></a></li>
                                     <li><a href="#"><i class="fa fa-fw fa-users"></i><span> Friends </span><small>(23)</small></a></li>
                                     <li><a href="#"><i class="fa fa-fw fa-envelope"></i> <span>Messages</span> <small>(7 new)</small></a></li>
@@ -78,8 +83,8 @@ class HomePage extends Component {
                             <img  src="http://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg" class="img-responsive full-width" alt="cover" style={{width: 1000, height: 200}}/>
                         </div>
                         <ul class="list-unstyled no-padding hidden-sm hidden-xs cover-menu">
-                            <li class="active"><a href="/HomePage"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
-                            <li><a href="/Setting"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                            <li class="active"><a href="/profile"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+                            <li><a href="/profile/setting"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
                             <li><a href="#"><i class="fa fa-fw fa-photo"></i> <span>Photos</span> <small>(98)</small></a></li>
                             <li><a href="#"><i class="fa fa-fw fa-users"></i><span> Friends </span><small>(23)</small></a></li>
                             
@@ -87,9 +92,23 @@ class HomePage extends Component {
                     </div>
                 </div>
                 <div class="divider"></div>
-                <Posttest/>
+                <br/>
+                    <Row>
+                    <Col xs={6} md={8}>
+                        {this.props.post.map ( each => {
+                            return (
+                                <div> 
+                                    <Post getPost = {each}/>
+                                    <br/>
+                                </div>
+                            )
+                            })}
+                    </Col>
+                    <Col xs= {6} md = {4}>
+                    <Profile getFollower = {this.props.follower} />
+                    </Col>
+                    </Row>
                     
-                
                 </div>
                 </div>
             </div>
@@ -98,4 +117,19 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+
+
+const  mapStateToProps = (state) => {
+    console.log(state.post)
+    return {
+        post: state.post,
+        follower: state.follower,
+        auth: state.auth,
+    };
+}
+
+
+export default connect(
+    mapStateToProps,
+)(HomePage);
+

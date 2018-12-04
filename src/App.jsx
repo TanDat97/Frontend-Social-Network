@@ -20,8 +20,8 @@ class App extends Component {
               <div className = "container">
               <Switch>
               <Route exact path="/" component={Newfeed}/>
-              <Route exact path = "/HomePage" component ={HomePage}/>
-              <Route exact path="/Setting" component ={SettingProfile}/>
+              <Route exact path = "/profile" component ={HomePage}/>
+              <Route exact path="/profile/setting" component ={SettingProfile}/>
                 <Route exact path="/" component={Newfeed}/>
                 <Route exact path="/:id/following" component={Following}/>
               </Switch>

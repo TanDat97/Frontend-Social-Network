@@ -91,6 +91,7 @@ class Newfeed extends Component {
 
 
 const  mapStateToProps = (state) => {
+    console.log(state.post)
     return {
         post: state.post,
         follower: state.follower

@@ -36,7 +36,7 @@ class HeaderBar extends Component {
             </form>
             
           </div>
-          <img alt="avatar" className="rounded-circle img-fluid" style={avatarUser}  src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+          <a href = "/profile"><img alt="avatar" className="rounded-circle img-fluid" style={avatarUser}  src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/></a>
           
         </div>
       </nav>
