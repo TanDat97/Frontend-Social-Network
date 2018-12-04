@@ -4,7 +4,10 @@ import FollowerBar from "./FollowerBar"
 import { connect } from 'react-redux';
 
 
-const Profile = ( {getFollower}) => { 
+const Profile = (props) => {
+    const Follower = props.Follower;
+    const Following = props.Following;
+    console.log(Follower.Follower_List)
     return (
         <div>
             <div className ="card" >
@@ -14,26 +17,22 @@ const Profile = ( {getFollower}) => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="thayTenODay/follower">{getFollower? getFollower.length : "#Nan"}</a></Row>
+                                <Row><a href="/thayTenODay/follower">{Follower.Follower_List.length}</a></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followings </small></Row>
-                                <Row><a href="thayTenODay/following">153</a></Row>
+                                <Row><a href="/thayTenODay/following">{Following.Following_List.length}</a></Row>
                             </h5>
                         </Col>
                     </Row>
                 </div>  
             </div>
             <br/>
-            <FollowerBar getFollower = {getFollower}/>
+            <FollowerBar Follower = {Follower}/>
         </div>
     )
 }
 
-
 export default Profile
-
-
-

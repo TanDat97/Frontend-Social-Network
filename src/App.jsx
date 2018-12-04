@@ -4,7 +4,8 @@ import {BrowserRouter ,Route, Switch} from 'react-router-dom';
 
 import HeaderBar from "./Components/Layout/NavBar/HeaderBar/HeaderBar";
 import Newfeed from './Components/Newsfeed/Newsfeed';
-import Following from './Components/Follow/Following/Following';
+import Following from './Components/Follow/Following/Followings';
+import Follower from './Components/Follow/Follower/Follwers';
 
 
 
@@ -19,6 +20,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Newfeed}/>
                 <Route exact path="/:id/following" component={Following}/>
+                <Route exact path="/:id/follower" component={Follower}/>
               </Switch>
               </div>
           </BrowserRouter>
