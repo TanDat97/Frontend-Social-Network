@@ -6,6 +6,10 @@ import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
+//Connect redux
+import { connect } from 'react-redux';
+
+
 const avatarUser = {
     height: "50px",
     width: "50px",
@@ -13,6 +17,13 @@ const avatarUser = {
 }
 
 class Newfeed extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            post: [],
+        }        
+    }
+    
   render() {
     return (
         <Row>
@@ -55,12 +66,14 @@ class Newfeed extends Component {
                     </div>  
                 </div>
                 <br/>
-                <Post/>
-                <br/>
-                <Post/>                
-                <br/>
-                <Post/>
-                <br/>
+                {this.props.post.map ( each => {
+                    return (
+                        <div> 
+                            <Post getPost = {each}/>
+                            <br/>
+                        </div>
+                    )
+                })}
             </Col>
             <Col xs={6} md={3}>
                 <People/>
@@ -70,5 +83,17 @@ class Newfeed extends Component {
   }
 }
 
-export default Newfeed;
 
+
+const  mapStateToProps = (state) => {
+    console.log(state);
+    
+    return {
+        post: state.newsfeed
+    };
+}
+
+
+export default connect(
+    mapStateToProps,
+)(Newfeed);
