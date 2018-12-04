@@ -20,15 +20,15 @@ const Post = ( {getPost}) => {
                 <Media>
                     <Media.Body>
                         
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
+                        <ul className="list-inline">
+                            <li className="list-inline-item">
                                 <a href="#fake">
                                     <img alt="" className = "img-fluid" style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
                                 </a>        
                             </li>
                                 
-                            <li class="list-inline-item">
-                                <blockquote class="blockquote">
+                            <li className="list-inline-item">
+                                <blockquote className="blockquote">
                                     <a href = "#posterProfile"><h5 className="">{getPost.userPost}</h5></a>   
                                     <footer><h6>{getPost.postTime}</h6></footer>
                                 </blockquote>
