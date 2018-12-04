@@ -1,58 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {Col, Row } from "react-bootstrap"
+import FollowerBar from "./FollowerBar"
+import { connect } from 'react-redux';
 
-class Profile extends Component {
-  render() {
+
+const Profile = ( {getFollower}) => { 
     return (
-        <div class="col-sm-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="#"><img class="img-responsive" alt="" src="http://placehold.it/800x500"/></a>
-                    <div class="row">
-                        <div class="col-xs-3">
-                        <h5>
-                            <small>TWEETS</small>
-                            <a href="#">1,545</a>
-                        </h5>
-                        </div>
-                        <div class="col-xs-4">
-                        <h5>
-                            <small>FOLLOWING</small>
-                            <a href="#">251</a>
-                        </h5>
-                        </div>
-                        <div class="col-xs-5">
-                        <h5>
-                            <small>FOLLOWERS</small>
-                            <a href="#">153</a>
-                        </h5>
-                        </div>
-                    </div>
-                </div>
+        <div>
+            <div className ="card" >
+                <a href="/"><img className="card-img-top" alt="" src="https://cdnmedia.baotintuc.vn/Upload/a7srThwxbojBCucvUWgnxA/files/2018/12/03/cp.jpg"/></a>
+                <div className = "card-body">
+                    <Row>
+                        <Col xs={6} md={6}>
+                            <h5>
+                                <Row><small>Followers </small></Row>
+                                <Row><a href="thayTenODay/follower">{getFollower.length}</a></Row>
+                            </h5>
+                        </Col>
+                        <Col xs={6} md={6}>
+                            <h5>
+                                <Row><small>Followings </small></Row>
+                                <Row><a href="thayTenODay/following">153</a></Row>
+                            </h5>
+                        </Col>
+                    </Row>
+                </div>  
             </div>
-
-            <div class="panel panel-default panel-custom">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Trends
-                        <small><a href="#">ciao</a></small>
-                    </h3>
-                </div>
-
-                <div class="panel-body">
-                    <ul class="list-unstyled">
-                        <li><a href="#">#Cras justo odio</a></li>
-                        <li><a href="#">#Dapibus ac facilisis in</a></li>
-                        <li><a href="#">#Morbi leo risus</a></li>
-                        <li><a href="#">#Porta ac consectetur ac</a></li>
-                        <li><a href="#">#Vestibulum at eros</a></li>
-                        <li><a href="#">#Vestibulum at eros</a></li>
-                        <li><a href="#">#Vestibulum at eros</a></li>
-                    </ul>
-                </div>
-            </div>
+            <br/>
+            <FollowerBar getFollower = {getFollower}/>
         </div>
-    );
-  }
+    )
 }
 
-export default Profile;
+
+export default Profile
+
+
+

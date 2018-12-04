@@ -1,0 +1,6 @@
+export const Fetch_Post_Success = "Fetch_Post_Success"
+export const Fetch_Post_Error = "Fetch_Post_Error"
+//
+export const Fetch_Follower_Success = "Fetch_Follower_Success"
+export const Fetch_Follower_Error = "Fetch_Follower_Error"
+//

@@ -18,11 +18,11 @@
 }
 .form-control-nav{
 	background-color:#F0FFFF;
-  border: lightgrey solid 1px;
-	border-radius:15px;
+	border: lightgrey solid 1px;
+	margin-right: 10px;
 }
 body{
-	background-color: #F0FFFF;
+	background-color: #e6ecf0;
 }
 .navbar-default .navbar-collapse, .navbar-default{
 background-color: white;
