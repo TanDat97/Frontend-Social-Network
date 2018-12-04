@@ -16,6 +16,11 @@ const authReducer = (state = initState, action) => {
             console.log(AT.Fetch_Auth_Profile_Success);
             return state;
 
+        case AT.Update_Auth_Profile_Success:
+            console.log(AT.Update_Auth_Profile_Success);
+        return state;
+
+
         default:
             return state
     }

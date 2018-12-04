@@ -39,9 +39,9 @@ class HomePage extends Component {
                     </div>
 
                     <div class="panel panel-theme rounded shadow">
-                        <div class="panel-heading">
-                            <div class="pull-left">
-                                <h3 class="panel-title">Contact</h3>
+                        <div class="panel-heading bg-white">
+                            <div class="pull-left ">
+                                <h4 class="panel-title text-secondary">Contact</h4>
                             </div>
                             <div class="pull-right">
                                 <a href="#" class="btn btn-sm btn-success"><i class="fa fa-facebook"></i></a>

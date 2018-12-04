@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import Profile from './Profile'
-
+import { connect } from 'react-redux';
+import {updateAuthProfile} from "../../Store/Actions/authActions"
 
 class SettingPage extends Component {
   render() {
+
+    var auth = this.props.auth
+    console.log(auth);
+    
     return (
         <div>
             <div class="container bootstrap snippets">
@@ -17,8 +22,8 @@ class SettingPage extends Component {
                                         <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="John Doe"/>
                                     </li>
                                     <li class="text-center">
-                                        <h4 class="text-capitalize">Nguyễn Thanh Đại</h4>
-                                        <p class="text-muted text-capitalize">Student</p>
+                                        <h4 class="text-capitalize">{auth.firstName + auth.lastName}</h4>
+                                        <p class="text-muted text-capitalize"> <i class="fa fa-phone"></i> {auth.phone}</p>
                                     </li>
                                     <li><br/></li>
                                     <li>
@@ -33,9 +38,9 @@ class SettingPage extends Component {
                     </div>
 
                     <div class="panel panel-theme rounded shadow">
-                        <div class="panel-heading">
-                            <div class="pull-left">
-                                <h3 class="panel-title">Contact</h3>
+                        <div class="panel-heading bg-white">
+                            <div class="pull-left ">
+                                <h4 class="panel-title text-secondary">Contact</h4>
                             </div>
                             <div class="pull-right">
                                 <a href="#" class="btn btn-sm btn-success"><i class="fa fa-facebook"></i></a>
@@ -99,4 +104,17 @@ class SettingPage extends Component {
   }
 }
 
-export default SettingPage
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };  
+}
+
+
+
+export default connect(
+    mapStateToProps,
+)(SettingPage);
+
+
