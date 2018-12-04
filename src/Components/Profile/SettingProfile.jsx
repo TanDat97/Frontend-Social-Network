@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import Profile from './Profile'
-
+import { connect } from 'react-redux';
+import {updateAuthProfile} from "../../Store/Actions/authActions"
 
 class SettingPage extends Component {
   render() {
+
+    var auth = this.props.auth
+    console.log(auth);
+    
     return (
         <div>
             <div className="container bootstrap snippets">
@@ -17,8 +22,8 @@ class SettingPage extends Component {
                                         <img data-no-retina="" className="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="John Doe"/>
                                     </li>
                                     <li className="text-center">
-                                        <h4 className="text-capitalize">Nguyễn Thanh Đại</h4>
-                                        <p className="text-muted text-capitalize">Student</p>
+                                        <h4 className="text-capitalize">{auth.firstName + auth.lastName}</h4>
+                                        <p className="text-muted text-capitalize"> <i className="fa fa-phone"></i> {auth.phone}</p>
                                     </li>
                                     <li><br/></li>
                                     <li>
@@ -33,9 +38,9 @@ class SettingPage extends Component {
                     </div>
 
                     <div className="panel panel-theme rounded shadow">
-                        <div className="panel-heading">
-                            <div className="pull-left">
-                                <h3 className="panel-title">Contact</h3>
+                        <div className="panel-heading bg-white">
+                            <div className="pull-left ">
+                                <h4 className="panel-title text-secondary">Contact</h4>
                             </div>
                             <div className="pull-right">
                                 <a href="/" className="btn btn-sm btn-success"><i className="fa fa-facebook"></i></a>
@@ -99,4 +104,17 @@ class SettingPage extends Component {
   }
 }
 
-export default SettingPage
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };  
+}
+
+
+
+export default connect(
+    mapStateToProps,
+)(SettingPage);
+
+
