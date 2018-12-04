@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col} from "react-bootstrap";
 
-import Profile from '../../NavBar/LeftBar/Profile';
+import Profile from '../../Layout/NavBar/LeftBar/Profile';
 import FollowCard from './FollowingCard';
 
 class Following extends Component {
