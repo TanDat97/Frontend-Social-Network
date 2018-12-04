@@ -10,7 +10,7 @@ class Following extends Component {
     return (
         <Row>
             <Col xs={6} md={3}>
-                <Profile/>
+            <Profile Follower = {this.props.follower} Following = {this.props.following}/>
             </Col>
             <Col xs={6} md={9}>
                 <div className="card">
@@ -20,14 +20,14 @@ class Following extends Component {
                                 <h5>
                                     <big>FOLLOWING</big>
                                     <br/>
-                                    <a href="/12/following">{this.props.Following_List.length}</a>
+                                    <a href="/12/following">{this.props.following.Following_List.length}</a>
                                 </h5>
                             </div>
                             <div className="col-4">
                                 <h5>
                                     <small>FOLLOWER</small>
                                     <br/>   
-                                    <a href="/">{this.props.Follower_List.length}</a>
+                                    <a href="/12/follower">{this.props.follower.Follower_List.length}</a>
                                 </h5>
                             </div>
                         </div>
@@ -36,7 +36,7 @@ class Following extends Component {
                 <br/>
                 <div class="card-group">
                     <Row>
-                        {this.props.Following_List.map ( each => {
+                        {this.props.following.Following_List.map ( each => {
                         return (
                             <Col xs = {6} md = {4}> 
                                 <FollowCard Card = {each}/>
@@ -52,13 +52,11 @@ class Following extends Component {
 }
 
 const  mapStateToProps = (state) => {
-    console.log(state);
     return {
-        Following_List: state.following.Following_List,
-        Follower_List: state.follower.Follower_List,
+        following: state.following,
+        follower: state.follower,
     };
 }
-
 
 export default connect(
     mapStateToProps,

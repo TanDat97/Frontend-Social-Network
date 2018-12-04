@@ -1,13 +1,63 @@
 import React, { Component } from 'react';
+import {Row, Col} from "react-bootstrap";
+import { connect } from 'react-redux';
 
-class Follwers extends Component {
+import Profile from '../../Layout/NavBar/LeftBar/Profile';
+import FollowerCard from './FollowerCard';
+
+class Follwer extends Component {
     render() {
         return (
-            <div>
-                
-            </div>
+            <Row>
+                <Col xs={6} md={3}>
+                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                </Col>
+                <Col xs={6} md={9}>
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-4">
+                                    <h5>
+                                        <small>FOLLOWING</small>
+                                        <br/>
+                                        <a href="/12/following">{this.props.following.Following_List.length}</a>
+                                    </h5>
+                                </div>
+                                <div className="col-4">
+                                    <h5>
+                                        <big>FOLLOWER</big>
+                                        <br/>   
+                                        <a href="/12/follower">{this.props.follower.Follower_List.length}</a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="card-group">
+                        <Row>
+                            {this.props.follower.Follower_List.map ( each => {
+                            return (
+                                <Col xs = {6} md = {4}> 
+                                    <FollowerCard Card = {each}/>
+                                </Col>
+                                )
+                            })}
+                        </Row>
+                    </div>
+                </Col>
+            </Row>
         );
     }
 }
 
-export default Follwers;
+const  mapStateToProps = (state) => {
+    return {
+        following: state.following,
+        follower: state.follower,
+    };
+}
+
+export default connect(
+    mapStateToProps,
+)(Follwer);
