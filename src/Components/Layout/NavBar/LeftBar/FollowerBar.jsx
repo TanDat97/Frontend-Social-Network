@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FollowerBar = ( {getFollower}) => {
+const FollowerBar = ( {Follower}) => {
     return (
         <div className ="card">
         <div className = "card-body">
@@ -8,7 +8,7 @@ const FollowerBar = ( {getFollower}) => {
             <div className = "card-text">
                 <ul class="list-unstyled"> 
                     {
-                        getFollower.map(each => { 
+                        Follower.Follower_List.map(each => { 
                             return (
                                 <li><a href = "#follower" >#{each.name}</a></li>
                             )

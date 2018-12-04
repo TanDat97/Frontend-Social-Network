@@ -5,7 +5,7 @@ const avatarFollowing = {
     width: "60px",
   }
 
-const FollowCard = (props) => {
+const FollowerCard = (props) => {
   const Card = props.Card;
   return (
     <div>
@@ -26,4 +26,4 @@ const FollowCard = (props) => {
   )
 }
 
-export default FollowCard
+export default FollowerCard

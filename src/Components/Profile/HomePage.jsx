@@ -105,7 +105,7 @@ class HomePage extends Component {
                             })}
                     </Col>
                     <Col xs= {6} md = {4}>
-                    <Profile getFollower = {this.props.follower} />
+                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
                     </Col>
                     </Row>
                     
@@ -125,6 +125,8 @@ const  mapStateToProps = (state) => {
         post: state.post,
         follower: state.follower,
         auth: state.auth,
+        following: state.following,
+        
     };
 }
 

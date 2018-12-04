@@ -28,10 +28,11 @@ class Newfeed extends Component {
     }
     
   render() {
+    console.log(this.props)
     return (
         <Row>
             <Col xs= {6} md = {3}>
-                <Profile getFollower = {this.props.follower} />
+                <Profile Follower = {this.props.follower} Following = {this.props.following}/>
             </Col>
             <Col xs={6} md={6}>
                 <div className ="card bg-light">
@@ -91,10 +92,12 @@ class Newfeed extends Component {
 
 
 const  mapStateToProps = (state) => {
-    console.log(state.post)
+    console.log(state)
     return {
         post: state.post,
-        follower: state.follower
+        follower: state.follower,
+        following: state.following,
+        
     };
 }
 
