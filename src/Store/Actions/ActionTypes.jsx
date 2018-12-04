@@ -1,2 +1,6 @@
 export const Fetch_Post_Success = "Fetch_Post_Success"
 export const Fetch_Post_Error = "Fetch_Post_Error"
+export const Following_List = "Following_List"
+export const Follower_List = "Follower_List"
+export const Follow = "Follow"
+export const unFollow = "unFollow"
