@@ -3,15 +3,27 @@ import { connect } from 'react-redux';
 import {DropdownButton,Form,FormGroup,Col,Button,ControlLabel,FormControl,ButtonToolbar,Dropdown,Glyphicon,MenuItem} from 'react-bootstrap'
 
 class Profile extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+        firstName: props.auth.firstName,
+        lastName: props.auth.lastName,
+        email: props.auth.email,
+        phone: props.auth.phone,
+        }
+    }
     handleChange = (e) =>  {
         this.setState({
-            [e.target.id] : e.target.value
+            [e.target.id]: e.target.value,
         })
-        
+     console.log(this.state.firstName)
+     console.log(this.state.lastName)
     }
 
     handleSubmit = (e) =>  {
         e.preventDefault();
+
+        console.log(this.state.value)
         
     }
     
@@ -32,7 +44,7 @@ class Profile extends Component{
                         First Name
                         </Col>
                         <Col sm={10} >
-                        <FormControl type="text" value = {auth.firstName}/>
+                        <input className = 'form-control' type="text" id = "firstName" value = {this.state.firstName}   onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     
                     </FormGroup>
@@ -43,7 +55,7 @@ class Profile extends Component{
                         Last Name
                         </Col>
                         <Col sm={10}>
-                        <FormControl type="text" value = {auth.lastName} />
+                        <input className="form-control" type="text" value= {this.state.lastName} id = "lastName" onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     </FormGroup>
 
@@ -59,9 +71,9 @@ class Profile extends Component{
                                 <DropdownButton
                                 bsSize="large"
                                 title= {auth.gender}
-                                id="dropdown-size-large">
-                                <MenuItem eventKey="1">Name</MenuItem>
-                                <MenuItem eventKey="2">Nữ</MenuItem>
+                                >
+                                <MenuItem value = "Nam">Nam</MenuItem>
+                                <MenuItem value="Nữ">Nữ</MenuItem>
                             
                 
                                 </DropdownButton>
@@ -75,7 +87,7 @@ class Profile extends Component{
                         Email
                         </Col>
                         <Col sm={10}>
-                        <FormControl type="email" value = {auth.email}/>
+                        <input className = "form-control" type="email" value = {this.state.email} id = "email"onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     </FormGroup>
 
@@ -84,13 +96,13 @@ class Profile extends Component{
                         Phone
                         </Col>
                         <Col sm={10}>
-                        <FormControl type="number" value = {auth.phone}/>
+                        <input className = "form-control" type="number" value = {this.state.phone} id = "phone" onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     </FormGroup>
                     
                     <FormGroup>
                         <Col smOffset={2} sm={10}>
-                        <Button type="submit" className= "float-right btn btn-primary">Submit</Button>
+                        <Button type="submit" onSubmit= {this.handleSubmit.bind(this)} className= "float-right btn btn-primary">Submit</Button>
                         </Col>
                     </FormGroup>
                     </Form> 
