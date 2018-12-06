@@ -4,7 +4,7 @@ const initState = {
     firstName: "Dai",
     lastName: "Nguyen",
     id: "312312",
-    gender: "Nam",
+    gender: "Male",
     email: "asdasok@gmail.com",
     phone: "0123214",
 }
