@@ -1,6 +1,12 @@
 import * as AT from "../Actions/ActionTypes"
 
 const initState = {
+    firstName: "Dai",
+    lastName: "Nguyen",
+    email: "nguuyen@gmail.com",
+    gender:"Male",
+    phone: "0972002914"
+
 }
 
 const authReducer = (state = initState, action) => { 
