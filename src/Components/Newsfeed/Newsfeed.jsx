@@ -1,17 +1,14 @@
-
 import React, { Component } from 'react';
 import {Col, Row, FormGroup, FormControl, Button, Media} from "react-bootstrap";
+
+//Connect redux
+import { connect } from 'react-redux';
+//Plugin
+import InfiniteScrool from "react-infinite-scroller"
 
 import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
-
-//Connect redux
-import { connect } from 'react-redux';
-
-//Plugin
-import InfiniteScrool from "react-infinite-scroller"
-
 
 const avatarUser = {
     height: "50px",
@@ -52,16 +49,16 @@ class Newfeed extends Component {
                                     <Button type="submit" className ="float-right">Post</Button>
                                     <ul className="nav">
                                         <li className = "nav-item">
-                                            <a className = "nav-link" href="/"><i class="fa fa-user"></i></a>
+                                            <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
                                         </li>
                                         <li className = "nav-item">
-                                            <a className = "nav-link" href="/"><i class="fa fa-map-marker"></i></a>
+                                            <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
                                         </li>
                                         <li className = "nav-item">
-                                            <a className = "nav-link" href="/"><i class="fa fa-camera"></i></a>
+                                            <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
                                         </li>
                                         <li className = "nav-item">
-                                            <a className = "nav-link" href="/"><i class="fa fa-smile-o"></i></a>
+                                            <a className = "nav-link" href="/"><i className="fa fa-smile-o"></i></a>
                                         </li>
                                     </ul>
                                 </Media.Body>

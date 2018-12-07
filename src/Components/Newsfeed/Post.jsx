@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import { Media, Modal, Button, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
+import React from 'react';
+import { Media} from "react-bootstrap";
 
 // Connect Redux
-
 
 import Comments from "./Comments"
 
@@ -19,28 +18,26 @@ const Post = ( {getPost}) => {
             <div className="card-body">
                 <Media>
                     <Media.Body>
+                        <ul className="list-inline">
+                            <li className="list-inline-item">
+                                <a href="#fake">
+                                    <img alt="" className = "img-fluid" style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+                                </a>        
+                            </li>
+                                
+                            <li className="list-inline-item">
+                                <blockquote className="blockquote">
+                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost}</h5></a>   
+                                    <footer><h6>{getPost.postTime}</h6></footer>
+                                </blockquote>
+                            </li>
+                        </ul>
                         
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a href="#fake">
-                                        <img alt="" className = "img-fluid" style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
-                                    </a>        
-                                </li>
-                                    
-                                <li class="list-inline-item">
-                                    <blockquote class="blockquote">
-                                        <a href = "#posterProfile"><h5 className="">{getPost.userPost}</h5></a>   
-                                        <footer><h6>{getPost.postTime}</h6></footer>
-                                    </blockquote>
-                                </li>
-                            </ul>
-                        
-
                         <p>{getPost.text}</p>
-                        <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" />                  
+                        <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
                             <li className = "nav-item">
-                                <a className = "nav-link" href="/"><i class="fa fa-thumbs-up"></i></a>
+                                <a className = "nav-link" href="/"><i className="fa fa-thumbs-up"></i></a>
                             </li>
                             <li className = "nav-item">
                                 <a className = "nav-link" href="/"><i className="fa fa-comment"></i></a>
@@ -50,10 +47,9 @@ const Post = ( {getPost}) => {
                             </li>
                             <li className = "nav-item">
                                 <a className = "nav-link" onClick={() => this.setState({showModal: true})}  ><i className="fa fa-share "></i></a>
-                                
                             </li>
                         </ul>
-                        <div class="dropdown-divider"></div>
+                        <div className="dropdown-divider"></div>
                         <Comments/>                       
 
                     </Media.Body>
@@ -63,7 +59,5 @@ const Post = ( {getPost}) => {
         </div>
     );
 };
+
 export default Post;
-
-
-

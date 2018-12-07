@@ -1,4 +1,5 @@
 import * as AT from './ActionTypes';
+
 export const fetchFollowing = () => { 
 	return  (dispatch) => { 
         dispatch({

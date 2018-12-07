@@ -7,3 +7,14 @@ export const fetchAuthProfile = () => {
         })  
 	}
 }
+
+
+export const updateAuthProfile = () => { 
+    return (dispatch , getState) => { 
+        console.log(getState);
+        
+        dispatch({
+            type: AT.Update_Auth_Profile_Success,
+        })
+    }
+}
