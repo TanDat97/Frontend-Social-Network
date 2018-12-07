@@ -2,6 +2,7 @@ import * as AT from "./ActionTypes"
 
 export const fetchAuthProfile = () => { 
 	return  (dispatch) => { 
+        console.log(dispatch)
         dispatch({
             type:AT.Fetch_Auth_Profile_Success,
         })  
