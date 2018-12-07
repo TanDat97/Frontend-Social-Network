@@ -1,96 +1,89 @@
 import React, { Component } from 'react';
+import Post from '../Newsfeed/Post'
+import Profile from "../Layout/NavBar/LeftBar/Profile"
+import {Col, Row,Tab,Tabs} from "react-bootstrap"
+import LeftHomePage from './LeftProfile/LeftHomePage'
+import TopHomePage from './TopProfile/TopHomePage'
+import AboutProfile from "./About/AboutProfile"
+//Connect redux
 import { connect } from 'react-redux';
-import {DropdownButton,Form,FormGroup,Col,Button,ControlLabel,FormControl,MenuItem} from 'react-bootstrap'
 
-class Profile extends Component{
-    handleChange = (e) =>  {
-        this.setState({
-            [e.target.id] : e.target.value
-        })
-        
-    }
-
-    handleSubmit = (e) =>  {
-        e.preventDefault();
-        
-    }
+class HomePage extends Component {
     
-    render(){
-        var auth = this.props.auth
-        return (
-            <div className="panel rounded shadow bg-white">
-                <div className = "card-body bg-white">
-                    <Form horizontal>
-                        <FormGroup controlId="formHorizontalText">        
-                            <Col componentClass={ControlLabel} md = {2}>
-                            First Name
-                            </Col>
-                            <Col sm={10} >
-                            <FormControl type="text" value = {auth.firstName}/>
-                            </Col>
-                        </FormGroup>
-        
-                        <FormGroup controlId="formHorizontalText">
-                            <Col componentClass={ControlLabel} sm={2}>
-                            Last Name
-                            </Col>
-                            <Col sm={10}>
-                            <FormControl type="text" value = {auth.lastName} />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="formHorizontalText">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Giới tính
-                            </Col>
-                            <DropdownButton
-                                bsSize="large"
-                                title= {auth.gender}
-                                id="dropdown-size-large">
-                                <MenuItem eventKey="1">Name</MenuItem>
-                                <MenuItem eventKey="2">Nữ</MenuItem>
-                            </DropdownButton>
-                        </FormGroup> 
-
-                        <FormGroup controlId="formHorizontalEmail">
-                            <Col componentClass={ControlLabel} sm={2}>
-                            Email
-                            </Col>
-                            <Col sm={10}>
-                            <FormControl type="email" value = {auth.email}/>
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="formHorizontalNumber">
-                            <Col componentClass={ControlLabel} sm={2}>
-                            Phone
-                            </Col>
-                            <Col sm={10}>
-                            <FormControl type="number" value = {auth.phone}/>
-                            </Col>
-                        </FormGroup>
-                        
-                        <FormGroup>
-                            <Col smOffset={2} sm={10}>
-                            <Button type="submit" className= "float-right btn btn-primary">Submit</Button>
-                            </Col>
-                        </FormGroup>
-                    </Form> 
-                </div>
+  render() {
+    var auth = this.props.auth   
+    return (
+        <div>
+            
+            <div >
+            <Row>
+                <LeftHomePage/>
+                <Col lg = {9} md = {9} sm = {8}>
+                <TopHomePage/>
+                
+               
                 <br/>
-            </div> 
-
-        )
-    }
+             
+                <nav>
+          
+                <div className="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                    <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">About</a>
+                    <a className ="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                </div>
+                </nav>
+                <div className="tab-content" id="nav-tabContent">
+                <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                
+                    <Row>
+                            <Col xs={6} md={8}>
+                                {this.props.post.map ( each => {
+                                    return (
+                                        <div> 
+                                            <Post getPost = {each}/>
+                                            <br/>
+                                        </div>
+                                    )
+                                    })}
+                            </Col>
+                            <Col xs= {6} md = {4}>
+                                <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                            </Col>
+                    </Row>
+                </div>
+                <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                
+                <AboutProfile/>
+                </div>
+                <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+                </div>
+                 
+                    
+                 </Col>
+            </Row>
+            </div>
+        </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
+
+
+const  mapStateToProps = (state) => {
+    console.log(state.post)
     return {
+        post: state.post,
+        follower: state.follower,
         auth: state.auth,
+        following: state.following,
+        firebase: state.firebase,
+        firestore: state.firestore,
+        
     };
 }
 
+
 export default connect(
     mapStateToProps,
-)(Profile);
+)(HomePage);
 

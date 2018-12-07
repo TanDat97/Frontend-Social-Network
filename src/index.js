@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import getMiddlewares from './Config/middleWares'
 import rootReducer from './Store/Reducers/rootReducer'
 
+
 // import getMiddlewares from './Config/middlewares'
 const store = createStore(rootReducer, getMiddlewares());
 
