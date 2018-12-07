@@ -76,6 +76,8 @@ const  mapStateToProps = (state) => {
         follower: state.follower,
         auth: state.auth,
         following: state.following,
+        firebase: state.firebase,
+        firestore: state.firestore,
         
     };
 }
