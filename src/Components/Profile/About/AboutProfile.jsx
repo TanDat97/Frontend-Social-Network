@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {DropdownButton,Form,FormGroup,Col,Button,ControlLabel,FormControl,ButtonToolbar,Dropdown,Glyphicon,MenuItem} from 'react-bootstrap'
 import firebase from '../../../Config/firebaseConfig'
+import {updateAuthProfile} from '../../../Store/Actions/authActions'
+import { compose } from 'redux'
+import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 class AboutProfile extends Component{
     constructor(props) {
         super(props);
@@ -46,18 +49,8 @@ class AboutProfile extends Component{
         alert("Bạn đã cập nhật thông tin cá nhân")
         e.preventDefault();
         console.log(this.state.gender)  
-        const db = firebase.firestore();
-        db.settings({
-            timestampsInSnapshots: true
-        }); 
-        db.collection("Profile").doc("YL5oPZWpoOG9jAhEfHmu").update({
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-    
-            gender: this.state.gender,
-            phone: this.state.phone,
-        });  
+
+        this.props.updateAuthProfile(this.state)
     
  
         
@@ -154,9 +147,18 @@ const mapStateToProps = (state) => {
         firestore: state.firestore
     };
 }
+const mapDispatchToProps = (dispatch) => { 
+    return { 
+        updateAuthProfile: (Profile)=> dispatch(updateAuthProfile(Profile))
+      
+    }
+}
 
-
-export default connect(
-    mapStateToProps,
+export default compose(
+    connect(mapStateToProps,mapDispatchToProps),
+    firestoreConnect((props) => [
+        {collection: 'Profile'},
+      
+    ])
 )(AboutProfile);
 

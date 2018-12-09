@@ -7,3 +7,24 @@ export const fetchPost = () => {
         })  
 	}
 }
+
+export const postStatus = (post) => {
+
+    return (dispatch , getState,{getFirebase,getFirestore}) => { 
+        const firestore = getFirestore()
+        console.log('afasdf'+ post.id)
+        firestore.collection("Post").doc(post.id.toString()).set({
+            ...post,
+         }).then( () =>  { 
+             dispatch({
+                 type: AT.Post_Status_Success,
+             });
+         }).catch((err) => {
+             dispatch({
+                 type: AT.Post_Status_Error,
+                 err: err,
+             });
+         })
+        } 
+        
+}
