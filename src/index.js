@@ -17,13 +17,15 @@ import firebaseConfig from './Config/firebaseConfig'
 
 // import getMiddlewares from './Config/middlewares'
 const store = createStore(rootReducer, 
-    compose (applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
-    reduxFirestore(firebaseConfig),
-    reactReduxFirebase(firebaseConfig, {attachAuthIsReady:true})));
+    compose (
+        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+        reduxFirestore(firebaseConfig),
+        reactReduxFirebase(firebaseConfig, { useFirestoreForProfile: true, attachAuthIsReady: true})));
+
 
 ReactDOM.render(
     <Provider store = {store}>
-    <App />
+    <App/>
     </Provider>
     , document.getElementById('root'));
 

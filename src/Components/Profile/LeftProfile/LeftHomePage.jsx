@@ -4,11 +4,21 @@ import {Col, Row} from "react-bootstrap"
 //Connect redux
 import { connect } from 'react-redux';
 
-class LeftHomePage extends Component {
+const LeftHomePage = (props)=> {
+    var auth = props.auth
+    if(props.authProfile)
+    {
+        var profile = props.authProfile
+        console.log(profile.id)
+        auth = profile
+    }
+  
     
-  render() {
-    var auth = this.props.auth
+   
+    //const auth = props.auth
+    console.log(auth.email)
     return (
+
         <Col lg = {3} md = {3} sm = {4}>
                     <div className="panel rounded shadow bg-white">
                         <div className="panel-body">
@@ -58,7 +68,6 @@ class LeftHomePage extends Component {
                 </Col>
     );
   }
-}
 
 
 

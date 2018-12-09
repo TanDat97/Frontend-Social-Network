@@ -1,18 +1,41 @@
 import * as AT from "../Actions/ActionTypes"
 
 const initState = {
-    firstName: "Dai",
-    lastName: "Nguyen",
-    id: "312312",
-    gender: "Nam",
-    email: "asdasok@gmail.com",
-    phone: "0123214",
+    
 }
-
 const authReducer = (state = initState, action) => { 
     switch( action.type ) { 
-        ////
-        case AT.Fetch_Auth_Profile_Success:
+        case AT.LOGIN_ERROR : 
+            return {
+                ...state,
+                authError: "Login Failed"
+            }
+        case AT.LOGIN_SUCCESS:
+            console.log("Login Success")
+            return { 
+                ...state,
+                authError: null,
+                
+            }
+
+        case AT.LOGIN_GOOGLE_ERROR : 
+            return {
+                ...state,
+                authError: "Login Google Failed"
+            }
+        case AT.LOGIN_GOOGLE_SUCCESS:
+           // console.log("Login Google Success")
+            return { 
+                ...state,
+                authError: null,
+                
+            }
+
+        case AT.SIGN_OUT_SUCCESS:
+            //console.log("Signout success");
+            return state
+            
+            case AT.Fetch_Auth_Profile_Success:
             console.log(AT.Fetch_Auth_Profile_Success);
             return state;
 
@@ -20,12 +43,12 @@ const authReducer = (state = initState, action) => {
             console.log(AT.Update_Auth_Profile_Success);
         return state;
 
-
         default:
-            return state
+            return state      
     }
-    
 }
+
+
 
 
 
