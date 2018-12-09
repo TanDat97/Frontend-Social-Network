@@ -18,12 +18,24 @@ class SigninLink extends Component {
     render(){
     return (
         
-        <ul className = "right">
-            <li> <a to = "/signin" onClick = {this.props.signOut} >Sign Out</a> </li>
-            <li> <NavLink to = "/"><Avatar src ={this.props.auth.photoURL} size = {40} round = {true}/> </NavLink> </li>
-            <li> <a>{this.props.auth.displayName}</a></li>
-            
-        </ul>
+        
+            <div>
+            <NavLink to = "/profile"><Avatar src ={this.props.auth.photoURL} size = {40} round = {true}/> </NavLink>
+       
+                <div className="btn-group cover-menu-mobile hidden-lg hidden-md">
+                <button type="button" className="btn btn-theme btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <i className="fa fa-bars"></i>
+                </button>
+                <ul className="dropdown-menu pull-right no-border" role="menu">
+                
+                    
+                    
+                    <li><a href="/signin" onClick = {this.props.signOut}><i className="fa fa-fw fa-users"></i><span> Sign Out</span></a></li>
+                    
+                
+                </ul>
+            </div>
+        </div>
     )
 }
 }

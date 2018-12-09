@@ -96,8 +96,9 @@ const  mapStateToProps = (state) => {
     console.log(state.post)
     return {
         //post: state.post,
+        auth: state.firebase.auth,
         follower: state.follower,
-        auth: state.auth,
+        //auth: state.auth,
         following: state.following,
         firebase: state.firebase,
         fireStore: state.firestore.ordered,

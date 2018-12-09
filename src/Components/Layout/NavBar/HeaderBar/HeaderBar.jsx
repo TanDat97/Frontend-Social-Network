@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import SigninLink from './Link/SigninLink'
 import SignoutLink from './Link/SignoutLink'
 import {connect} from 'react-redux'
+import { compose } from 'redux'
 
 const avatarUser = {
   height: "50px",
@@ -27,7 +28,7 @@ class HeaderBar extends Component {
     
     if(links){
       return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow sticky-top">
+       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow sticky-top">
           <div className = "container">
             <a className="navbar-brand mb-0 h1" href="/">Forest</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,15 +50,16 @@ class HeaderBar extends Component {
               </ul>
               <form className="form-inline my-2 my-lg-0">
                 <input className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-        
+              
               </form>
-          
+              {links}
             </div>
-         
+        
           </div>
   
         </nav>
-      );
+   
+      )
     }
     else{
       return (<div>Loanding...</div>)
@@ -73,4 +75,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(HeaderBar)
+export default compose(connect(mapStateToProps))(HeaderBar)
