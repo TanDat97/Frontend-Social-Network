@@ -12,6 +12,9 @@ const avatarUser = {
 }
 
 const Post = ( {getPost}) => {
+console.log(getPost.id)
+    
+    
     
     return (
         <div className = "card">        
@@ -27,7 +30,7 @@ const Post = ( {getPost}) => {
                                 
                             <li className="list-inline-item">
                                 <blockquote className="blockquote">
-                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost}</h5></a>   
+                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost.firstName}</h5></a>   
                                     <footer><h6>{getPost.postTime}</h6></footer>
                                 </blockquote>
                             </li>
@@ -50,7 +53,18 @@ const Post = ( {getPost}) => {
                             </li>
                         </ul>
                         <div className="dropdown-divider"></div>
-                        <Comments/>                       
+                        {
+                            getPost.comments.map(each =>{
+
+                                return (
+                                    <div>
+                                    <Comments comments = {each}/> 
+                                    <div className="dropdown-divider"></div>
+                                    </div>
+                                )
+                            })
+                        }
+                                            
 
                     </Media.Body>
                    

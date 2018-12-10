@@ -13,7 +13,18 @@ export const Update_Auth_Profile_Error = "Update_Auth_Profile_Error"
 export const Fetch_Following_Success = "Fetch_Following_Success"
 export const Fetch_Following_Error = "Fetch_Following_Error"
 //
-
+export const Post_Status_Success = "Post_Status_Success"
+export const Post_Status_Error = "Post_Status_Error"
 
 export const Follow = "Follow"
 export const unFollow = "unFollow"
+//
+export const Comment_Status_Success = "Comment_Status_Success"
+export const Comment_Status_Error = "Comment_Status_Error"
+
+//
+export const LOGIN_GOOGLE_SUCCESS = 'LOGIN_GOOGLE_SUCCESS'
+export const LOGIN_GOOGLE_ERROR = 'LOGIN_GOOGLE_ERROR'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const SIGN_OUT_SUCCESS = 'SIGNOUT_SUCCESS'
