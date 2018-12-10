@@ -42,18 +42,19 @@ class Newfeed extends Component {
     }
     handleSubmit = (e)=>{
         e.preventDefault();
-
- 
+        
+        var id = new Date()
         var post =  {
             //userPost: authUser,
+           
             userPost: {
-                id: "asdasd",
+            
                 firstName: "Dai",
                // lastName:"Nguyen",
                 email: "asd@gmail",
                 gender: "nam"
             },
-            id: "dsfsdfsd",
+         
             postedTime: new Date(),
             text: this.state.text,
             comments:[
@@ -82,10 +83,11 @@ class Newfeed extends Component {
   render() {
     // console.log(this.props.fireStore.Post)
     var getPost = this.props.fireStore.Post
+
     console.log(this.props.fireStore.Post)
   
    if(getPost){
-       console.log(getPost);
+       console.log(getPost.uid);
        
     return (
         <Row>
@@ -133,7 +135,7 @@ class Newfeed extends Component {
                 </div>
                 <br/>
                 {getPost.map ( each => {
-                    console.log(each);
+                    console.log(each.id);
                     
                     return (
                         <div> 

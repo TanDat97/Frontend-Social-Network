@@ -12,8 +12,8 @@ export const postStatus = (post) => {
 
     return (dispatch , getState,{getFirebase,getFirestore}) => { 
         const firestore = getFirestore()
-        console.log('afasdf'+ post.id)
-        firestore.collection("Post").doc(post.id.toString()).set({
+        
+        firestore.collection("Post").doc().set({
             ...post,
          }).then( () =>  { 
              dispatch({
@@ -25,6 +25,9 @@ export const postStatus = (post) => {
                  err: err,
              });
          })
+         
+       
+         console.log(post.id)
         } 
-        
+       
 }
