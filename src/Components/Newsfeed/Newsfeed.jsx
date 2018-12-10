@@ -10,14 +10,11 @@ import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
-<<<<<<< HEAD
+
+import {CommentStatus} from '../../Store/Actions/commentsActions'
 
 import axios from "axios"
 
-=======
-import {CommentStatus} from '../../Store/Actions/commentsActions'
-import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
->>>>>>> 4529ade59c121f4cbe80955e063c5cd79e925bee
 const avatarUser = {
     height: "50px",
     width: "50px",
