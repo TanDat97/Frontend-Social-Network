@@ -8,35 +8,55 @@ import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 class AboutProfile extends Component{
     constructor(props) {
         super(props);
-        
+  
         this.state = {
-        firstName: props.auth.firstName,
-        lastName: props.auth.lastName,
-        email: props.auth.email,
-        gender: props.auth.gender,
-        phone: props.auth.phone,
+            displayName: "",
+            email: "",
+            gender: "",
+            phoneNumber:"",
+            
+            
+            
+            
         }
     }
     componentDidMount(){
-        const ref = firebase.firestore().collection('Profile').doc('YL5oPZWpoOG9jAhEfHmu');
-        ref.get().then((doc) => {
-          if (doc.exists) {
-            const board = doc.data();
+        var listProfile = this.props.fireStore.Profile
+        var userLog = this.props.auth
+        console.log(listProfile)
+        console.log(userLog.uid)
+        var authProfile
+        if ( listProfile && userLog) {
+            listProfile =  listProfile.filter( each => each.id === userLog.uid)
+          
+             authProfile = listProfile[0]
+             console.log(authProfile)
+         }
+        
             this.setState({
-                firstName: board.firstName,
-                lastName: board.lastName,
-                email: board.email,
-                gender: board.gender,
-                phone: board.phone,
+               displayName: authProfile.displayName,
+               email: authProfile.email,
+                gender: authProfile.gender,
+                phoneNumber: authProfile.phoneNumber,
             });
-          } else {
-            console.log("No such document!");
-          }
-        });
+       
     }
     
     handleChange = (e) =>  {
+        var listProfile = this.props.fireStore.Profile
+        var userLog = this.props.auth
+
+        var authProfile
+        if ( listProfile && userLog) {
+            listProfile =  listProfile.filter( each => each.id === userLog.uid)
+          
+             authProfile = listProfile[0]
+             console.log(authProfile.displayName)
+         }
+       
+        console.log(e.target.displayName)
         this.setState({
+          
             [e.target.id]: e.target.value,
         })
  
@@ -48,15 +68,33 @@ class AboutProfile extends Component{
       
         alert("Bạn đã cập nhật thông tin cá nhân")
         e.preventDefault();
-        console.log(this.state.gender)  
-
-        this.props.updateAuthProfile(this.state)
+        console.log(this.state.displayName)  
+        console.log(this.props.auth)
+        var Profile  = {
+            displayName: this.state.displayName,
+           email: this.state.email,
+           gender: this.state.gender,
+           phoneNumber: this.state.phoneNumber,
+        }
+        this.props.updateAuthProfile(Profile, this.props.auth)
     
  
         
     }
     
     render(){
+
+        var listProfile = this.props.fireStore.Profile
+        var userLog = this.props.auth
+        console.log(listProfile)
+        console.log(userLog.uid)
+        var authProfile
+        if ( listProfile && userLog) {
+            listProfile =  listProfile.filter( each => each.id === userLog.uid)
+          
+             authProfile = listProfile[0]
+             console.log(authProfile)
+         }
 
         return (
 
@@ -70,23 +108,16 @@ class AboutProfile extends Component{
                 
                     
                         <Col componentClass={ControlLabel} md = {2}>
-                        First Name
+                        UserName
                         </Col>
                         <Col sm={10} >
-                        <input className = 'form-control' type="text" id = "firstName" value = {this.state.firstName}   onChange = {this.handleChange.bind(this)}/>
+                        <input className = 'form-control' type="text" id = "displayName" value = {this.state.displayName}   onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     
                     </FormGroup>
         
                     
-                    <FormGroup controlId="formHorizontalText">
-                        <Col componentClass={ControlLabel} sm={2}>
-                        Last Name
-                        </Col>
-                        <Col sm={10}>
-                        <input className="form-control" type="text" value= {this.state.lastName} id = "lastName" onChange = {this.handleChange.bind(this)}/>
-                        </Col>
-                    </FormGroup>
+                  
 
                     <FormGroup controlId="formHorizontalText">
                 
@@ -95,13 +126,13 @@ class AboutProfile extends Component{
                         </Col>
                    <Col sm = {2}>
                    <div>
-                        <select id="gender" onChange={this.handleChange.bind(this)} value={this.state.value}>
+                        <select id="gender" onChange={this.handleChange.bind(this)} value={this.state.gender}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                            
                         </select>
                         <p></p>
-                        <p>{this.state.value}</p>
+                       
                     </div>
                         </Col>
                     </FormGroup> 
@@ -110,7 +141,7 @@ class AboutProfile extends Component{
                         Email
                         </Col>
                         <Col sm={10}>
-                        <input className = "form-control" type="email" value = {this.state.email} id = "email"onChange = {this.handleChange.bind(this)}/>
+                        <input className = "form-control" type="email" value = {this.state.email} id = "email" onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     </FormGroup>
 
@@ -119,7 +150,7 @@ class AboutProfile extends Component{
                         Phone
                         </Col>
                         <Col sm={10}>
-                        <input className = "form-control" type="number" value = {this.state.phone} id = "phone" onChange = {this.handleChange.bind(this)}/>
+                        <input className = "form-control" type="text" value = {this.state.phoneNumber} id = "phoneNumber" onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     </FormGroup>
                     
@@ -142,14 +173,14 @@ class AboutProfile extends Component{
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.auth,
-        firebase: state.firebase,
-        firestore: state.firestore
+        auth: state.firebase.auth,
+        //firebase: state.firebase,
+        fireStore: state.firestore.ordered
     };
 }
 const mapDispatchToProps = (dispatch) => { 
     return { 
-        updateAuthProfile: (Profile)=> dispatch(updateAuthProfile(Profile))
+        updateAuthProfile: (Profile, user)=> dispatch(updateAuthProfile(Profile,user))
       
     }
 }

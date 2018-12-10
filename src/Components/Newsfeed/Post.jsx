@@ -1,6 +1,6 @@
 import React from 'react';
 import { Media} from "react-bootstrap";
-
+import Avatar from 'react-avatar';
 // Connect Redux
 
 import Comments from "./Comments"
@@ -24,13 +24,13 @@ console.log(getPost.id)
                         <ul className="list-inline">
                             <li className="list-inline-item">
                                 <a href="#fake">
-                                    <img alt="" className = "img-fluid" style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+                               < Avatar src ={getPost.userPost.photoURL} size = {40} round = {true}/>
                                 </a>        
                             </li>
                                 
                             <li className="list-inline-item">
                                 <blockquote className="blockquote">
-                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost.firstName}</h5></a>   
+                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost.displayName}</h5></a>   
                                     <footer><h6>{getPost.postTime}</h6></footer>
                                 </blockquote>
                             </li>
