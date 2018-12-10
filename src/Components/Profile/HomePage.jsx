@@ -4,8 +4,13 @@ import Profile from "../Layout/NavBar/LeftBar/Profile"
 import {Col, Row} from "react-bootstrap"
 //Connect redux
 import { connect } from 'react-redux';
+import axios from "axios"
 
 class HomePage extends Component {
+
+    componentDidMount() { 
+        axios.get("/") 
+    }
     
   render() {
     var auth = this.props.auth

@@ -10,6 +10,8 @@ import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
+import axios from "axios"
+
 const avatarUser = {
     height: "50px",
     width: "50px",
@@ -20,18 +22,34 @@ class Newfeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: [],
-        }        
+
+        }     
+    }
+
+    handleOnClick() { 
+        console.log("clicked");
+        
+        axios.post('/blockchain/?address1=duy&address2=dat&operation=share' , {
+            
+          })
+          .then(function (response) {
+            alert(response.data.message)
+          })
+          .catch(function (error) {
+            alert(error)
+          });
     }
     
   render() {
     console.log(this.props)
     return (
         <Row>
+           
             <Col xs= {6} md = {3}>
                 <Profile Follower = {this.props.follower} Following = {this.props.following}/>
             </Col>
             <Col xs={6} md={6}>
+            <Button onClick = {this.handleOnClick}></Button>
                 <div className ="card bg-light">
                     <div className = "card-body">
                         <h5 className ="card-title text-secondary">Tạo bài viết</h5>
@@ -81,7 +99,11 @@ class Newfeed extends Component {
             <Col xs={6} md={3}>
                 <People/>
             </Col>
+
+            
         </Row>
+
+        
     );
   }
 }
