@@ -12,7 +12,7 @@ const avatarUser = {
 }
 
 const Post = ( {getPost}) => {
-    var a = getPost.comments
+console.log(getPost.id)
     
     
     

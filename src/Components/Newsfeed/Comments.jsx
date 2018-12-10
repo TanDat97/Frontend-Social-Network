@@ -8,7 +8,7 @@ const avatarComment = {
 }
 
 const Comments = (comments) => {
-    console.log(comments)
+  
  
     return (
        
