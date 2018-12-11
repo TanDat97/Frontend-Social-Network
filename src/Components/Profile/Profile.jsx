@@ -13,20 +13,15 @@ import { connect } from 'react-redux';
 class HomePage extends Component {
     
   render() {
-    var auth = this.props.fireStore.Profile
+    var listProfile = this.props.fireStore.Profile
     var authProfile
     
-    console.log(this.props.fireStore.Post)
-    console.log(this.props.fireStore.Profile)
-    console.log(auth)
-
-    if ( auth) {
-       auth =  auth.filter( each => each.id === "YL5oPZWpoOG9jAhEfHmu")
-       console.log(auth[0].email)
-        authProfile = auth[0]
-        console.log(authProfile)
+    var userLog = this.props.auth
+    if ( listProfile && userLog) {
+        listProfile =  listProfile.filter( each => each.id === userLog.uid)
+        authProfile = listProfile[0]
     }
-    if(this.props.fireStore.Post){
+    if(this.props.fireStore.Post && userLog){
         var getPost = this.props.fireStore.Post
         return (
             <div>

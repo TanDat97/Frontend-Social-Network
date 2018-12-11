@@ -9,7 +9,7 @@ export const CommentStatus = (text,comments ) => {
             var historyComments = comments.comments
             console.log(historyComments)
             historyComments.push({
-                Profile:{id: "Thanh Dai",name: "Thanh"},
+                userComment:{id: "Thanh Dai",name: "Thanh"},
                 text: text
             })
             firestore.collection('Post').doc(comments.id.toString()).update({
