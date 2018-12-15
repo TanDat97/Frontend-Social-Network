@@ -28,8 +28,9 @@ const LeftHomePage = (props)=> {
                                         <img data-no-retina="" className="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="John Doe"/>
                                     </li>
                                     <li className="text-center">
-                                        <h4 className="text-capitalize">{auth.firstName + " " + auth.lastName}</h4>
-                                        <p className="text-muted text-capitalize"> <i className="fa fa-phone"></i> {auth.phone}</p>
+                                        <h4 className="text-capitalize">{auth.displayName}</h4>
+                                     
+                                        <p className="text-muted text-capitalize"> <i className="fa fa-phone"></i> {auth.phoneNumber}</p>
                                     </li>
                                    
                                     <li><br/></li>

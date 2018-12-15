@@ -1,5 +1,4 @@
 import * as AT from "./ActionTypes"
-import firebase from '../../Config/firebaseConfig'
 
 
 
@@ -56,14 +55,17 @@ export const signOut = () => {
     }
 }
 
-export const updateAuthProfile = (Profile) => { 
+export const updateAuthProfile = (Profile,user) => { 
     return (dispatch , getState,{getFirebase,getFirestore}) => { 
       console.log(Profile)
         const firestore = getFirestore()
-  console.log(getState);
   
-   firestore.collection("Profile").doc("YL5oPZWpoOG9jAhEfHmu").update({
-         ...Profile,
+  console.log(user.uid)
+   firestore.collection("Profile").doc(user.uid.toString()).update({
+         displayName: Profile.displayName,
+         email: Profile.email,
+       
+        phoneNumber: Profile.phoneNumber,
     }).then( () =>  { 
         dispatch({
             type: AT.Update_Auth_Profile_Success,
@@ -76,12 +78,29 @@ export const updateAuthProfile = (Profile) => {
     })
     }
 
-    // const db = firebase.firestore();
+}
 
-    // db.collection("Profile").doc("YL5oPZWpoOG9jAhEfHmu").update({
-    // ...Profile,
-    // });  
+export const createUser = (Profile) => {
+    
+        return (dispatch,getState, {getFirebase, getFirestore}) => { 
+            const firestore = getFirestore();
+            firestore.collection('Profile').doc(Profile.uid).set({                    
+                ...Profile,
+               
+            }).then( () =>  { 
+                dispatch({
+                    type: "CREATE_USER",
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: "CREATE_USER_ERROR",
+                    err: err,
+                });
+            })
+        }
+    }
+
+
 
 
     
-}

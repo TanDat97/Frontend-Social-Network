@@ -15,6 +15,8 @@ import Post from "./Post";
 import {CommentStatus} from '../../Store/Actions/commentsActions'
 import {Keypair} from "stellar-base"
 import axios from "axios"
+import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
+import Avatar from 'react-avatar';
 
 const avatarUser = {
     height: "50px",
@@ -63,31 +65,17 @@ class Newfeed extends Component {
         e.preventDefault();
 
         var post =  {
-            userPost: {
-            
-                firstName: "Dai",
-               // lastName:"Nguyen",
-                email: "asd@gmail",
-                gender: "nam"
-            },
+            //userPost: authUser,
+           
+            userPost: this.props.auth,
          
             postedTime: new Date(),
             text: this.state.text,
             comments:[
                 {
                    text: "Hello" ,
-                   userComment:[{
-                       id: "àdasfdasdf",
-                       name: "ádfasfasfd"
-                   }]
+                   userComment: this.props.auth.uid,//ui 
                 },
-                {
-                    text: "Hello B" ,
-                    userComment:[{
-                       id: "àdasfdasdf",
-                       name: "ádfasfasfd"
-                   }]
-                }
             ],
             images:[],
         }
@@ -119,7 +107,7 @@ class Newfeed extends Component {
                             <Media>
                                 <Media.Left>
                                     <a className="mr-3" href="/profile">
-                                        <img alt=""  style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
+                                    <Avatar src ={this.props.auth.photoURL} size = {50} round = {true}/>
                                     </a>
                                 </Media.Left>
                                 <Media.Body >
@@ -210,7 +198,7 @@ class Newfeed extends Component {
 const  mapStateToProps = (state) => {
     console.log(state)
     return {
-        
+        auth: state.firebase.auth,
         follower: state.follower,
         following: state.following,
         fireStore: state.firestore.ordered
