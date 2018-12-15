@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 //Plugin
 import InfiniteScrool from "react-infinite-scroller"
 import { compose } from 'redux'
-import { isEmpty, firestoreConnect } from 'react-redux-firebase';npm start 
+import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 
 import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
@@ -25,9 +25,7 @@ const avatarUser = {
 class Newfeed extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        }     
+          
     }
 
     handleOnClick() { 
