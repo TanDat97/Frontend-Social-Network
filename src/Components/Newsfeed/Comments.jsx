@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {FormGroup, FormControl, Button,Form} from "react-bootstrap";
 const avatarComment = {
     height: "30px",
     width: "30px",

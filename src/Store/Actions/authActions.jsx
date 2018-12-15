@@ -56,31 +56,6 @@ export const signOut = () => {
     }
 }
 
-
-
-export const fetchAuthProfile = (Profile) => { 
-	return  (dispatch, {getFirestore, getFirebase}) => { 
-        const firestore = getFirestore()
-     
-
-        firestore.collection('Profile').doc('YL5oPZWpoOG9jAhEfHmu').get().then( (Profile) =>  { 
-
-            dispatch({
-                type: AT.Fetch_Auth_Profile_Success,
-            });
-        }).catch((err) => {
-            dispatch({
-                type: AT.Fetch_Auth_Profile_Error,
-                err: err,
-            });
-        })
-    }
-    
-        
-
-}
-
-
 export const updateAuthProfile = (Profile) => { 
     return (dispatch , getState,{getFirebase,getFirestore}) => { 
       console.log(Profile)

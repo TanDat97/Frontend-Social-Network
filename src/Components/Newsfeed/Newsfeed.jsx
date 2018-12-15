@@ -6,13 +6,14 @@ import { connect } from 'react-redux';
 //Plugin
 import InfiniteScrool from "react-infinite-scroller"
 import { compose } from 'redux'
-import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+import { isEmpty, firestoreConnect } from 'react-redux-firebase';npm start 
+
 import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
 import {CommentStatus} from '../../Store/Actions/commentsActions'
-
+import {Keypair} from "stellar-base"
 import axios from "axios"
 
 const avatarUser = {
@@ -30,21 +31,22 @@ class Newfeed extends Component {
     }
 
     handleOnClick() { 
-        console.log("clicked");
-        
-        axios.post('/blockchain/?address1=duy&address2=dat&operation=share' , {
+        const publicKey = Keypair.random().publicKey();
+        console.log(publicKey);
+        var postReq = "/create_account/?public_key=" + publicKey
+        axios.post(postReq , {
             
-          })
-          .then(function (response) {
-            alert(response.data.message)
-          })
-          .catch(function (error) {
-            alert(error)
-          });
-            
-       
-                
+        })
+        .then(function (response) {
+          console.log(response.data);
+          
+        })
+        .catch(function (error) {
+          alert(error)
+        });
     }
+
+    
     handleChange = (e) =>{
         this.setState({
             
@@ -61,11 +63,8 @@ class Newfeed extends Component {
     }
     handleSubmit = (e)=>{
         e.preventDefault();
-        
-        var id = new Date()
+
         var post =  {
-            //userPost: authUser,
-           
             userPost: {
             
                 firstName: "Dai",
@@ -79,14 +78,14 @@ class Newfeed extends Component {
             comments:[
                 {
                    text: "Hello" ,
-                   Profile:[{
+                   userComment:[{
                        id: "àdasfdasdf",
                        name: "ádfasfasfd"
                    }]
                 },
                 {
                     text: "Hello B" ,
-                   Profile:[{
+                    userComment:[{
                        id: "àdasfdasdf",
                        name: "ádfasfasfd"
                    }]
@@ -100,13 +99,12 @@ class Newfeed extends Component {
         
     }
   render() {
-    // console.log(this.props.fireStore.Post)
+    
     var getPost = this.props.fireStore.Post
 
-    console.log(this.props.fireStore.Post)
+
   
    if(getPost){
-       console.log(getPost.uid);
        
     return (
         <Row>
@@ -114,8 +112,8 @@ class Newfeed extends Component {
             <Col xs= {6} md = {3}>
                 <Profile Follower = {this.props.follower} Following = {this.props.following}/>
             </Col>
+            <button onClick = {this.handleOnClick}></button>
             <Col xs={6} md={6}>
-            <Button onClick = {this.handleOnClick}></Button>
                 <div className ="card bg-light">
                     <div className = "card-body">
                         <h5 className ="card-title text-secondary">Tạo bài viết</h5>
