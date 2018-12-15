@@ -12,11 +12,13 @@ import Profile from "../Layout/NavBar/LeftBar/Profile";
 import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
-import {CommentStatus} from '../../Store/Actions/commentsActions'
+import {CommentToPost} from '../../Store/Actions/commentsActions'
 import {Keypair} from "stellar-base"
 import axios from "axios"
 import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
 import Avatar from 'react-avatar';
+
+import LoadingSpinner from "../../Plugin/LoadingSpinner"
 
 const avatarUser = {
     height: "50px",
@@ -27,7 +29,9 @@ const avatarUser = {
 class Newfeed extends Component {
     constructor(props) {
         super(props);
-          
+        this.state = {
+            text: "",
+        }
     }
 
     handleOnClick() { 
@@ -49,38 +53,35 @@ class Newfeed extends Component {
     
     handleChange = (e) =>{
         this.setState({
-            
             [e.target.id]: e.target.value
         })
     }
-    handleComments(getPost){
-      
-    console.log(this.ref.tag.value)
-        var text = "dfasdfasdf"
-        //this.ref.tag.value = null
-        console.log(text)
-        this.props.CommentStatus(text,getPost)
+    handleComments(e,eachPost){
+        var comment =  {
+            text: document.getElementById(eachPost.id).value,
+            userComment: this.props.auth,
+        }; 
+        
+        this.props.CommentToPost(comment,eachPost)
+
+        document.getElementById(eachPost.id).value = ""
     }
     handleSubmit = (e)=>{
         e.preventDefault();
 
+        var postedTime = new Date();
+
         var post =  {
-            //userPost: authUser,
-           
             userPost: this.props.auth,
-         
-            postedTime: new Date(),
+            postedTime: postedTime.getTime(),
             text: this.state.text,
-            comments:[
-                {
-                   text: "Hello" ,
-                   userComment: this.props.auth.uid,//ui 
-                },
-            ],
+            comments:[],
             images:[],
         }
-        this.state.text = ""
+        console.log(this.state.text);
+        
         this.props.postStatus(post)
+        this.state.text = " "
         this.props.history.replace('/')
         
     }
@@ -88,9 +89,7 @@ class Newfeed extends Component {
     
     var getPost = this.props.fireStore.Post
 
-
-  
-   if(getPost){
+   if(getPost && this.props.auth){
        
     return (
         <Row>
@@ -98,7 +97,7 @@ class Newfeed extends Component {
             <Col xs= {6} md = {3}>
                 <Profile Follower = {this.props.follower} Following = {this.props.following}/>
             </Col>
-            <button onClick = {this.handleOnClick}></button>
+            
             <Col xs={6} md={6}>
                 <div className ="card bg-light">
                     <div className = "card-body">
@@ -113,7 +112,7 @@ class Newfeed extends Component {
                                 <Media.Body >
                                     <Form onSubmit = {this.handleSubmit}>
                                     <FormGroup controlId="formControlsTextarea" >
-                                        <input className = "form-control" componentClass="textarea" id = "text" value = {this.state.text} onChange = {this.handleChange} placeholder = "What's up?..."/>
+                                        <input className = "form-control" componentClass="textarea" id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
                                     </FormGroup>
                                     <Button type="submit" className ="float-right">Post</Button>
                                     </Form>
@@ -139,37 +138,42 @@ class Newfeed extends Component {
                     </div>  
                 </div>
                 <br/>
-                {getPost.map ( each => {
+                {getPost.map ( (each) => {
                     console.log(each.id);
                     
                     return (
-                        <div> 
-                            <Post getPost = {each}/>
-                           <br/>
-                            <Form >
-                                <FormGroup controlId="formControlsTextarea">
-                                <input className = "form-control" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
-                                </FormGroup>
-                                
-                                <button  onClick = {()=>this.handleComments(each)} className ="float-right">Post</button>
-                                <ul className="nav">
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
-                                    </li>
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
-                                    </li>
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
-                                    </li>
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-smile-o"></i></a>
-                                    </li>
-                                </ul>
+                    <div>
+                        <div className = "card" key = {each.id}>        
+                            <div className="card-body"> 
+                                <Post getPost = {each}/>
+                            
+                            
+                                <Form >
+                                    <FormGroup controlId="formControlsTextarea">
+                                    <input className = "form-control" name="message-to-send" id= {each.id} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
+                                    </FormGroup>
+                                    
+                                    <Button name = {each.id} onClick = {(e)=>this.handleComments(e,each)} className ="float-right">Post</Button>
+                                    <ul className="nav">
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-smile-o"></i></a>
+                                        </li>
+                                    </ul>
                                 </Form>
-                            <br/>
-
+                                <br/>
+                            </div>                            
                         </div>
+                        <br/>
+                    </div>
                     )
                 })}
 
@@ -187,7 +191,7 @@ class Newfeed extends Component {
      
    }
    else {
-    return( <div> Loading....</div>)
+    return( <div><LoadingSpinner/></div>)
    }
     
   }
@@ -209,7 +213,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => { 
     return { 
        postStatus: (Post) => (dispatch(postStatus(Post))),
-      CommentStatus: (text, Comments) => (dispatch(CommentStatus(text, Comments)))
+       CommentToPost: (comment, post) => (dispatch(CommentToPost(comment, post)))
     }
 }
 

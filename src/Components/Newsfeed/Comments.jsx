@@ -11,30 +11,23 @@ const avatarComment = {
     borderRadius: "50%"
 }
 
-const Comments = (comments) => {
+const Comments = ({comments}) => {
   
-var idComment = comments.comments.userComment //idcomment
-var Comments = comments.comments
-
-if(idComment)
-{
-    var userComment = comments.fireStore.Profile
-  userComment = userComment.filter(each => each.uid == idComment)
-  console.log(userComment[0])
-}
-
+    var userComment = comments.userComment
+    var text = comments.text
+    console.log(userComment);
+    
     return (
        
         <div>
             <div className="media">
-            
-            
+
                 <div className="media-body d-inline">
               
                     <div className = "container">
-                    <a href="#fake"> < Avatar src ={userComment[0].photoURL} size = {40} round = {true}/> </a> 
-                        <a href = "/"> {userComment[0].displayName}     </a>  
-                        {Comments.text}
+                    <a href="#fake"> < Avatar src ={userComment.photoURL} size = {40} round = {true}/> </a> 
+                        <a href = "/"> {userComment.displayName}     </a>  
+                        {text}
                     </div>
                 </div>
             </div>
@@ -43,6 +36,7 @@ if(idComment)
         </div>
 
     );
+
 };
 const  mapStateToProps = (state) => {
     //console.log(state.post)

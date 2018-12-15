@@ -1,9 +1,10 @@
 import React from 'react';
-import { Media} from "react-bootstrap";
+import { Media, Row,Col} from "react-bootstrap";
 import Avatar from 'react-avatar';
 // Connect Redux
-
+import moment from 'moment';
 import Comments from "./Comments"
+import { isEmpty } from 'react-redux-firebase';
 
 const avatarUser = {
     height: "40px",
@@ -12,16 +13,15 @@ const avatarUser = {
 }
 
 const Post = ( {getPost}) => {
-console.log(getPost.id)
+    console.log(getPost.comments)
     
     
     
     return (
-        <div className = "card">        
-            <div className="card-body">
                 <Media>
                     <Media.Body>
-                        <ul className="list-inline">
+                        <Media.Heading>
+                        {/* <ul className="list-inline">
                             <li className="list-inline-item">
                                 <a href="#fake">
                                < Avatar src ={getPost.userPost.photoURL} size = {40} round = {true}/>
@@ -34,8 +34,23 @@ console.log(getPost.id)
                                     <footer><h6>{getPost.postTime}</h6></footer>
                                 </blockquote>
                             </li>
-                        </ul>
-                        
+                        </ul> */}
+                            <Row>
+                                <Col xs = {6} md = {1}>
+                                    < Avatar src ={getPost.userPost.photoURL} size = {40} round = {true}/>
+                                </Col>
+                                <Col xs = {6} md = {8}>
+                                    <h5>{getPost.userPost.displayName}</h5>
+                                    <h6>{moment(getPost.postedTime).calendar()}</h6>
+                                </Col>
+
+                                <Col xs = {6} md = {3}>
+                                    <h5>Follow</h5>
+                                </Col>
+
+                            </Row>
+                        </Media.Heading>
+
                         <p>{getPost.text}</p>
                         <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
@@ -53,9 +68,13 @@ console.log(getPost.id)
                             </li>
                         </ul>
                         <div className="dropdown-divider"></div>
-                        {
-                            getPost.comments.map(each =>{
+                        
+                        {   
 
+                            getPost.comments?
+                            getPost.comments.map(each =>{
+                                console.log(each);
+                                
                                 return (
                                     <div>
                                     <Comments comments = {each}/> 
@@ -63,14 +82,14 @@ console.log(getPost.id)
                                     </div>
                                 )
                             })
+                            : null
                         }
                                             
 
                     </Media.Body>
                    
                 </Media>
-            </div>
-        </div>
+           
     );
 };
 
