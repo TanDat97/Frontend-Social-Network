@@ -17,7 +17,7 @@ class SigninLink extends Component {
         };
       }
     render(){
-        const userLog = this.props.auth
+        var userLog = this.props.auth
         var listProfile = this.props.fireStore.Profile
         var authProfile
         if ( listProfile && userLog) {
@@ -25,7 +25,10 @@ class SigninLink extends Component {
           
              authProfile = listProfile[0]
              
-             if(userLog.uid && !authProfile.uid){
+             console.log(authProfile);
+             console.log(userLog);
+
+             if(userLog && !authProfile){
                  this.props.createUser(userLog)
               
              }

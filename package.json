@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "firebase": "^5.6.0",
+    "moment": "^2.23.0",
     "npm": "^6.4.1",
     "react": "^16.6.3",
     "react-avatar": "^3.4.6",
@@ -17,12 +18,15 @@
     "react-redux-firebase": "^2.2.4",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-spinners": "^0.4.7",
     "redux": "^4.0.1",
     "redux-firestore": "^0.6.0",
     "redux-freeze": "^0.1.7",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "stellar-base": "^0.9.0"
   },
+  "proxy": "http://localhost:3001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -1,29 +1,26 @@
 import * as  AT from './ActionTypes'
 
-export const CommentStatus = (text,comments ) => {
+export const CommentToPost = (comment,post) => {
     return (dispatch , getState,{getFirebase,getFirestore}) => { 
         
-          const firestore = getFirestore()
+        const firestore = getFirestore()
    
-    
-            var historyComments = comments.comments
-            console.log(historyComments)
-            historyComments.push({
-                userComment:{id: "Thanh Dai",name: "Thanh"},
-                text: text
-            })
-            firestore.collection('Post').doc(comments.id.toString()).update({
-                comments: historyComments,
-            }).then( () =>  { 
-                dispatch({
-                    type:AT.Comment_Status_Success,
-                });
-            }).catch((err) => {
-                dispatch({
-                    type: AT.Comment_Status_Error,
-                    err: err,
-                });
-            })
+        console.log(post.id);
+        
+        var historyComments = post.comments
+        
+        firestore.collection('Post').doc(post.id.toString()).update({
+            comments: [...historyComments,comment],
+        }).then( () =>  { 
+            dispatch({
+                type:AT.Comment_Status_Success,
+            }); 
+        }).catch((err) => {
+            dispatch({
+                type: AT.Comment_Status_Error,
+                err: err,
+            });
+        })
 
       }
       

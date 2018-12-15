@@ -10,7 +10,7 @@ import { Provider } from 'react-redux'
 import { getFirebase, reactReduxFirebase } from 'react-redux-firebase'
 import { getFirestore, reduxFirestore } from 'redux-firestore'
 import thunk from 'redux-thunk';
-import getMiddlewares from './Config/middleWares'
+
 import rootReducer from './Store/Reducers/rootReducer'
 import firebaseConfig from './Config/firebaseConfig'
 

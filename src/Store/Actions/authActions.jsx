@@ -55,9 +55,6 @@ export const signOut = () => {
     }
 }
 
-
-
-
 export const updateAuthProfile = (Profile,user) => { 
     return (dispatch , getState,{getFirebase,getFirestore}) => { 
       console.log(Profile)
