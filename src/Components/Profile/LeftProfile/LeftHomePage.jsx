@@ -25,18 +25,18 @@ const LeftHomePage = (props)=> {
                             <div className="inner-all">
                                 <ul className="list-unstyled">
                                     <li className="text-center">
-                                        <img data-no-retina="" className="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="John Doe"/>
+                                        <img data-no-retina="" className="img-circle img-responsive img-bordered-primary" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="user avatar"/>
                                     </li>
                                     <li className="text-center">
                                         <h4 className="text-capitalize">{auth.displayName}</h4>
                                      
                                         <p className="text-muted text-capitalize"> <i className="fa fa-phone"></i> {auth.phoneNumber}</p>
+                                        <p className="text-muted text-capitalize"> Tài khoản: {auth.amount?auth.amount:0} TRE {auth.phoneNumber}</p>
                                     </li>
                                    
                                     <li><br/></li>
                                     <li>
                                         <div className="btn-group-vertical btn-block">
-                                            <a href="" className="btn btn-default"><i className="fa fa-cog pull-right"></i>Edit Account</a>
                                             <a href="" className="btn btn-default"><i className="fa fa-sign-out pull-right"></i>Logout</a>
                                         </div>
                                     </li>

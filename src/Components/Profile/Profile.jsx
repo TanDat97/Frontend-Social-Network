@@ -7,28 +7,66 @@ import TopHomePage from './TopProfile/TopHomePage'
 import AboutProfile from "./About/AboutProfile"
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+
+import LoadingSpinner from "../../Plugin/LoadingSpinner"
 //Connect redux
 import { connect } from 'react-redux';
-
+import axios from "axios"
 class HomePage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            amount: 0,
+            isLoading: false,
+          };
+    }
+
+    componentDidMount(){ 
+        var pathName = this.props.history.location.pathname;
+        var public_key = pathName.split("/");
+        public_key = public_key[2]
+        console.log(public_key);
+        
+        
+        var getAmmount = "/account/calculate_amount/"
+        axios.post(getAmmount, {
+            public_key: "GCXEQNLGRDKEPUPLCZRGXYKAUQSI4Y56OHJPM4N35ZYZGH4LXMVUK5SD", // Truyen publickey tu params
+          })
+          .then((response) => {
+            var data = response.data;
+            this.setState({
+                isLoading: false,
+                amount: data.amount
+              });    
+          })
+          .catch( (error) => {
+            console.log(error);
+          });
+
+          console.log(); 
+    }
+    
     
   render() {
     var listProfile = this.props.fireStore.Profile
     var authProfile
+    var getPost = this.props.fireStore.Post
     
     var userLog = this.props.auth
     if ( listProfile && userLog) {
         listProfile =  listProfile.filter( each => each.id === userLog.uid)
         authProfile = listProfile[0]
+        authProfile.amount = this.state.amount
     }
-    if(this.props.fireStore.Post && userLog){
-        var getPost = this.props.fireStore.Post
+    if(this.props.fireStore.Post && userLog && getPost){
+        console.log(getPost);
+        
         return (
-            <div>
+            <div className = "animate-post">
                 
                 <div >
                 <Row>
-                    <LeftHomePage authProfile = {authProfile}/>
+                    <LeftHomePage authProfile = {authProfile} />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
                     
@@ -78,7 +116,7 @@ class HomePage extends Component {
     }
   else {
       return (
-          <div>Loading.....</div>
+          <div><LoadingSpinner/></div>
       )
   }
     

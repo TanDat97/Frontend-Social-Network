@@ -109,12 +109,13 @@ div.panel-heading{
 	width: 100%;
   }
   .profile-cover .cover {
-	position: relative;
+	
 	border: 10px solid #FFF;
   }
   .profile-cover .cover .inner-cover {
 	overflow: hidden;
 	height: auto;
+	object-fit: contain;
   }
   .profile-cover .cover .inner-cover img {
 	border: 1px solid transparent;
