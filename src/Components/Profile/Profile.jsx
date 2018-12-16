@@ -7,20 +7,15 @@ import TopHomePage from './TopProfile/TopHomePage'
 import AboutProfile from "./About/AboutProfile"
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+import LoadingSpinner from "../../Plugin/LoadingSpinner"
 //Connect redux
 import { connect } from 'react-redux';
 
 class HomePage extends Component {
     
   render() {
-    var listProfile = this.props.fireStore.Profile
-    var authProfile
-    
+
     var userLog = this.props.auth
-    if ( listProfile && userLog) {
-        listProfile =  listProfile.filter( each => each.id === userLog.uid)
-        authProfile = listProfile[0]
-    }
     if(this.props.fireStore.Post && userLog){
         var getPost = this.props.fireStore.Post
         return (
@@ -28,7 +23,7 @@ class HomePage extends Component {
                 
                 <div >
                 <Row>
-                    <LeftHomePage authProfile = {authProfile}/>
+                    <LeftHomePage />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
                     
@@ -78,7 +73,7 @@ class HomePage extends Component {
     }
   else {
       return (
-          <div>Loading.....</div>
+         <div><LoadingSpinner/></div>
       )
   }
     
