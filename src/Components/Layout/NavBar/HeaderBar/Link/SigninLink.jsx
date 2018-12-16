@@ -17,7 +17,7 @@ class SigninLink extends Component {
         };
       }
     render(){
-        var userLog = this.props.auth
+        /*var userLog = this.props.auth
         var listProfile = this.props.fireStore.Profile
         var authProfile
         if ( listProfile && userLog) {
@@ -32,7 +32,7 @@ class SigninLink extends Component {
                  this.props.createUser(userLog)
               
              }
-         }
+         }*/
         
 
     return (
@@ -46,7 +46,7 @@ class SigninLink extends Component {
                     <i className="fa fa-bars"></i>
                 </button>
                 <ul className="dropdown-menu pull-right no-border" role="menu">
-                
+                    
                     
                     
                     <li><a href="/signin" onClick = {this.props.signOut}><i className="fa fa-fw fa-users"></i><span> Sign Out</span></a></li>

@@ -14,53 +14,54 @@ class AboutProfile extends Component{
             email: "",
             gender: "",
             phoneNumber:"",
-            
+            publicKey: "",
             
             
             
         }
     }
     componentDidMount(){
-        var listProfile = this.props.fireStore.Profile
-        var userLog = this.props.auth
-        console.log(listProfile)
-        console.log(userLog.uid)
-        var authProfile
-        if ( listProfile && userLog) {
-            listProfile =  listProfile.filter( each => each.id === userLog.uid)
-          
-             authProfile = listProfile[0]
-             console.log(authProfile)
-         }
         
+        var listProfile = this.props.fireStore.Profile
+        var auth = this.props.auth
+        var userLog
+        listProfile.map(each=>{
+            if(each.email == auth.email)
+            {
+                userLog = each
+            }
+        })
+     
             this.setState({
-               displayName: authProfile.displayName,
-               email: authProfile.email,
-                gender: authProfile.gender,
-                phoneNumber: authProfile.phoneNumber,
-            });
-       
+                displayName: userLog.displayName,
+                 email: userLog.email,
+                 gender: userLog.gender,
+                 phoneNumber: userLog.phoneNumber,
+             });
+        
+     
+     
     }
     
     handleChange = (e) =>  {
-        var listProfile = this.props.fireStore.Profile
-        var userLog = this.props.auth
-
-        var authProfile
-        if ( listProfile && userLog) {
-            listProfile =  listProfile.filter( each => each.id === userLog.uid)
-          
-             authProfile = listProfile[0]
-             console.log(authProfile.displayName)
-         }
-       
-        console.log(e.target.displayName)
-        this.setState({
-          
-            [e.target.id]: e.target.value,
-        })
- 
      
+        var listProfile = this.props.fireStore.Profile
+        var auth = this.props.auth
+        var userLog
+        if ( listProfile && auth) {
+            listProfile.map(each=>{
+                if(each.email == auth.email)
+                {
+                    userLog = each
+                }
+            })
+            this.setState({
+          
+                [e.target.id]: e.target.value,
+            })
+         }
+         
+        
     }
 
     handleSubmit = (e) =>  {
@@ -68,16 +69,21 @@ class AboutProfile extends Component{
       
         alert("Bạn đã cập nhật thông tin cá nhân")
         e.preventDefault();
-        console.log(this.state.displayName)  
-        console.log(this.props.auth)
-        var Profile  = {
-            displayName: this.state.displayName,
-           email: this.state.email,
-           gender: this.state.gender,
-           phoneNumber: this.state.phoneNumber,
-        }
-        this.props.updateAuthProfile(Profile, this.props.auth)
-    
+     
+        var auth = this.props.auth // auth firebase
+       
+         if(auth)
+         {
+            var Profile  = {
+                displayName: this.state.displayName,
+               email: this.state.email,
+               gender: this.state.gender,
+               phoneNumber: this.state.phoneNumber,
+            }
+            this.props.updateAuthProfile(Profile, auth)
+        
+         }
+        
  
         
     }
@@ -85,16 +91,19 @@ class AboutProfile extends Component{
     render(){
 
         var listProfile = this.props.fireStore.Profile
-        var userLog = this.props.auth
-        console.log(listProfile)
-        console.log(userLog.uid)
-        var authProfile
-        if ( listProfile && userLog) {
-            listProfile =  listProfile.filter( each => each.id === userLog.uid)
-          
-             authProfile = listProfile[0]
-             console.log(authProfile)
-         }
+        var auth = this.props.auth
+        console.log(auth)
+        var userLog
+        listProfile.map(each=>{
+            if(each.email == auth.email)
+            {
+                userLog = each
+            }
+        })
+        if(userLog)
+        {
+            console.log(userLog)
+        }
 
         return (
 

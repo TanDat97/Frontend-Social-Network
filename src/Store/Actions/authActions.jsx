@@ -1,7 +1,56 @@
 import * as AT from "./ActionTypes"
 
 
+export const signUp = (authUser) => { 
+    return (dispatch , getState, {getFirebase, getFirestore}) => { 
+        const firebase = getFirebase() 
+        const firestore = getFirestore()
+        console.log(99992321412);
+       
 
+        var user = authUser
+        console.log(authUser);
+        console.log(21312739);
+        
+        firebase.auth().createUserWithEmailAndPassword(
+            authUser.email,
+            authUser.password,
+        ).then((response)=>{
+
+            const displayName = authUser.firstName + " " + authUser.lastName
+           console.log(displayName);
+           
+            
+           firestore.collection('Profile').doc(user.email).set({                    
+                email: user.email ,
+                password:user.password,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                displayName: displayName,
+                publicKey: user.publicKey,
+                gender: null,
+                phoneNumber: null,
+                follower:[],
+                following:[],
+                friends:[],
+            })
+        })
+        .then(() => { 
+        dispatch({
+            type: "SIGNUP_SUCCESS"})
+        })
+
+        .catch((err)=> { 
+            console.log(err);
+            
+            dispatch({ 
+                type: "SIGNUP_ERROR",
+                err:err,
+            })
+        })
+
+    }
+}
 export const signIn = (credentials) => { 
     return (dispatch , getState, {getFirebase}) => { 
         const firebase = getFirebase() ;
@@ -61,7 +110,7 @@ export const updateAuthProfile = (Profile,user) => {
         const firestore = getFirestore()
   
   console.log(user.uid)
-   firestore.collection("Profile").doc(user.uid.toString()).update({
+   firestore.collection("Profile").doc(user.email).update({
          displayName: Profile.displayName,
          email: Profile.email,
        
@@ -80,13 +129,23 @@ export const updateAuthProfile = (Profile,user) => {
 
 }
 
-export const createUser = (Profile) => {
+export const createUser = (user) => {   
     
         return (dispatch,getState, {getFirebase, getFirestore}) => { 
             const firestore = getFirestore();
-            firestore.collection('Profile').doc(Profile.uid).set({                    
-                ...Profile,
-               
+            const displayName = user.firstName + " " + user.lastName
+            firestore.collection('Profile').doc(user.email).set({                    
+                email: user.email ,
+                password:user.password,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                displayName: displayName,
+                publicKey: user.publicKey,
+                gender: null,
+                phoneNumber: null,
+                follower:[],
+                following:[],
+                friends:[],
             }).then( () =>  { 
                 dispatch({
                     type: "CREATE_USER",

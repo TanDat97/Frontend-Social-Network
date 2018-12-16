@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {Col, Row, FormGroup,Form, FormControl, Button, Media} from "react-bootstrap";
+
+//Action
 import {postStatus} from '../../Store/Actions/postAction'
+import {followFriend} from "../../Store/Actions/followActions"
 //Connect redux
 import { connect } from 'react-redux';
 //Plugin
@@ -26,11 +29,13 @@ const avatarUser = {
     borderRadius: "50%"
 }
 
+
 class Newfeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
             text: "",
+            isLoading: true,
         }
     }
 
@@ -78,6 +83,8 @@ class Newfeed extends Component {
             comments:[],
             images:[],
         }
+
+      
         console.log(this.state.text);
         
         this.props.postStatus(post)
@@ -85,21 +92,40 @@ class Newfeed extends Component {
         this.props.history.replace('/')
         
     }
+
+    
   render() {
     
     var getPost = this.props.fireStore.Post
+    if(getPost && this.state.isLoading){
+        console.log("loaded");
+        this.setState({
+            isLoading:false,
+        })
+    }
 
-   if(getPost && this.props.auth){
-       
-    return (
-        <Row>
-           
-            <Col xs= {6} md = {3}>
-                <Profile Follower = {this.props.follower} Following = {this.props.following}/>
-            </Col>
+   if(this.state.isLoading){
+    return( <div><LoadingSpinner/></div>)
+   }
+   else {
+       getPost.sort ((a,b) =>{
+           if (a.postedTime > b.postedTime)
+            return -1;
+        if (a.postedTime < b.postedTime)
+            return 1;
+        return 0
+        });
+
+        return (
+            <Row>
             
-            <Col xs={6} md={6}>
-                <div className ="card bg-light">
+                <Col xs= {6} md = {3}>
+                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                </Col>
+                
+                <Col xs={6} md={6}>
+                    {this.props.auth.uid?
+                    <div className ="card bg-light">
                     <div className = "card-body">
                         <h5 className ="card-title text-secondary">Tạo bài viết</h5>
                         <div className = "card-text">
@@ -125,7 +151,7 @@ class Newfeed extends Component {
                                             <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
                                         </li>
                                         <li className = "nav-item">
-                                          
+                                        
                                             <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
                                         </li>
                                         <li className = "nav-item">
@@ -136,19 +162,22 @@ class Newfeed extends Component {
                             </Media>
                         </div>
                     </div>  
-                </div>
-                <br/>
-                {getPost.map ( (each) => {
-                    console.log(each.id);
-                    
-                    return (
-                    <div>
-                        <div className = "card" key = {each.id}>        
-                            <div className="card-body"> 
-                                <Post getPost = {each}/>
-                            
-                            
-                                <Form >
+                    </div>
+                    :null
+                    }
+                    <br/>
+                    {getPost.map ( (each) => {
+                        console.log(each.id);
+                        
+                        return (
+                        <div className = "animate-post">
+                            <div className = "card" key = {each.id}>        
+                                <div className="card-body"> 
+                                    <Post post = {each} authUser = {this.props.auth} followFriend = {this.props.followFriend.bind(this)}/>
+                                
+                                
+                                    {this.props.auth.uid?
+                                    <Form >
                                     <FormGroup controlId="formControlsTextarea">
                                     <input className = "form-control" name="message-to-send" id= {each.id} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
                                     </FormGroup>
@@ -168,31 +197,31 @@ class Newfeed extends Component {
                                             <a className = "nav-link" href="/"><i className="fa fa-smile-o"></i></a>
                                         </li>
                                     </ul>
-                                </Form>
-                                <br/>
-                            </div>                            
+                                    </Form> 
+                                    :null
+                                    }
+                                    <br/>
+                                </div>                            
+                            </div>
+                            <br/>
                         </div>
-                        <br/>
-                    </div>
-                    )
-                })}
+                        )
+                    })}
+
+                    
+                </Col>
+                <Col xs={6} md={3}>
+                    <People/>
+                </Col>
 
                 
-            </Col>
-            <Col xs={6} md={3}>
-                <People/>
-            </Col>
+            </Row>
 
             
-        </Row>
-
+        );
         
-    );
-     
-   }
-   else {
-    return( <div><LoadingSpinner/></div>)
-   }
+    }
+   
     
   }
 }
@@ -213,7 +242,8 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => { 
     return { 
        postStatus: (Post) => (dispatch(postStatus(Post))),
-       CommentToPost: (comment, post) => (dispatch(CommentToPost(comment, post)))
+       CommentToPost: (comment, post) => (dispatch(CommentToPost(comment, post))),
+       followFriend: (friend,authUser) => (dispatch(followFriend(friend,authUser))),
     }
 }
 

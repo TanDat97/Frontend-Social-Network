@@ -4,8 +4,7 @@ import 'firebase/firebase-auth'
 import 'firebase/firebase-database'
 import 'firebase/firebase-storage'
 
-var config = {
-  
+ var config = {
     apiKey: "AIzaSyCNn-6ZIpbpYwwcorr_TnxgLaktmuFzBek",
     authDomain: "blockchain-3752f.firebaseapp.com",
     databaseURL: "https://blockchain-3752f.firebaseio.com",

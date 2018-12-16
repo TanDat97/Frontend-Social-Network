@@ -17,7 +17,19 @@ const authReducer = (state = initState, action) => {
                 authError: null,
                 
             }
-
+        case "SIGUP_ERROR" : 
+            console.log("SIGUP_ERROR")
+            return {
+                ...state,
+                authError: "Signup Failed"
+            }
+        case "SIGNUP_SUCCESS":
+        console.log("SIGNUP_SUCCESS")
+            return { 
+                ...state,
+                authError: null,
+                
+            }
         case AT.LOGIN_GOOGLE_ERROR : 
             return {
                 ...state,
