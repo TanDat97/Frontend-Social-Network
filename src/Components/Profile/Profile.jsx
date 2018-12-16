@@ -89,7 +89,7 @@ class HomePage extends Component {
                                     {getPost.map ( each => {
                                         return (
                                             <div> 
-                                                <Post getPost = {each}/>
+                                                <Post post = {each} authUser = {this.props.auth}/>
                                                 <br/>
                                             </div>
                                         )

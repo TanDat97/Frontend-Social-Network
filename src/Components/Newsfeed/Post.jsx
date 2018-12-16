@@ -34,11 +34,12 @@ const Post = ( {post,authUser, followFriend}) => {
                                     <h6>{moment(post.postedTime).calendar()}</h6>
                                 </Col>
 
-                                {authUser.uid? 
+                                {(authUser.uid === friend.uid)? 
+                                null:
                                 <Col xs = {6} md = {3}>
                                 <button onClick = {() => followFriend(friend, authUser)}>Follow</button>
                                 </Col>
-                                :null}
+                                }
 
                             </Row>
                         </Media.Heading>
