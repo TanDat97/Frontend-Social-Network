@@ -16,8 +16,8 @@ export const Fetch_Following_Error = "Fetch_Following_Error"
 export const Post_Status_Success = "Post_Status_Success"
 export const Post_Status_Error = "Post_Status_Error"
 
-export const Follow = "Follow"
-export const unFollow = "unFollow"
+export const Follow_Friend_Success = "Follow_Friend_Success"
+export const Follow_Friend_Error = "Follow_Friend_Error"
 //
 export const Comment_Status_Success = "Comment_Status_Success"
 export const Comment_Status_Error = "Comment_Status_Error"

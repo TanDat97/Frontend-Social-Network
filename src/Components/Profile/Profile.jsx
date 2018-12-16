@@ -7,11 +7,45 @@ import TopHomePage from './TopProfile/TopHomePage'
 import AboutProfile from "./About/AboutProfile"
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+
 import LoadingSpinner from "../../Plugin/LoadingSpinner"
 //Connect redux
 import { connect } from 'react-redux';
-
+import axios from "axios"
 class HomePage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            amount: 0,
+            isLoading: false,
+          };
+    }
+
+    componentDidMount(){ 
+        var pathName = this.props.history.location.pathname;
+        var public_key = pathName.split("/");
+        public_key = public_key[2]
+        console.log(public_key);
+        
+        
+        var getAmmount = "/account/calculate_amount/"
+        axios.post(getAmmount, {
+            public_key: "GCXEQNLGRDKEPUPLCZRGXYKAUQSI4Y56OHJPM4N35ZYZGH4LXMVUK5SD", // Truyen publickey tu params
+          })
+          .then((response) => {
+            var data = response.data;
+            this.setState({
+                isLoading: false,
+                amount: data.amount
+              });    
+          })
+          .catch( (error) => {
+            console.log(error);
+          });
+
+          console.log(); 
+    }
+    
     
   render() {
 
@@ -19,7 +53,7 @@ class HomePage extends Component {
     if(this.props.fireStore.Post && userLog){
         var getPost = this.props.fireStore.Post
         return (
-            <div>
+            <div className = "animate-post">
                 
                 <div >
                 <Row>
@@ -46,7 +80,7 @@ class HomePage extends Component {
                                     {getPost.map ( each => {
                                         return (
                                             <div> 
-                                                <Post getPost = {each}/>
+                                                <Post post = {each} authUser = {this.props.auth}/>
                                                 <br/>
                                             </div>
                                         )
@@ -74,12 +108,12 @@ class HomePage extends Component {
   else {
       return (
          <div><LoadingSpinner/></div>
+          
       )
   }
     
   }
 }
-
 
 
 const  mapStateToProps = (state) => {

@@ -24,7 +24,7 @@ const initState = {
     ],
 }
 
-const followerReducer = (state = initState, action) => { 
+const followReducer = (state = initState, action) => { 
     switch( action.type ) { 
         case AT.Follow_Friend_Success:
             console.log(AT.Follow_Friend_Success);
@@ -37,5 +37,5 @@ const followerReducer = (state = initState, action) => {
     
 }
 
-export default followerReducer
+export default followReducer
 

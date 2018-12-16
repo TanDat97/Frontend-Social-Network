@@ -5,6 +5,8 @@ import Avatar from 'react-avatar';
 import moment from 'moment';
 import Comments from "./Comments"
 import { isEmpty } from 'react-redux-firebase';
+import { followFriend } from '../../Store/Actions/followerActions';
+
 
 const avatarUser = {
     height: "40px",
@@ -12,46 +14,37 @@ const avatarUser = {
     borderRadius: "50%"
 }
 
-const Post = ( {getPost}) => {
-    console.log(getPost.comments)
+const Post = ( {post,authUser, followFriend}) => {
     
+    console.log(post);
+    
+    var friend = post.userPost;
     
     
     return (
                 <Media>
                     <Media.Body>
                         <Media.Heading>
-                        {/* <ul className="list-inline">
-                            <li className="list-inline-item">
-                                <a href="#fake">
-                               < Avatar src ={getPost.userPost.photoURL} size = {40} round = {true}/>
-                                </a>        
-                            </li>
-                                
-                            <li className="list-inline-item">
-                                <blockquote className="blockquote">
-                                    <a href = "#posterProfile"><h5 className="">{getPost.userPost.displayName}</h5></a>   
-                                    <footer><h6>{getPost.postTime}</h6></footer>
-                                </blockquote>
-                            </li>
-                        </ul> */}
                             <Row>
                                 <Col xs = {6} md = {1}>
-                                    < Avatar src ={getPost.userPost.photoURL} size = {40} round = {true}/>
+                                    < Avatar src ={post.userPost.photoURL} size = {40} round = {true}/>
                                 </Col>
                                 <Col xs = {6} md = {8}>
-                                    <h5>{getPost.userPost.displayName}</h5>
-                                    <h6>{moment(getPost.postedTime).calendar()}</h6>
+                                    <h5>{post.userPost.displayName}</h5>
+                                    <h6>{moment(post.postedTime).calendar()}</h6>
                                 </Col>
 
+                                {(authUser.uid === friend.uid)? 
+                                null:
                                 <Col xs = {6} md = {3}>
-                                    <h5>Follow</h5>
+                                <button onClick = {() => followFriend(friend, authUser)}>Follow</button>
                                 </Col>
+                                }
 
                             </Row>
                         </Media.Heading>
 
-                        <p>{getPost.text}</p>
+                        <p>{post.text}</p>
                         <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
                             <li className = "nav-item">
@@ -71,8 +64,8 @@ const Post = ( {getPost}) => {
                         
                         {   
 
-                            getPost.comments?
-                            getPost.comments.map(each =>{
+                            post.comments?
+                            post.comments.map(each =>{
                                 console.log(each);
                                 
                                 return (
