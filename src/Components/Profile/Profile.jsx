@@ -17,7 +17,7 @@ class HomePage extends Component {
         super(props);
         this.state = {
             amount: 0,
-            isLoading: false,
+            isLoading: true,
           };
     }
 
@@ -42,15 +42,23 @@ class HomePage extends Component {
           .catch( (error) => {
             console.log(error);
           });
-
-          console.log(); 
     }
     
     
   render() {
 
     var userLog = this.props.auth
-    if(this.props.fireStore.Post && userLog){
+    var post = this.props.fireStore.Post
+    if(this.props.fireStore.Post && userLog && this.state.isLoading){
+        this.setState({
+            isLoading: false,
+        })
+    }
+
+    if ( this.state.isLoading ) {
+       return (<div><LoadingSpinner/></div>)
+    }
+    else {
         var getPost = this.props.fireStore.Post
         return (
             <div className = "animate-post">
@@ -105,12 +113,6 @@ class HomePage extends Component {
             </div>
         );
     }
-  else {
-      return (
-         <div><LoadingSpinner/></div>
-          
-      )
-  }
     
   }
 }

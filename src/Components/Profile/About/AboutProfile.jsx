@@ -15,9 +15,7 @@ class AboutProfile extends Component{
             gender: "",
             phoneNumber:"",
             publicKey: "",
-            
-            
-            
+            // authUser: null,
         }
     }
     componentDidMount(){
@@ -29,6 +27,7 @@ class AboutProfile extends Component{
             if(each.email == auth.email)
             {
                 userLog = each
+                // this.state.authUser = each
             }
         })
      
@@ -100,10 +99,7 @@ class AboutProfile extends Component{
                 userLog = each
             }
         })
-        if(userLog)
-        {
-            console.log(userLog)
-        }
+       
 
         return (
 
