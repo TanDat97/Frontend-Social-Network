@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {DropdownButton,Form,FormGroup,Col,Button,ControlLabel,FormControl,ButtonToolbar,Dropdown,Glyphicon,MenuItem} from 'react-bootstrap'
-import firebase from '../../../Config/firebaseConfig'
+
 import {updateAuthProfile} from '../../../Store/Actions/authActions'
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';

@@ -63,17 +63,13 @@ class LeftHomePage extends Component{
                                 <div className="pull-left">
                                     <h3 className="panel-title">Contact</h3>
                                 </div>
-                                <div className="pull-right">
-                                    <a href="#" className="btn btn-sm btn-success"><i className="fa fa-facebook"></i></a>
-                                    <a href="#" className="btn btn-sm btn-success"><i className="fa fa-twitter"></i></a>
-                                    <a href="#" className="btn btn-sm btn-success"><i className="fa fa-google-plus"></i></a>
-                                </div>
+                              
                                 <div className="clearfix"></div>
                             </div>
                             <div className="panel-body no-padding rounded">
                                 <ul className="list-group no-margin">
-                                    <li className="list-group-item text-truncate" ><i className="fa fa-envelope mr-5"></i> {userLog.email}</li>
-                                    <li className="list-group-item"><i className="fa fa-globe mr-5"></i> www.bootdey.com</li>
+                                    <li className="list-group-item text-truncate" ><i className="fa fa-envelope mr-2"></i>{userLog.email}</li>
+                                    <li className="list-group-item"><i className="fa fa-globe mr-2"></i>www.bootdey.com</li>
                                     
                                 </ul>
                             </div>

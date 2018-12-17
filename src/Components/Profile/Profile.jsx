@@ -82,22 +82,33 @@ class HomePage extends Component {
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
                     <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            
+                            <Row>
+                            <Col xs={6} md={8}>
+
+                            <div className ="card bg-white">
+                                <div className = "card-body">
                     
-                        <Row>
-                                <Col xs={6} md={8}>
-                                    {getPost.map ( each => {
-                                        return (
-                                            <div> 
-                                                <Post post = {each} authUser = {this.props.auth}/>
-                                                <br/>
-                                            </div>
-                                        )
-                                        })}
-                                </Col>
-                                <Col xs= {6} md = {4}>
-                                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                            <div className = "card-text">
+                                {getPost.map ( each => {
+                                    return (
+                                        <div> 
+                                            <Post post = {each} authUser = {this.props.auth}/>
+                                            <br/>
+                                        </div>
+                                    )
+                                    })}
+                                </div>
+                            </div>
+                            </div>  
+                            </Col>
+                            <Col xs= {6} md = {4}>
+                            <Profile Follower = {this.props.follower} Following = {this.props.following}/>
                                 </Col>
                         </Row>
+                                   
+                               
+                        
                     </div>
                     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     
