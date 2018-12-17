@@ -40,28 +40,27 @@ const LeftHomePage = ({userProfile})=> {
                                 </ul>
                             </div>
                         </div>
+                        
+                        
                     </div>
 
-                    <div className="panel panel-theme rounded shadow">
-                        <div className="panel-heading">
-                            <div className="pull-left">
-                                <h3 className="panel-title">Contact</h3>
+                    <div className="panel rounded shadow bg-white">
+                            <div className="panel-heading">
+                                <div >
+                                    <h3 className="ml-3">Contact</h3>
+                                </div>
+                              
+                                <div className="clearfix"></div>
                             </div>
-                            <div className="pull-right">
-                                <a href="#" className="btn btn-sm btn-success"><i className="fa fa-facebook"></i></a>
-                                <a href="#" className="btn btn-sm btn-success"><i className="fa fa-twitter"></i></a>
-                                <a href="#" className="btn btn-sm btn-success"><i className="fa fa-google-plus"></i></a>
+                            <div className="panel-body no-padding rounded">
+                                <ul className="list-group no-margin">
+                                    <li className="list-group-item text-truncate" ><i className="fa fa-envelope mr-2"></i>{userProfile.email}</li>
+                                    <li className="list-group-item"><i className="fa fa-globe mr-2"></i>www.bootdey.com</li>
+                                    
+                                </ul>
                             </div>
                             <div className="clearfix"></div>
                         </div>
-                        <div className="panel-body no-padding rounded">
-                            <ul className="list-group no-margin">
-                                <li className="list-group-item text-truncate" ><i className="fa fa-envelope mr-5"></i> {userProfile.email}</li>
-                                <li className="list-group-item"><i className="fa fa-globe mr-5"></i> www.bootdey.com</li>
-                                
-                            </ul>
-                        </div>
-                    </div>
 
                 </Col>
     );

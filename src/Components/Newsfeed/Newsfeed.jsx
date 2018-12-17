@@ -173,17 +173,22 @@ class Newfeed extends Component {
                                     </ul>
                                 </Media.Body>
                             </Media>
+                           
                         </div>
                     </div>  
+                   
                     </div>
+                    
                     :null
                     }
-                    <br/>
+                    {this.props.auth.uid?<div><br/></div>:null} 
                     {getPost.map ( (each) => {
                         console.log(each.id);
                         
                         return (
+                          
                         <div className = "animate-post">
+                       
                             <div className = "card" key = {each.id}>        
                                 <div className="card-body"> 
                                     <Post post = {each} authUser = {this.props.auth} followFriend = {this.props.followFriend.bind(this)}/>

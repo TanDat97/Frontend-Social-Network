@@ -18,32 +18,34 @@ const Post = ( {post,authUser, followFriend}) => {
     
     console.log(post);
     
-    var friend = post.userPost;
+    var userPost = post.userPost;
     
     
     return (
+           
                 <Media>
                     <Media.Body>
                         <Media.Heading>
                             <Row>
+                                <div></div>
                                 <Col xs = {6} md = {1}>
-                                    < Avatar src ={post.userPost.photoURL} size = {40} round = {true}/>
+                                    < Avatar src ={post.userPost.photoURL} size = {50} round = {true}/>
                                 </Col>
-                                <Col xs = {6} md = {8}>
-                                    <h5>{post.userPost.displayName}</h5>
-                                    <h6>{moment(post.postedTime).calendar()}</h6>
+                                <Col xs = {6} className = "ml-3" md = {8}>
+                                    <h6>{userPost.displayName}</h6>
+                                    <h6  className = "font-weight-light pb-2">{moment(post.postedTime).calendar()}</h6>
                                 </Col>
-
-                                {(authUser.uid === friend.uid)? 
+                              
+                                {(authUser.uid === userPost.uid)? 
                                 null:
-                                <Col xs = {6} md = {3}>
-                                <button onClick = {() => followFriend(friend, authUser)}>Follow</button>
+                                <Col xs = {6} className = "ml-3">
+                                <button onClick = {() => followFriend(userPost, authUser)}>Follow</button>
                                 </Col>
                                 }
 
                             </Row>
                         </Media.Heading>
-
+                                
                         <p>{post.text}</p>
                         <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
@@ -82,7 +84,7 @@ const Post = ( {post,authUser, followFriend}) => {
                     </Media.Body>
                    
                 </Media>
-           
+         
     );
 };
 
