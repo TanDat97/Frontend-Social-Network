@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux'
-import {signUp,createUser} from '../../../Store/Actions/authActions'
+import {signUp,createUser} from '../../Store/Actions/authActions'
 import {Keypair} from "stellar-base"
 
 class Signup extends Component {

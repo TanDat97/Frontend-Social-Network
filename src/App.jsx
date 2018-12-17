@@ -7,8 +7,8 @@ import Newfeed from './Components/Newsfeed/Newsfeed';
 import HomePage from './Components/Profile/Profile'
 import Following from './Components/Follow/Following/Followings';
 import Follower from './Components/Follow/Follower/Follwers';
-import Signin from './Components/Profile/Auth/Signin'
-import Signup from './Components/Profile/Auth/Signup'
+import Signin from './Components/Auth/Signin'
+import Signup from './Components/Auth/Signup'
 
 import RedirectPage from "./Components/Layout/Redirect/RedirectPage"
 class App extends Component {

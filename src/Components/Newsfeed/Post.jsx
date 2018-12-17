@@ -18,7 +18,7 @@ const Post = ( {post,authUser, followFriend}) => {
     
     console.log(post);
     
-    var friend = post.userPost;
+    var userPost = post.userPost;
     
     
     return (
@@ -32,14 +32,14 @@ const Post = ( {post,authUser, followFriend}) => {
                                     < Avatar src ={post.userPost.photoURL} size = {50} round = {true}/>
                                 </Col>
                                 <Col xs = {6} className = "ml-3" md = {8}>
-                                    <h6>authyiyiyiyiyiyiy</h6>
+                                    <h6>{userPost.displayName}</h6>
                                     <h6  className = "font-weight-light pb-2">{moment(post.postedTime).calendar()}</h6>
                                 </Col>
                               
-                                {(authUser.uid === friend.uid)? 
+                                {(authUser.uid === userPost.uid)? 
                                 null:
                                 <Col xs = {6} className = "ml-3">
-                                <button onClick = {() => followFriend(friend, authUser)}>Follow</button>
+                                <button onClick = {() => followFriend(userPost, authUser)}>Follow</button>
                                 </Col>
                                 }
 

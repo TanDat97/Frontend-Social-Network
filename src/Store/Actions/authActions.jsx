@@ -1,5 +1,5 @@
 import * as AT from "./ActionTypes"
-
+import axios from "axios"
 
 export const signUp = (authUser) => { 
     return (dispatch , getState, {getFirebase, getFirestore}) => { 
@@ -8,7 +8,7 @@ export const signUp = (authUser) => {
         console.log(99992321412);
        
 
-        var user = authUser
+        
         console.log(authUser);
         console.log(21312739);
         
@@ -18,34 +18,40 @@ export const signUp = (authUser) => {
         ).then((response)=>{
 
             const displayName = authUser.firstName + " " + authUser.lastName
-           console.log(displayName);
-           
-            
-           firestore.collection('Profile').doc(user.email).set({                    
-                email: user.email ,
-                password:user.password,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                displayName: displayName,
-                publicKey: user.publicKey,
-                gender: null,
-                phoneNumber: null,
-                follower:[],
-                following:[],
-                friends:[],
+            var createAccountReq = "/create_account/?public_key=" + authUser.publicKey
+
+            axios.post(createAccountReq)
+            .then( response => {
+                console.log("Send create_account REQ Success");
+                
+                firestore.collection('Profile').doc(authUser.email).set({                    
+                    email: authUser.email ,
+                    password:authUser.password,
+                    firstName: authUser.firstName,
+                    lastName: authUser.lastName,
+                    displayName: displayName,
+                    publicKey: authUser.publicKey,
+                    gender: null,
+                    phoneNumber: null,
+                    follower:[],
+                    following:[],
+                    friends:[],
+                })
             })
+            
+           
         })
         .then(() => { 
         dispatch({
-            type: "SIGNUP_SUCCESS"})
+            type: "SIGNUP_SUCCESS"
         })
-
+        })
         .catch((err)=> { 
             console.log(err);
             
             dispatch({ 
                 type: "SIGNUP_ERROR",
-                err:err,
+                error:err,
             })
         })
 
@@ -65,7 +71,7 @@ export const signIn = (credentials) => {
             { 
                 dispatch({ 
                     type: AT.LOGIN_ERROR,
-                    err:err,
+                    error:err,
             })
         })
     }
@@ -85,7 +91,7 @@ export const signInWithGoogle = (credentials) => {
             { 
                 dispatch({ 
                     type: AT.LOGIN_GOOGLE_ERROR,
-                    err: err,
+                    error:err,
             })
         })  
         
@@ -116,13 +122,18 @@ export const updateAuthProfile = (Profile,user) => {
        
         phoneNumber: Profile.phoneNumber,
     }).then( () =>  { 
+        alert("Bạn đã cập nhật thông tin cá nhân")
+        
         dispatch({
             type: AT.Update_Auth_Profile_Success,
         });
+
+        window.location.reload()
     }).catch((err) => {
+        alert(err)
         dispatch({
             type: AT.Update_Auth_Profile_Error,
-            err: err,
+            error:err,
         });
     })
     }
@@ -153,7 +164,7 @@ export const createUser = (user) => {
             }).catch((err) => {
                 dispatch({
                     type: "CREATE_USER_ERROR",
-                    err: err,
+                    error:err,
                 });
             })
         }
