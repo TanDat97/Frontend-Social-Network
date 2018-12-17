@@ -65,9 +65,6 @@ class AboutProfile extends Component{
     }
 
     handleSubmit = (e) =>  {
-        
-      
-        alert("Bạn đã cập nhật thông tin cá nhân")
         e.preventDefault();
      
         var auth = this.props.auth // auth firebase
@@ -83,9 +80,6 @@ class AboutProfile extends Component{
             this.props.updateAuthProfile(Profile, auth)
         
          }
-        
- 
-        
     }
     
     render(){
@@ -150,7 +144,7 @@ class AboutProfile extends Component{
                         Email
                         </Col>
                         <Col sm={10}>
-                        <input className = "form-control" type="email" value = {this.state.email} id = "email" onChange = {this.handleChange.bind(this)}/>
+                        <input className = "form-control" type="email" value = {this.state.email} id = "email" onChange = {this.handleChange.bind(this)} disabled/>
                         </Col>
                     </FormGroup>
 

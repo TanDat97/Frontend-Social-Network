@@ -17,47 +17,83 @@ class HomePage extends Component {
         super(props);
         this.state = {
             amount: 0,
-            isLoading: false,
+            isLoading: true,
+            userProfile: null,
+            paramPublicKey:null,
           };
+
+          this.getAmountAccountFromServer.bind(this)
     }
 
-    componentDidMount(){ 
+   
+
+    componentWillMount() { 
         var pathName = this.props.history.location.pathname;
+        
         var public_key = pathName.split("/");
         public_key = public_key[2]
-        console.log(public_key);
-        
-        
-        var getAmmount = "/account/calculate_amount/"
-        axios.post(getAmmount, {
-            public_key: "GCXEQNLGRDKEPUPLCZRGXYKAUQSI4Y56OHJPM4N35ZYZGH4LXMVUK5SD", // Truyen publickey tu params
-          })
-          .then((response) => {
-            var data = response.data;
-            this.setState({
-                isLoading: false,
-                amount: data.amount
-              });    
-          })
-          .catch( (error) => {
-            console.log(error);
-          });
 
-          console.log(); 
+        this.setState({
+            paramPublicKey: public_key,
+        })
     }
+
+    
+   getAmountAccountFromServer (userProfile) { 
+        var getAmount = "/account/calculate_amount/"
+        
+        axios.post(getAmount, {
+            public_key: this.state.paramPublicKey, // Truyen publickey tu params
+        })
+        .then((response) => {
+            var data = response.data;
+            userProfile.amount = data.amount;            
+
+            this.setState({
+                userProfile: userProfile,
+            })
+            
+            console.log(this.state.userProfile);
+            
+        })
+        .catch( (error) => {
+            console.log(error);
+        });
+   } 
     
     
   render() {
+    
+    if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
+        
+        var listProfile = this.props.fireStore.Profile 
+        var userProfile = listProfile.find(each => each.publicKey === this.state.paramPublicKey)
+        console.log(this.state.paramPublicKey);
+        
+        this.getAmountAccountFromServer(userProfile)
 
-    var userLog = this.props.auth
-    if(this.props.fireStore.Post && userLog){
+        this.setState({ 
+            isLoading: false,
+            userProfile: userProfile,
+        })  
+    }
+
+    if  (this.state.isLoading) {
+        return (
+           <div><LoadingSpinner/></div>
+            
+        )
+      }
+    else{
         var getPost = this.props.fireStore.Post
+        console.log(getPost);
+        
         return (
             <div className = "animate-post">
                 
                 <div >
                 <Row>
-                    <LeftHomePage />
+                    <LeftHomePage userProfile = {this.state.userProfile} />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
                     
@@ -105,19 +141,14 @@ class HomePage extends Component {
             </div>
         );
     }
-  else {
-      return (
-         <div><LoadingSpinner/></div>
-          
-      )
-  }
+    
     
   }
 }
 
 
 const  mapStateToProps = (state) => {
-    console.log(state.post)
+    console.log(state.firestore.ordere)
     return {
         //post: state.post,
         auth: state.firebase.auth,
@@ -136,8 +167,6 @@ export default compose(
     firestoreConnect((props) => [
         {collection: 'Profile'},
         {collection: 'Post'}
-      
-    ])
-    
+    ]) 
 )(HomePage);
 

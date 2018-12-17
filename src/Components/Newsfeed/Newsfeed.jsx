@@ -22,6 +22,8 @@ import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
 import Avatar from 'react-avatar';
 
 import LoadingSpinner from "../../Plugin/LoadingSpinner"
+import {NavLink} from "react-router-dom"
+import * as globalVariable from "../../Global/Variable/GlobalVariable"
 
 const avatarUser = {
     height: "50px",
@@ -36,6 +38,7 @@ class Newfeed extends Component {
         this.state = {
             text: "",
             isLoading: true,
+            authProfile: null,
         }
     }
 
@@ -96,18 +99,25 @@ class Newfeed extends Component {
     
   render() {
     
-    var getPost = this.props.fireStore.Post
-    if(getPost && this.state.isLoading){
-        console.log("loaded");
-        this.setState({
-            isLoading:false,
-        })
+    
+    if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
+        
+        var listProfile = this.props.fireStore.Profile 
+        var authProfile = listProfile.find(each => each.email === this.props.auth.email)
+        console.log(this.state.paramPublicKey);
+
+        this.setState({ 
+            isLoading: false,
+            authProfile: authProfile,
+        })  
     }
+
 
    if(this.state.isLoading){
     return( <div><LoadingSpinner/></div>)
    }
    else {
+       var getPost = this.props.fireStore.Post
        getPost.sort ((a,b) =>{
            if (a.postedTime > b.postedTime)
             return -1;
@@ -115,6 +125,8 @@ class Newfeed extends Component {
             return 1;
         return 0
         });
+
+        var authProfile = this.state.authProfile
 
         return (
             <Row>
@@ -132,7 +144,8 @@ class Newfeed extends Component {
                             <Media>
                                 <Media.Left>
                                     <a className="mr-3" href="/profile">
-                                    <Avatar src ={this.props.auth.photoURL} size = {50} round = {true}/>
+                                    <NavLink to = {"/profile/" + authProfile.publicKey}><Avatar src ={globalVariable.default_avatar} size = {50} round = {true}/> </NavLink>
+                                    
                                     </a>
                                 </Media.Left>
                                 <Media.Body >

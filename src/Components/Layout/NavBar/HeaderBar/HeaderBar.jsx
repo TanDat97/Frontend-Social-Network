@@ -7,11 +7,6 @@ import { compose } from 'redux'
 
 
 import LoadingSpinner from "../../../../Plugin/LoadingSpinner"
-const avatarUser = {
-  height: "50px",
-  width: "50px",
-  borderRadius: "50%"
-}
 
 class HeaderBar extends Component {
   constructor(props) {
@@ -37,11 +32,13 @@ class HeaderBar extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav mr-auto "></ul>
+              
               <form className="form-inline my-2 my-lg-0">
-                <input className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+             
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Search..."/>
               
               </form>
+              <ul className="navbar-nav mr-auto "></ul>
               {links}
             </div>
         
