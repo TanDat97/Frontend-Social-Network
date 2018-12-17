@@ -11,6 +11,7 @@ import Signin from './Components/Auth/Signin'
 import Signup from './Components/Auth/Signup'
 
 import RedirectPage from "./Components/Layout/Redirect/RedirectPage"
+import Payment from "./Components/Payment/Payment"
 class App extends Component {
   render() {
     return (
@@ -27,6 +28,7 @@ class App extends Component {
                   <Route  path = "/profile" component ={HomePage}/>
                   <Route exact path = "/signin" component = {Signin}/>
 
+                  <Route path = "/payment" component = {Payment}/>
                   <Route exact path = "/redirect" component = {RedirectPage}/>
 
                   <Route path = "/signup" component = {Signup}/>
@@ -36,7 +38,6 @@ class App extends Component {
                 </div>
               </div>
           </BrowserRouter>
-      
     );
   }
 }
