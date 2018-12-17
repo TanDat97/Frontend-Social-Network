@@ -18,7 +18,7 @@ export const CommentToPost = (comment,post) => {
         }).catch((err) => {
             dispatch({
                 type: AT.Comment_Status_Error,
-                err: err,
+                error:err,
             });
         })
 

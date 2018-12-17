@@ -1,5 +1,5 @@
 import * as AT from "./ActionTypes"
-
+import axios from "axios"
 export const fetchPost = () => { 
 	return  (dispatch) => { 
         dispatch({
@@ -15,19 +15,19 @@ export const postStatus = (post) => {
         
         firestore.collection("Post").doc().set({
             ...post,
-         }).then( () =>  { 
+         }).then( () =>  {
+            
+            // axios.post()
+            
              dispatch({
                  type: AT.Post_Status_Success,
              });
          }).catch((err) => {
              dispatch({
                  type: AT.Post_Status_Error,
-                 err: err,
+                 error:err,
              });
          })
-         
-       
-         console.log(post.id)
         } 
        
 }

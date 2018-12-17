@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {signIn, signInWithGoogle} from  '../../../Store/Actions/authActions'
+import {signIn, signInWithGoogle} from  '../../Store/Actions/authActions'
 import {Row, Col} from "react-bootstrap"
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
