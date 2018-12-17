@@ -15,7 +15,8 @@ class AboutProfile extends Component{
             gender: "",
             phoneNumber:"",
             publicKey: "",
-            // authUser: null,
+            avatar: "",
+            authUser:[],
         }
     }
     componentDidMount(){
@@ -27,7 +28,7 @@ class AboutProfile extends Component{
             if(each.email == auth.email)
             {
                 userLog = each
-                // this.state.authUser = each
+             
             }
         })
      
@@ -36,29 +37,51 @@ class AboutProfile extends Component{
                  email: userLog.email,
                  gender: userLog.gender,
                  phoneNumber: userLog.phoneNumber,
+                 avatar: userLog.avatar,
+                 authUser: userLog,
              });
         
      
      
     }
-    
+    handleChangeImage =  (e) => {
+        console.log("Uploading");
+        document.getElementById("upload_status").innerText = "Loading..."
+        var reader = new FileReader();
+        var file = e.target.files[0];
+        if(file)
+        {
+            reader.readAsDataURL(file);   
+            reader.onload = (upload) =>{
+                this.setState({
+                    avatar: upload.target.result
+                });
+            };
+            
+        setTimeout(() =>  {
+            console.log(this.state.avatar);
+            document.getElementById("upload_status").innerText = ""
+            alert("Upload thành công")
+            
+          }, 1000);
+        }
+        else {
+            this.setState({
+                avatar: this.state.avatar
+            })
+            document.getElementById("upload_status").innerText = ""
+        }
+       
+    }
+
     handleChange = (e) =>  {
      
-        var listProfile = this.props.fireStore.Profile
-        var auth = this.props.auth
-        var userLog
-        if ( listProfile && auth) {
-            listProfile.map(each=>{
-                if(each.email == auth.email)
-                {
-                    userLog = each
-                }
-            })
+   
             this.setState({
           
                 [e.target.id]: e.target.value,
             })
-         }
+         
          
         
     }
@@ -75,6 +98,7 @@ class AboutProfile extends Component{
                email: this.state.email,
                gender: this.state.gender,
                phoneNumber: this.state.phoneNumber,
+               avatar: this.state.avatar,
             }
             this.props.updateAuthProfile(Profile, auth)
         
@@ -82,19 +106,8 @@ class AboutProfile extends Component{
     }
     
     render(){
-
-        var listProfile = this.props.fireStore.Profile
-        var auth = this.props.auth
-        console.log(auth)
-        var userLog
-        listProfile.map(each=>{
-            if(each.email == auth.email)
-            {
-                userLog = each
-            }
-        })
+            console.log(this.state.authUser)
        
-
         return (
 
             <div className = "card">    
@@ -120,12 +133,12 @@ class AboutProfile extends Component{
 
                     <FormGroup controlId="formHorizontalText">
                 
-                <Col componentClass={ControlLabel} sm={2}>
+                <Col componentClass={ControlLabel} md={2}>
                     Gender
                         </Col>
                    <Col sm = {2}>
                    <div>
-                        <select id="gender" onChange={this.handleChange.bind(this)} value={this.state.gender}>
+                        <select id="gender" onChange={this.handleChange.bind(this)}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                            
@@ -136,7 +149,7 @@ class AboutProfile extends Component{
                         </Col>
                     </FormGroup> 
                     <FormGroup controlId="formHorizontalEmail">
-                        <Col componentClass={ControlLabel} sm={2}>
+                        <Col componentClass={ControlLabel} md={2}>
                         Email
                         </Col>
                         <Col sm={10}>
@@ -145,20 +158,33 @@ class AboutProfile extends Component{
                     </FormGroup>
 
                     <FormGroup controlId="formHorizontalNumber">
-                        <Col componentClass={ControlLabel} sm={2}>
+                        <Col componentClass={ControlLabel} md={2}>
                         Phone
                         </Col>
                         <Col sm={10}>
                         <input className = "form-control" type="text" value = {this.state.phoneNumber} id = "phoneNumber" onChange = {this.handleChange.bind(this)}/>
                         </Col>
                     </FormGroup>
-                    
+                   
+                    <FormGroup>
+                        <Col smOffset={2} sm={10}>
+                        <input ref="file" type="file" name="file" 
+                              className="upload-file" 
+                              id="file"
+                              onChange={this.handleChangeImage}
+                              encType="multipart/form-data" 
+                              />                       
+                         <label id = "upload_status"></label>
+                        </Col>
+                    </FormGroup>
                     <FormGroup>
                         <Col smOffset={2} sm={10}>
                         <input type="submit" className= "float-right btn btn-primary" value = "Submit" />
                         </Col>
                     </FormGroup>
                     </Form> 
+               
+                      
                     </div>
                     <br/>
             </div> 

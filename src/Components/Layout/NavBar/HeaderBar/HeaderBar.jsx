@@ -35,7 +35,7 @@ class HeaderBar extends Component {
               
               <form className="form-inline my-2 my-lg-0">
              
-                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Search..."/>
+                <input type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Search..."/>
               
               </form>
               <ul className="navbar-nav mr-auto "></ul>

@@ -67,7 +67,7 @@ class Newfeed extends Component {
     handleComments(e,eachPost){
         var comment =  {
             text: document.getElementById(eachPost.id).value,
-            userComment: this.props.auth,
+            userComment: this.state.authProfile,
         }; 
         
         this.props.CommentToPost(comment,eachPost)
@@ -80,7 +80,7 @@ class Newfeed extends Component {
         var postedTime = new Date();
 
         var post =  {
-            userPost: this.props.auth,
+            userPost: this.state.authProfile,
             postedTime: postedTime.getTime(),
             text: this.state.text,
             comments:[],
@@ -143,15 +143,15 @@ class Newfeed extends Component {
                         <div className = "card-text">
                             <Media>
                                 <Media.Left>
-                                    <a className="mr-3" href="/profile">
-                                    <NavLink to = {"/profile/" + authProfile.publicKey}><Avatar src ={globalVariable.default_avatar} size = {50} round = {true}/> </NavLink>
+                                <a className="mr-3" href="/profile">
+                                    <NavLink to = {"/profile/" + authProfile.publicKey}><Avatar src ={authProfile.avatar? authProfile.avatar: globalVariable.default_avatar} size = {40} round = {true}/> </NavLink>
                                     
-                                    </a>
+                                </a>
                                 </Media.Left>
-                                <Media.Body >
+                                <Media.Body className = "ml-3" >
                                     <Form onSubmit = {this.handleSubmit}>
                                     <FormGroup controlId="formControlsTextarea" >
-                                        <input className = "form-control" componentClass="textarea" id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
+                                        <input className = "form-control"  id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
                                     </FormGroup>
                                     <Button type="submit" className ="float-right">Post</Button>
                                     </Form>
@@ -182,14 +182,14 @@ class Newfeed extends Component {
                     :null
                     }
                     {this.props.auth.uid?<div><br/></div>:null} 
-                    {getPost.map ( (each) => {
+                    {getPost.map ( (each,index) => {
                         console.log(each.id);
                         
                         return (
-                          
-                        <div className = "animate-post">
                        
-                            <div className = "card" key = {each.id}>        
+                        <div className = "animate-post" key = {index}>
+                       
+                            <div className = "card" >        
                                 <div className="card-body"> 
                                     <Post post = {each} authUser = {this.props.auth} followFriend = {this.props.followFriend.bind(this)}/>
                                 
@@ -223,6 +223,7 @@ class Newfeed extends Component {
                             </div>
                             <br/>
                         </div>
+                      
                         )
                     })}
 

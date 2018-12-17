@@ -67,11 +67,11 @@ const Post = ( {post,authUser, followFriend}) => {
                         {   
 
                             post.comments?
-                            post.comments.map(each =>{
+                            post.comments.map((each,index) =>{
                                 console.log(each);
                                 
                                 return (
-                                    <div>
+                                    <div key = {index}>
                                     <Comments comments = {each}/> 
                                     <div className="dropdown-divider"></div>
                                     </div>

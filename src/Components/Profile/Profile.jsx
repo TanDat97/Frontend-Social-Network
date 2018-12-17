@@ -118,10 +118,10 @@ class HomePage extends Component {
                                 <div className = "card-body">
                     
                             <div className = "card-text">
-                                {getPost.map ( each => {
+                                {getPost.map ( (each,index) => {
                                     return (
-                                        <div> 
-                                            <Post post = {each} authUser = {this.props.auth}/>
+                                        <div key = {index}> 
+                                            <Post post = {each} authUser = {this.props.userProfile}/>
                                             <br/>
                                         </div>
                                     )
