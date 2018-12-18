@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FollowerBar = ( {Follower}) => {
+const FollowerBar = ( {follower}) => {
     return (
         <div className ="card">
         <div className = "card-body">
@@ -8,9 +8,9 @@ const FollowerBar = ( {Follower}) => {
             <div className = "card-text">
                 <ul className="list-unstyled"> 
                     {
-                        Follower.Follower_List.map((each,index) => { 
+                        follower.map((each,index) => { 
                             return (
-                                <li key = {index}><a href = "#follower" >#{each.name}</a></li>
+                                <li key = {index}><a href = "#follower" >#{each}</a></li>
                             )
                         })
                     }

@@ -39,7 +39,7 @@ class Newfeed extends Component {
         this.state = {
             text: "",
             isLoading: true,
-            authProfile: null,
+            authProfile: {},
         }
     }
 
@@ -90,9 +90,6 @@ class Newfeed extends Component {
             like: [
             ],
         }
-
-      
-        console.log(this.state.text);
         
         this.props.postStatus(post)
         this.state.text = " "
@@ -100,46 +97,46 @@ class Newfeed extends Component {
         
     }
 
-
+   
 
     
   render() {
     
-    
-    if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
-        
+    if(this.props.fireStore.Profile && this.props.auth.uid && this.props.fireStore.Post && this.state.isLoading){
+            
         var listProfile = this.props.fireStore.Profile 
+
         var authProfile = listProfile.find(each => each.email === this.props.auth.email)
-        console.log(this.state.paramPublicKey);
-        console.log(authProfile)
+
         this.setState({ 
             isLoading: false,
             authProfile: authProfile,
         })  
     }
+   
 
 
    if(this.state.isLoading){
-    return( <div><LoadingSpinner/></div>)
+       
+        return( <div><LoadingSpinner/></div>)
    }
    else {
        var getPost = this.props.fireStore.Post
        getPost.sort ((a,b) =>{
-           if (a.postedTime > b.postedTime)
-            return -1;
-        if (a.postedTime < b.postedTime)
-            return 1;
-        return 0
+            if (a.postedTime > b.postedTime)
+                return -1;
+            if (a.postedTime < b.postedTime)
+                return 1;
+            return 0
         });
 
         var authProfile = this.state.authProfile
-     
-        
+
         return (
             <Row>
             
                 <Col xs= {6} md = {3}>
-                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                    <Profile follower = {authProfile.follower} following = {authProfile.following}/>
                 </Col>
                 
                 <Col xs={6} md={6}>
