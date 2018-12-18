@@ -90,9 +90,6 @@ class Newfeed extends Component {
             like: [
             ],
         }
-
-      
-        console.log(this.state.text);
         
         this.props.postStatus(post)
         this.state.text = " "

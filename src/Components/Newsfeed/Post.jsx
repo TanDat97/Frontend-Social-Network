@@ -37,12 +37,14 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                                     <h6  className = "font-weight-light pb-2">{moment(post.postedTime).calendar()}</h6>
                                 </Col>
                               
-                                {(authUser.email === userPost.email)? 
-                                null:
-                                <Col xs = {6} className = "ml-3">
-                                <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
-                                </Col>
+                                {
+                                    (userPost.following.find( each =>each === authUser.email) || (authUser.email === userPost.email))? 
+                                    null:
+                                    <Col xs = {6} className = "ml-3">
+                                    <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
+                                    </Col>
                                 }
+                              
 
                             </Row>
                         </Media.Heading>
@@ -61,7 +63,7 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                                 <a className = "nav-link" href="/"><i className="fa fa-share-alt"></i></a>
                             </li>
                             <li className = "nav-item">
-                                <a className = "nav-link" onClick={() => this.setState({showModal: true})}  ><i className="fa fa-share "></i></a>
+                                <a className = "nav-link" ><i className="fa fa-share "></i></a>
                             </li>
                         </ul>
                         <div className="dropdown-divider"></div>

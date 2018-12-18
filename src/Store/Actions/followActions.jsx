@@ -9,17 +9,17 @@ export const followFriend = (friend, authUser,post) => {
         var authFollowing = authUser.following
         var friendFollower = friend.follower
      
-            
+        
         
         firestore.collection("Profile").doc(authUser.email).update({
         following: [...authFollowing, friend.email]
-        }).then( () =>  { 
-        
+        }).then(() =>  { 
                 
+                
+
                 dispatch({
                 type: AT.Update_Auth_Profile_Success,
                 });
-        
             
         }).catch((err) => {
                 alert(err)
@@ -33,7 +33,25 @@ export const followFriend = (friend, authUser,post) => {
         firestore.collection("Profile").doc(friend.email).update({
                 follower: [...friendFollower, authUser.email]
                 }).then( () =>  { 
-                
+                        
+                        firestore.collection("Profile").doc(friend.email).get().then(( snapshot ) => {
+                                console.log(snapshot.data());
+                                firestore.collection('Post').doc(post.id.toString()).update({
+                                        userPost: snapshot.data(),
+                                })
+                                .then(() =>  { 
+                                        dispatch({
+                                                type:AT.Like_Status_Success,
+                                        }); 
+                                })
+                                .catch((err) => {
+                                        dispatch({
+                                                type: AT.Like_Status_Error,
+                                                error:err,
+                                        });
+                                })
+                                
+                        }) 
                         
                         dispatch({
                         type: AT.Update_Auth_Profile_Success,
@@ -49,18 +67,7 @@ export const followFriend = (friend, authUser,post) => {
 
               
          
-                firestore.collection('Post').doc(post.id.toString()).update({
-                     
-                    }).then( () =>  { 
-                        dispatch({
-                            type:AT.Like_Status_Success,
-                        }); 
-                    }).catch((err) => {
-                        dispatch({
-                            type: AT.Like_Status_Error,
-                            error:err,
-                        });
-                    })      
+              
        
         }
        
