@@ -11,24 +11,8 @@ export const liketoPost = (post, userLike) =>{
                 isExistuser = each
             }
         })
-      
-        if(isExistuser)
+        if(!isExistuser)
         {
-                firestore.collection('Post').doc(post.id.toString()).update({
-                    like: [...historyLike],
-                }).then( () =>  { 
-                    dispatch({
-                        type:AT.Like_Status_Success,
-                    }); 
-                }).catch((err) => {
-                    dispatch({
-                        type: AT.Like_Status_Error,
-                        error:err,
-                    });
-                })
-                            
-        }
-        else {
             firestore.collection('Post').doc(post.id.toString()).update({
                 like: [...historyLike,userLike.email],
             }).then( () =>  { 

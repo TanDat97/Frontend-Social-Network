@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 
 
 const Profile = (props) => {
-    const Follower = props.Follower;
-    const Following = props.Following;
+    const follower = props.follower;
+    const following = props.following;
+    console.log(follower);
     
-    console.log(Follower.Follower_List)
     return (
         <div>
             <div className ="card" >
@@ -18,22 +18,23 @@ const Profile = (props) => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="/thayTenODay/follower">{Follower.Follower_List.length}</a></Row>
+                                <Row><a href="/thayTenODay/follower">{follower.length}</a></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followings </small></Row>
-                                <Row><a href="/thayTenODay/following">{Following.Following_List.length}</a></Row>
+                                <Row><a href="/thayTenODay/following">{following.length}</a></Row>
                             </h5>
                         </Col>
                     </Row>
                 </div>  
             </div>
             <br/>
-            <FollowerBar Follower = {Follower}/>
+            <FollowerBar follower = {follower}/>
         </div>
     )
+
 }
 
 export default Profile

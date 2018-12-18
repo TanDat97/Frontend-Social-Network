@@ -133,7 +133,7 @@ class HomePage extends Component {
                             </div>  
                             </Col>
                             <Col xs= {6} md = {4}>
-                            <Profile Follower = {this.props.follower} Following = {this.props.following} />
+                            <Profile follower = {userProfile.follower} following = {userProfile.following} />
                                 </Col>
                         </Row>
                                    

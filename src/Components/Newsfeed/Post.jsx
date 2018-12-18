@@ -15,12 +15,7 @@ const avatarUser = {
 }
 
 const Post = ( {post,authUser, followFriend, liketoPost}) => {
-
-
-    
     var userPost = post.userPost;
-
-   var isExistFollowing
 
     return (
            
@@ -38,7 +33,8 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                                 </Col>
                               
                                 {
-                                    (userPost.following.find( each =>each === authUser.email) || (authUser.email === userPost.email))? 
+
+                                    (userPost.follower.find( each =>each === authUser.email) || (authUser.email === userPost.email))? 
                                     null:
                                     <Col xs = {6} className = "ml-3">
                                     <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>

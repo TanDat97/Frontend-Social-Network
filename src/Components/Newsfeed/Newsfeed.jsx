@@ -97,7 +97,7 @@ class Newfeed extends Component {
         
     }
 
-
+   
 
     
   render() {
@@ -123,11 +123,11 @@ class Newfeed extends Component {
    else {
        var getPost = this.props.fireStore.Post
        getPost.sort ((a,b) =>{
-           if (a.postedTime > b.postedTime)
-            return -1;
-        if (a.postedTime < b.postedTime)
-            return 1;
-        return 0
+            if (a.postedTime > b.postedTime)
+                return -1;
+            if (a.postedTime < b.postedTime)
+                return 1;
+            return 0
         });
 
         var authProfile = this.state.authProfile
@@ -136,7 +136,7 @@ class Newfeed extends Component {
             <Row>
             
                 <Col xs= {6} md = {3}>
-                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                    <Profile follower = {authProfile.follower} following = {authProfile.following}/>
                 </Col>
                 
                 <Col xs={6} md={6}>
