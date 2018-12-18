@@ -11,7 +11,6 @@ function findSequenceAvailable (data, public_key) {
     }
     return 1;
 }
-v 
 
 export const  encodePaymentTransaction = (account, address, amount, private_key) => {
     return new Promise((resolve, reject) => {     
