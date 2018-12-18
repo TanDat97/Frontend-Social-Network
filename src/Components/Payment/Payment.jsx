@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import * as HandleTransaction from "../../Function/HandleTransaction"
 
 
 class Payment extends Component {
@@ -38,25 +39,17 @@ class Payment extends Component {
     handleOnSubmit() { 
         const send_public_key =  document.getElementById("pb_send").value;
         const send_private_key = document.getElementById("pr_send").value
-        const receive_public_key = document.getElementById("pb_receive").value
-        
+        const receive_public_key = document.getElementById("pb_receive").value        
         const amount = parseInt(document.getElementById("amount").value)
 
-        var paymentRequest = "/payment/"
-        
-        axios.post(paymentRequest, {
-            send_public_key: send_public_key, 
-            send_private_key: send_private_key, 
-            receive_public_key: receive_public_key, 
-            amount: amount,
+        HandleTransaction
+        .encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key)
+        .then((response)=>{
+            alert(response);
         })
-        .then((response) => {
-            var message = response.message;
-            alert("Chuyển thành công!!")
+        .catch((err) => {
+           alert(err);
         })
-        .catch( (error) => {
-            alert(error)
-        });
     }
 
     enableSubmitButton() { 
@@ -101,7 +94,7 @@ class Payment extends Component {
                     </div>
 
                      <br/>
-                        <button type="submit" id = "submit" onClick= {this.handleOnSubmit.bind(this)} className="btn btn-primary blue" disabled = {this.state.isSubmitButtonEnable} >Confirm</button>
+                        <button type="button" id = "submit" onClick= {this.handleOnSubmit.bind(this)} className="btn btn-primary blue" disabled = {this.state.isSubmitButtonEnable} >Confirm</button>
                     
                 </form>
                 <br/>
