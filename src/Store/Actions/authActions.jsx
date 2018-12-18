@@ -33,6 +33,7 @@ export const signUp = (authUser) => {
                     publicKey: authUser.publicKey,
                     gender: null,
                     phoneNumber: null,
+                    avatar: null,
                     follower:[],
                     following:[],
                     friends:[],
@@ -119,7 +120,7 @@ export const updateAuthProfile = (Profile,user) => {
    firestore.collection("Profile").doc(user.email).update({
          displayName: Profile.displayName,
          email: Profile.email,
-       
+        avatar: Profile.avatar,
         phoneNumber: Profile.phoneNumber,
     }).then( () =>  { 
         alert("Bạn đã cập nhật thông tin cá nhân")

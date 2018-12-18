@@ -16,6 +16,7 @@ import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
 import {CommentToPost} from '../../Store/Actions/commentsActions'
+import {liketoPost} from '../../Store/Actions/likeActions'
 import {Keypair} from "stellar-base"
 import axios from "axios"
 import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
@@ -57,8 +58,9 @@ class Newfeed extends Component {
           alert(error)
         });
     }
+    handleLike = (e)=>{
 
-    
+    }
     handleChange = (e) =>{
         this.setState({
             [e.target.id]: e.target.value
@@ -67,7 +69,7 @@ class Newfeed extends Component {
     handleComments(e,eachPost){
         var comment =  {
             text: document.getElementById(eachPost.id).value,
-            userComment: this.props.auth,
+            userComment: this.state.authProfile,
         }; 
         
         this.props.CommentToPost(comment,eachPost)
@@ -80,11 +82,13 @@ class Newfeed extends Component {
         var postedTime = new Date();
 
         var post =  {
-            userPost: this.props.auth,
+            userPost: this.state.authProfile,
             postedTime: postedTime.getTime(),
             text: this.state.text,
             comments:[],
             images:[],
+            like: [
+            ],
         }
 
       
@@ -95,19 +99,17 @@ class Newfeed extends Component {
         this.props.history.replace('/')
         
     }
+
+
+
     
   render() {
     
     if(this.props.fireStore.Profile && this.props.auth.uid && this.props.fireStore.Post && this.state.isLoading){
             
         var listProfile = this.props.fireStore.Profile 
-        console.log(listProfile);
-        console.log(this.props.auth);
-        
-        
 
         var authProfile = listProfile.find(each => each.email === this.props.auth.email)
-        
 
         this.setState({ 
             isLoading: false,
@@ -132,8 +134,7 @@ class Newfeed extends Component {
         });
 
         var authProfile = this.state.authProfile
-        console.log(authProfile);
-        
+
         return (
             <Row>
             
@@ -149,15 +150,15 @@ class Newfeed extends Component {
                         <div className = "card-text">
                             <Media>
                                 <Media.Left>
-                                    <a className="mr-3" href="/profile">
-                                    <NavLink to = {"/profile/" + authProfile.publicKey}><Avatar src ={globalVariable.default_avatar} size = {50} round = {true}/> </NavLink>
+                                <a className="mr-3" href="/profile">
+                                    <NavLink to = {"/profile/" + authProfile.publicKey}><Avatar src ={authProfile.avatar? authProfile.avatar: globalVariable.default_avatar} size = {40} round = {true}/> </NavLink>
                                     
-                                    </a>
+                                </a>
                                 </Media.Left>
-                                <Media.Body >
+                                <Media.Body className = "ml-3" >
                                     <Form onSubmit = {this.handleSubmit}>
                                     <FormGroup controlId="formControlsTextarea" >
-                                        <input className = "form-control" componentClass="textarea" id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
+                                        <input className = "form-control"  id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
                                     </FormGroup>
                                     <Button type="submit" className ="float-right">Post</Button>
                                     </Form>
@@ -188,16 +189,16 @@ class Newfeed extends Component {
                     :null
                     }
                     {this.props.auth.uid?<div><br/></div>:null} 
-                    {getPost.map ( (each) => {
+                    {getPost.map ( (each,index) => {
                         console.log(each.id);
                         
                         return (
-                          
-                        <div className = "animate-post">
                        
-                            <div className = "card" key = {each.id}>        
+                        <div className = "animate-post" key = {index}>
+                       
+                            <div className = "card" >        
                                 <div className="card-body"> 
-                                    <Post post = {each} authUser = {this.props.auth} followFriend = {this.props.followFriend.bind(this)}/>
+                                    <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/>
                                 
                                 
                                     {this.props.auth.uid?
@@ -229,6 +230,7 @@ class Newfeed extends Component {
                             </div>
                             <br/>
                         </div>
+                      
                         )
                     })}
 
@@ -267,7 +269,8 @@ const mapDispatchToProps = (dispatch) => {
     return { 
        postStatus: (Post) => (dispatch(postStatus(Post))),
        CommentToPost: (comment, post) => (dispatch(CommentToPost(comment, post))),
-       followFriend: (friend,authUser) => (dispatch(followFriend(friend,authUser))),
+       followFriend: (friend,authUser,post) => (dispatch(followFriend(friend,authUser,post))),
+       liketoPost: (post, userLike) => (dispatch(liketoPost(post,userLike)))
     }
 }
 

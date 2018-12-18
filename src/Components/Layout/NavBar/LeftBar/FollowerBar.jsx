@@ -8,9 +8,9 @@ const FollowerBar = ( {Follower}) => {
             <div className = "card-text">
                 <ul className="list-unstyled"> 
                     {
-                        Follower.Follower_List.map(each => { 
+                        Follower.Follower_List.map((each,index) => { 
                             return (
-                                <li><a href = "#follower" >#{each.name}</a></li>
+                                <li key = {index}><a href = "#follower" >#{each.name}</a></li>
                             )
                         })
                     }

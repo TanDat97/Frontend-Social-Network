@@ -30,7 +30,6 @@ class App extends Component {
 
                   <Route path = "/payment" component = {Payment}/>
                   <Route exact path = "/redirect" component = {RedirectPage}/>
-
                   <Route path = "/signup" component = {Signup}/>
                   <Route exact path="/:id/following" component={Following}/>
                   <Route exact path="/:id/follower" component={Follower}/>

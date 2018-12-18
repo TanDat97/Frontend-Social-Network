@@ -23,6 +23,9 @@ export const Comment_Status_Success = "Comment_Status_Success"
 export const Comment_Status_Error = "Comment_Status_Error"
 
 //
+export const Like_Status_Success = "Like_Status_Success"
+export const Like_Status_Error = "Like_Status_Error"
+//
 export const LOGIN_GOOGLE_SUCCESS = 'LOGIN_GOOGLE_SUCCESS'
 export const LOGIN_GOOGLE_ERROR = 'LOGIN_GOOGLE_ERROR'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
