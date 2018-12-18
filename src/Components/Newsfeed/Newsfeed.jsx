@@ -117,7 +117,6 @@ class Newfeed extends Component {
 
 
    if(this.state.isLoading){
-       
         return( <div><LoadingSpinner/></div>)
    }
    else {
@@ -136,7 +135,7 @@ class Newfeed extends Component {
             <Row>
             
                 <Col xs= {6} md = {3}>
-                    <Profile follower = {authProfile.follower} following = {authProfile.following}/>
+                    <Profile Follower = {this.props.follower} Following = {this.props.following}/>
                 </Col>
                 
                 <Col xs={6} md={6}>
