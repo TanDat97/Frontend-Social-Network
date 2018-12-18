@@ -14,13 +14,14 @@ const avatarUser = {
     borderRadius: "50%"
 }
 
-const Post = ( {post,authUser, followFriend}) => {
-    
-    console.log(post);
+const Post = ( {post,authUser, followFriend, liketoPost}) => {
+
+
     
     var userPost = post.userPost;
-    
-    
+
+   var isExistFollowing
+
     return (
            
                 <Media>
@@ -36,10 +37,10 @@ const Post = ( {post,authUser, followFriend}) => {
                                     <h6  className = "font-weight-light pb-2">{moment(post.postedTime).calendar()}</h6>
                                 </Col>
                               
-                                {(authUser.uid === userPost.uid)? 
+                                {(authUser.email === userPost.email)? 
                                 null:
                                 <Col xs = {6} className = "ml-3">
-                                <button onClick = {() => followFriend(userPost, authUser)}>Follow</button>
+                                <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
                                 </Col>
                                 }
 
@@ -49,8 +50,9 @@ const Post = ( {post,authUser, followFriend}) => {
                         <p>{post.text}</p>
                         <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
+                       
                             <li className = "nav-item">
-                                <a className = "nav-link" href="/"><i className="fa fa-thumbs-up"></i></a>
+                                <a className = "nav-link" href="#" onClick ={() => liketoPost(post,authUser)}><i className="fa fa-thumbs-up"> {post.like.length} </i></a>
                             </li>
                             <li className = "nav-item">
                                 <a className = "nav-link" href="/"><i className="fa fa-comment"></i></a>

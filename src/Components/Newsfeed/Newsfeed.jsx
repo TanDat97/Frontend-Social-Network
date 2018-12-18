@@ -16,6 +16,7 @@ import People from "../Layout/NavBar/RightBar/Followings";
 import Post from "./Post";
 
 import {CommentToPost} from '../../Store/Actions/commentsActions'
+import {liketoPost} from '../../Store/Actions/likeActions'
 import {Keypair} from "stellar-base"
 import axios from "axios"
 import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
@@ -57,8 +58,9 @@ class Newfeed extends Component {
           alert(error)
         });
     }
+    handleLike = (e)=>{
 
-    
+    }
     handleChange = (e) =>{
         this.setState({
             [e.target.id]: e.target.value
@@ -85,6 +87,8 @@ class Newfeed extends Component {
             text: this.state.text,
             comments:[],
             images:[],
+            like: [
+            ],
         }
 
       
@@ -96,6 +100,8 @@ class Newfeed extends Component {
         
     }
 
+
+
     
   render() {
     
@@ -105,7 +111,7 @@ class Newfeed extends Component {
         var listProfile = this.props.fireStore.Profile 
         var authProfile = listProfile.find(each => each.email === this.props.auth.email)
         console.log(this.state.paramPublicKey);
-
+        console.log(authProfile)
         this.setState({ 
             isLoading: false,
             authProfile: authProfile,
@@ -127,7 +133,8 @@ class Newfeed extends Component {
         });
 
         var authProfile = this.state.authProfile
-
+     
+        
         return (
             <Row>
             
@@ -191,7 +198,7 @@ class Newfeed extends Component {
                        
                             <div className = "card" >        
                                 <div className="card-body"> 
-                                    <Post post = {each} authUser = {this.props.auth} followFriend = {this.props.followFriend.bind(this)}/>
+                                    <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/>
                                 
                                 
                                     {this.props.auth.uid?
@@ -262,7 +269,8 @@ const mapDispatchToProps = (dispatch) => {
     return { 
        postStatus: (Post) => (dispatch(postStatus(Post))),
        CommentToPost: (comment, post) => (dispatch(CommentToPost(comment, post))),
-       followFriend: (friend,authUser) => (dispatch(followFriend(friend,authUser))),
+       followFriend: (friend,authUser,post) => (dispatch(followFriend(friend,authUser,post))),
+       liketoPost: (post, userLike) => (dispatch(liketoPost(post,userLike)))
     }
 }
 

@@ -87,13 +87,15 @@ class HomePage extends Component {
     else{
         var getPost = this.props.fireStore.Post
         console.log(getPost);
+        var userProfile = this.state.userProfile
+        console.log(userProfile);
         
         return (
             <div className = "animate-post">
                 
                 <div >
                 <Row>
-                    <LeftHomePage userProfile = {this.state.userProfile} />
+                    <LeftHomePage userProfile = {userProfile}  />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
                     
@@ -121,7 +123,7 @@ class HomePage extends Component {
                                 {getPost.map ( (each,index) => {
                                     return (
                                         <div key = {index}> 
-                                            <Post post = {each} authUser = {this.props.userProfile}/>
+                                            <Post post = {each} authUser = {userProfile}/>
                                             <br/>
                                         </div>
                                     )
@@ -131,7 +133,7 @@ class HomePage extends Component {
                             </div>  
                             </Col>
                             <Col xs= {6} md = {4}>
-                            <Profile Follower = {this.props.follower} Following = {this.props.following}/>
+                            <Profile Follower = {this.props.follower} Following = {this.props.following} />
                                 </Col>
                         </Row>
                                    
@@ -159,10 +161,8 @@ class HomePage extends Component {
 const  mapStateToProps = (state) => {
     console.log(state.firestore.ordere)
     return {
-        //post: state.post,
         auth: state.firebase.auth,
         follower: state.follower,
-        //auth: state.auth,
         following: state.following,
         firebase: state.firebase,
         fireStore: state.firestore.ordered,
