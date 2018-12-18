@@ -38,7 +38,7 @@ class Newfeed extends Component {
         this.state = {
             text: "",
             isLoading: true,
-            authProfile: null,
+            authProfile: {},
         }
     }
 
@@ -95,26 +95,31 @@ class Newfeed extends Component {
         this.props.history.replace('/')
         
     }
-
     
   render() {
     
-    
-    if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
-        
+    if(this.props.fireStore.Profile && this.props.auth.uid && this.props.fireStore.Post && this.state.isLoading){
+            
         var listProfile = this.props.fireStore.Profile 
+        console.log(listProfile);
+        console.log(this.props.auth);
+        
+        
+
         var authProfile = listProfile.find(each => each.email === this.props.auth.email)
-        console.log(this.state.paramPublicKey);
+        
 
         this.setState({ 
             isLoading: false,
             authProfile: authProfile,
         })  
     }
+   
 
 
    if(this.state.isLoading){
-    return( <div><LoadingSpinner/></div>)
+       
+        return( <div><LoadingSpinner/></div>)
    }
    else {
        var getPost = this.props.fireStore.Post
@@ -127,7 +132,8 @@ class Newfeed extends Component {
         });
 
         var authProfile = this.state.authProfile
-
+        console.log(authProfile);
+        
         return (
             <Row>
             
