@@ -2,12 +2,15 @@ import React from 'react';
 import {Col, Row } from "react-bootstrap"
 import FollowerBar from "./FollowerBar"
 import { connect } from 'react-redux';
+import {NavLink} from "react-router-dom"
 
+const LeftBar = ({userProfile}) => {
+    console.log(userProfile);
+    const follower = userProfile.follower;
+    const following = userProfile.following;
+    
 
-const Profile = (props) => {
-    const follower = props.follower;
-    const following = props.following;
-    console.log(follower);
+    console.log(userProfile);
     
     return (
         <div>
@@ -18,13 +21,13 @@ const Profile = (props) => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="/thayTenODay/follower">{follower.length}</a></Row>
+                                <Row><NavLink to={"/follower/" + userProfile.publicKey}>{follower.length}</NavLink></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followings </small></Row>
-                                <Row><a href="/thayTenODay/following">{following.length}</a></Row>
+                                <Row><NavLink to={"/following/" + userProfile.publicKey}>{following.length}</NavLink></Row>
                             </h5>
                         </Col>
                     </Row>
@@ -37,4 +40,4 @@ const Profile = (props) => {
 
 }
 
-export default Profile
+export default LeftBar

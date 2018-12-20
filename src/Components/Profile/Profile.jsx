@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Post from '../Newsfeed/Post'
-import Profile from "../Layout/NavBar/LeftBar/Profile"
+import LeftBar from "../Layout/NavBar/LeftBar/LeftBar"
 import {Col, Row,Tab,Tabs} from "react-bootstrap"
 import LeftHomePage from './LeftProfile/LeftHomePage'
 import TopHomePage from './TopProfile/TopHomePage'
@@ -133,7 +133,7 @@ class HomePage extends Component {
                             </div>  
                             </Col>
                             <Col xs= {6} md = {4}>
-                            <Profile follower = {userProfile.follower} following = {userProfile.following} />
+                            <LeftBar userProfile = {userProfile}/>
                                 </Col>
                         </Row>
                                    

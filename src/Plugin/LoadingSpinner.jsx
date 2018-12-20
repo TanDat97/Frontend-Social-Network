@@ -10,6 +10,8 @@ import { ClipLoader } from 'react-spinners';
 //     border-color: red;
 // `;
  
+
+
 const LoadingSpinner = ({size, color}) =>  {
   
   return (
