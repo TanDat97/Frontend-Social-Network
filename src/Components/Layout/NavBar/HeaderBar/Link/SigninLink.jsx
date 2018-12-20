@@ -23,7 +23,7 @@ class SigninLink extends Component {
     render(){
         
         if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
-        
+            console.log(authUser);
             var listProfile = this.props.fireStore.Profile 
             var authUser = listProfile.find(each => each.email === this.props.auth.email)
     
@@ -32,14 +32,14 @@ class SigninLink extends Component {
                 authUser: authUser,
             })  
            
-            console.log(authUser);
+            
         }
         
         if (!this.state.isLoading) {
             var authUser = this.state.authUser
             return (
                 <div>
-                <NavLink to = {"/profile/"+ authUser.publicKey}><Avatar src ={authUser.photoURL? globalVariable.default_avatar : globalVariable.default_avatar} size = {40} round = {true}/></NavLink>
+                <NavLink to = {"/profile/"+ authUser.publicKey}><Avatar src ={authUser.avatar? authUser.avatar : globalVariable.default_avatar} size = {40} round = {true}/></NavLink>
                 
                     <div className="btn-group cover-menu-mobile hidden-lg hidden-md mx-4">
                     <button type="button" className="btn btn-theme btn-sm dropdown-toggle" data-toggle="dropdown">

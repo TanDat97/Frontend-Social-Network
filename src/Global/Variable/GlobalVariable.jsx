@@ -1,1 +1,2 @@
 export const default_avatar = "https://firebasestorage.googleapis.com/v0/b/blockchain-3752f.appspot.com/o/default_avatar.png?alt=media&token=e994b0e9-efd3-414e-95c2-ed34f915c245"
+export const default_cover_picture = "http://colorfully.eu/wp-content/uploads/2012/10/empty-road-highway-with-fog-facebook-cover.jpg"

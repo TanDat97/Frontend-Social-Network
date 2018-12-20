@@ -2,13 +2,16 @@ import React from 'react';
 import {Col, Row } from "react-bootstrap"
 import FollowerBar from "./FollowerBar"
 import { connect } from 'react-redux';
+import {NavLink} from "react-router-dom"
 
-
-const Profile = (props) => {
-    const Follower = props.Follower;
-    const Following = props.Following;
+const LeftBar = ({userProfile}) => {
+    console.log(userProfile);
+    const follower = userProfile.follower;
+    const following = userProfile.following;
     
-    console.log(Follower.Follower_List)
+
+    console.log(userProfile);
+    
     return (
         <div>
             <div className ="card" >
@@ -18,22 +21,23 @@ const Profile = (props) => {
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followers </small></Row>
-                                <Row><a href="/thayTenODay/follower">{Follower.Follower_List.length}</a></Row>
+                                <Row><NavLink to={"/follower/" + userProfile.publicKey}>{follower.length}</NavLink></Row>
                             </h5>
                         </Col>
                         <Col xs={6} md={6}>
                             <h5>
                                 <Row><small>Followings </small></Row>
-                                <Row><a href="/thayTenODay/following">{Following.Following_List.length}</a></Row>
+                                <Row><NavLink to={"/following/" + userProfile.publicKey}>{following.length}</NavLink></Row>
                             </h5>
                         </Col>
                     </Row>
                 </div>  
             </div>
             <br/>
-            <FollowerBar Follower = {Follower}/>
+            <FollowerBar follower = {follower}/>
         </div>
     )
+
 }
 
-export default Profile
+export default LeftBar

@@ -1,13 +1,12 @@
 import React from 'react';
-
-import {FormGroup, FormControl, Button,Form} from "react-bootstrap";
+import {NavLink} from "react-router-dom"
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux'
-import Avatar from 'react-avatar'
+
 const avatarComment = {
-    height: "30px",
-    width: "30px",
+    height: "40px",
+    width: "40px",
     borderRadius: "50%"
 }
 
@@ -25,8 +24,8 @@ const Comments = ({comments}) => {
                 <div className="media-body d-inline">
               
                     <div className = "container">
-                    <a href="#fake"> < Avatar src ={userComment.photoURL} size = {40} round = {true}/> </a> 
-                        <a href = "/"> {userComment.displayName}     </a>  
+                    <NavLink to= { "/profile/" + userComment.publicKey}> < img style = {avatarComment} src ={userComment.avatar} size = {40} round = {true}/> </NavLink> 
+                        <NavLink to = {"/profile/" + userComment.publicKey}> {userComment.displayName}     </NavLink>  
                         {text}
                     </div>
                 </div>
