@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import * as globalVariable from "../../../Global/Variable/GlobalVariable"
 //Connect redux
 import { connect } from 'react-redux';
 
@@ -12,7 +12,7 @@ class TopHomePage extends Component {
                     <div className="cover rounded shadow no-overflow">
                         <div className="inner-cover">
                             
-                            <img  src="https://znews-photo.zadn.vn/Uploaded/neg_yrznslt/2018_12_16/subtit_02.jpg" className="img-responsive full-width" alt="cover" style={{width: 1000, height: 200}}/>
+                            <img  src={globalVariable.default_cover_picture} className="img-responsive full-width" alt="cover" style={{width: 1000, height: 200}}/>
                         </div>
                     </div>
                 </div>

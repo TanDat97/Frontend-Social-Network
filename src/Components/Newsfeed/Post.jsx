@@ -4,8 +4,7 @@ import Avatar from 'react-avatar';
 // Connect Redux
 import moment from 'moment';
 import Comments from "./Comments"
-import { isEmpty } from 'react-redux-firebase';
-import { followFriend } from '../../Store/Actions/followerActions';
+import  {NavLink} from "react-router-dom"
 
 
 const avatarUser = {
@@ -16,7 +15,14 @@ const avatarUser = {
 
 const Post = ( {post,authUser, followFriend, liketoPost}) => {
     var userPost = post.userPost;
+    var likeUser = post.like.find(each => each === authUser.email)
+    var likeIcon = likeUser? 
+                    <i className="fas fa-thumbs-up"> {post.like.length}</i> 
+                    :<i className="far fa-thumbs-up"> {post.like.length}</i>
+    var isExistFollowing = authUser.following.find(each => each.email === userPost.email)
+    console.log(isExistFollowing)
 
+    
     return (
            
                 <Media>
@@ -25,16 +31,21 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                             <Row>
                                 <div></div>
                                 <Col xs = {6} md = {1}>
-                                    < Avatar src ={post.userPost.photoURL} size = {50} round = {true}/>
+                                    <NavLink to = {"/profile/" + userPost.publicKey}>< Avatar src ={userPost.avatar} size = {50} round = {true}/></NavLink>
                                 </Col>
                                 <Col xs = {6} className = "ml-3" md = {8}>
-                                    <h6>{userPost.displayName}</h6>
+                                    <NavLink to = {"/profile/" + userPost.publicKey}><h6>{userPost.displayName}</h6></NavLink>
                                     <h6  className = "font-weight-light pb-2">{moment(post.postedTime).calendar()}</h6>
                                 </Col>
                               
                                 {
 
-                                    (userPost.follower.find( each =>each === authUser.email) || (authUser.email === userPost.email))? 
+                                    // (userPost.follower.find( each =>each.email === authUser.email) || (authUser.email === userPost.email))? 
+                                    // null:
+                                    // <Col xs = {6} className = "ml-3">
+                                    // <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
+                                    // </Col>
+                                    (isExistFollowing|| (authUser.email === userPost.email))? 
                                     null:
                                     <Col xs = {6} className = "ml-3">
                                     <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
@@ -50,7 +61,7 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                         <ul className="nav">
                        
                             <li className = "nav-item">
-                                <a className = "nav-link" href="#" onClick ={() => liketoPost(post,authUser)}><i className="fa fa-thumbs-up"> {post.like.length} </i></a>
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser)}>{likeIcon}</p>
                             </li>
                             <li className = "nav-item">
                                 <a className = "nav-link" href="/"><i className="fa fa-comment"></i></a>

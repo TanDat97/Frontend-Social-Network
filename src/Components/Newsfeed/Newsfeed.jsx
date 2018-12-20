@@ -7,19 +7,19 @@ import {followFriend} from "../../Store/Actions/followActions"
 //Connect redux
 import { connect } from 'react-redux';
 //Plugin
-import InfiniteScrool from "react-infinite-scroller"
-import { compose } from 'redux'
-import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 
-import Profile from "../Layout/NavBar/LeftBar/Profile";
-import People from "../Layout/NavBar/RightBar/Followings";
+import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase';
+
+import LeftBar from "../Layout/NavBar/LeftBar/LeftBar";
+import RightBar from "../Layout/NavBar/RightBar/RightBar";
 import Post from "./Post";
 
 import {CommentToPost} from '../../Store/Actions/commentsActions'
 import {liketoPost} from '../../Store/Actions/likeActions'
 import {Keypair} from "stellar-base"
 import axios from "axios"
-import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
+
 import Avatar from 'react-avatar';
 
 import LoadingSpinner from "../../Plugin/LoadingSpinner"
@@ -58,9 +58,7 @@ class Newfeed extends Component {
           alert(error)
         });
     }
-    handleLike = (e)=>{
-
-    }
+   
     handleChange = (e) =>{
         this.setState({
             [e.target.id]: e.target.value
@@ -92,12 +90,14 @@ class Newfeed extends Component {
         }
         
         this.props.postStatus(post)
-        this.state.text = " "
+        this.setState = ({
+            text : ""
+        })
         this.props.history.replace('/')
         
     }
 
-   
+
 
     
   render() {
@@ -112,17 +112,18 @@ class Newfeed extends Component {
             isLoading: false,
             authProfile: authProfile,
         })  
-    }
-   
-
+    }   
 
    if(this.state.isLoading){
        
         return( <div><LoadingSpinner/></div>)
    }
    else {
+    
+       
        var getPost = this.props.fireStore.Post
-       getPost.sort ((a,b) =>{
+       console.log(getPost);
+       getPost = getPost.slice().sort ((a,b) =>{
             if (a.postedTime > b.postedTime)
                 return -1;
             if (a.postedTime < b.postedTime)
@@ -131,12 +132,13 @@ class Newfeed extends Component {
         });
 
         var authProfile = this.state.authProfile
-
+        console.log(authProfile);
+        
         return (
             <Row>
             
                 <Col xs= {6} md = {3}>
-                    <Profile follower = {authProfile.follower} following = {authProfile.following}/>
+                    <LeftBar userProfile = {authProfile}/>
                 </Col>
                 
                 <Col xs={6} md={6}>
@@ -234,7 +236,7 @@ class Newfeed extends Component {
                     
                 </Col>
                 <Col xs={6} md={3}>
-                    <People/>
+                    <RightBar userProfile = {authProfile}/>
                 </Col>
 
                 

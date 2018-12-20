@@ -27,5 +27,8 @@ export const liketoPost = (post, userLike) =>{
             })
             
         }
+        else{
+            console.log("Đã Like")
+        }
     }
 }

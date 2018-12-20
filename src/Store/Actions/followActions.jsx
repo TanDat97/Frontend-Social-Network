@@ -4,70 +4,63 @@ import * as AT from './ActionTypes';
 export const followFriend = (friend, authUser,post) => { 
 	return (dispatch , getState,{getFirebase,getFirestore}) => { 
         const firestore = getFirestore()
-        console.log(friend);
-        console.log(authUser);
+ 
         var authFollowing = authUser.following
         var friendFollower = friend.follower
-     
-        
-        
-        firestore.collection("Profile").doc(authUser.email).update({
-        following: [...authFollowing, friend.email]
-        }).then(() =>  { 
-                
-                
-
-                dispatch({
-                type: AT.Update_Auth_Profile_Success,
-                });
-            
-        }).catch((err) => {
-                alert(err)
-                dispatch({
-                type: AT.Update_Auth_Profile_Error,
-                error:err,
-                });
+  
+        var isExistFollow 
+        var isExistFollowing
+        friendFollower.map(each =>{
+               if(each.email == authUser.email)
+               {
+                       isExistFollow = each.email
+               }
         })
-
-
-        firestore.collection("Profile").doc(friend.email).update({
-                follower: [...friendFollower, authUser.email]
-                }).then( () =>  { 
-                        
-                        firestore.collection("Profile").doc(friend.email).get().then(( snapshot ) => {
-                                console.log(snapshot.data());
-                                firestore.collection('Post').doc(post.id.toString()).update({
-                                        userPost: snapshot.data(),
-                                })
-                                .then(() =>  { 
-                                        dispatch({
-                                                type:AT.Like_Status_Success,
-                                        }); 
-                                })
-                                .catch((err) => {
-                                        dispatch({
-                                                type: AT.Like_Status_Error,
-                                                error:err,
-                                        });
-                                })
+        authFollowing.map(each =>{
+                if(each.email == friend.email)
+                {
+                        isExistFollowing = each.email
+                }
+         })
+         if(!isExistFollowing){
+                firestore.collection("Profile").doc(authUser.email).update({
+                        following: [...authFollowing, friend]
+                        }).then(() =>  { 
+                                dispatch({
+                                type: AT.Update_Auth_Profile_Success,
+                                });
                                 
-                        }) 
-                        
+                        }).catch((err) => {
+                                alert(err)
+                                dispatch({
+                                type: AT.Update_Auth_Profile_Error,
+                                error:err,
+                                });
+                        })
+         }
+         else{
+                 console.log("email đã tồn tại")
+         }
+        if(!isExistFollow){
+                firestore.collection("Profile").doc(friend.email).update({
+                        follower: [...friendFollower, authUser]
+                        }).then( () =>  { 
                         dispatch({
                         type: AT.Update_Auth_Profile_Success,
                         });
-        
-                }).catch((err) => {
-                        alert(err)
-                        dispatch({
-                        type: AT.Update_Auth_Profile_Error,
-                        error:err,
-                        });
-                })
 
-              
-         
-              
+                        }).catch((err) => {
+                                alert(err)
+                                dispatch({
+                                type: AT.Update_Auth_Profile_Error,
+                                error:err,
+                                });
+                })
+                alert("Bạn đã follow thành công")
+        }
+        else{
+                console.log("Đã tồn tại email")
+        }
        
         }
        
