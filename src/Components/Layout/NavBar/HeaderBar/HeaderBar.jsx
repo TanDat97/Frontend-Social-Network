@@ -5,11 +5,8 @@ import SignoutLink from './Link/SignoutLink'
 import {connect} from 'react-redux'
 import { compose } from 'redux'
 
-const avatarUser = {
-  height: "50px",
-  width: "50px",
-  borderRadius: "50%"
-}
+
+import LoadingSpinner from "../../../../Plugin/LoadingSpinner"
 
 class HeaderBar extends Component {
   constructor(props) {
@@ -35,23 +32,13 @@ class HeaderBar extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item active">
-                
-                  <a className="nav-link" href="/"><i className="fa fa-home fa-1x"></i>Home<span className="sr-only">(current)</span></a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/notification"><i className="fa fa-bell fa-1x"></i>Notification <span className="badge badge-primary ">4</span></a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/message"><i className="fa fa-comments fa-1x"></i>Message <span className="badge badge-primary">4</span></a>
-                  
-                </li>
-              </ul>
+              
               <form className="form-inline my-2 my-lg-0">
-                <input className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+             
+                <input type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Search..."/>
               
               </form>
+              <ul className="navbar-nav mr-auto "></ul>
               {links}
             </div>
         
@@ -62,7 +49,7 @@ class HeaderBar extends Component {
       )
     }
     else{
-      return (<div>Loanding...</div>)
+      return (<div><LoadingSpinner/></div>)
     }
     
   }

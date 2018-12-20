@@ -1,23 +1,32 @@
 import React from 'react';
+import {NavLink} from "react-router-dom"
+import { compose } from 'redux'
+import { isEmpty, firestoreConnect } from 'react-redux-firebase'
+import { connect } from 'react-redux'
 
-import {FormGroup, FormControl, Button,Form} from "react-bootstrap";
 const avatarComment = {
-    height: "30px",
-    width: "30px",
+    height: "40px",
+    width: "40px",
     borderRadius: "50%"
 }
 
-const Comments = (comments) => {
+const Comments = ({comments}) => {
   
- 
+    var userComment = comments.userComment
+    var text = comments.text
+    console.log(userComment);
+    
     return (
        
         <div>
             <div className="media">
-                <a href = ""><img className="mr-3" className = "img-fluid" style ={avatarComment} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"></img></a>
+
                 <div className="media-body d-inline">
+              
                     <div className = "container">
-                        <a href = "/">{comments.comments.Profile[0].id}</a> {comments.comments.text}
+                    <NavLink to= { "/profile/" + userComment.publicKey}> < img style = {avatarComment} src ={userComment.avatar} size = {40} round = {true}/> </NavLink> 
+                        <NavLink to = {"/profile/" + userComment.publicKey}> {userComment.displayName}     </NavLink>  
+                        {text}
                     </div>
                 </div>
             </div>
@@ -26,6 +35,20 @@ const Comments = (comments) => {
         </div>
 
     );
-};
 
-export default Comments;
+};
+const  mapStateToProps = (state) => {
+    //console.log(state.post)
+    return {
+      
+        fireStore: state.firestore.ordered,
+        
+    };
+}
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect((props) => [
+        {collection: 'Profile'},
+        {collection: 'Post'},
+    ])   
+)(Comments);

@@ -1,8 +1,63 @@
 import * as AT from "./ActionTypes"
-import firebase from '../../Config/firebaseConfig'
+import axios from "axios"
 
+export const signUp = (authUser) => { 
+    return (dispatch , getState, {getFirebase, getFirestore}) => { 
+        const firebase = getFirebase() 
+        const firestore = getFirestore()
+        console.log(99992321412);
+       
 
+        
+        console.log(authUser);
+        console.log(21312739);
+        
+        firebase.auth().createUserWithEmailAndPassword(
+            authUser.email,
+            authUser.password,
+        ).then((response)=>{
 
+            const displayName = authUser.firstName + " " + authUser.lastName
+            var createAccountReq = "/create_account/?public_key=" + authUser.publicKey
+
+            axios.post(createAccountReq)
+            .then( response => {
+                console.log("Send create_account REQ Success");
+                
+                firestore.collection('Profile').doc(authUser.email).set({                    
+                    email: authUser.email ,
+                    password:authUser.password,
+                    firstName: authUser.firstName,
+                    lastName: authUser.lastName,
+                    displayName: displayName,
+                    publicKey: authUser.publicKey,
+                    gender: null,
+                    phoneNumber: null,
+                    avatar: null,
+                    follower:[],
+                    following:[],
+                    friends:[],
+                })
+            })
+            
+           
+        })
+        .then(() => { 
+        dispatch({
+            type: "SIGNUP_SUCCESS"
+        })
+        })
+        .catch((err)=> { 
+            console.log(err);
+            
+            dispatch({ 
+                type: "SIGNUP_ERROR",
+                error:err,
+            })
+        })
+
+    }
+}
 export const signIn = (credentials) => { 
     return (dispatch , getState, {getFirebase}) => { 
         const firebase = getFirebase() ;
@@ -17,7 +72,7 @@ export const signIn = (credentials) => {
             { 
                 dispatch({ 
                     type: AT.LOGIN_ERROR,
-                    err:err,
+                    error:err,
             })
         })
     }
@@ -37,7 +92,7 @@ export const signInWithGoogle = (credentials) => {
             { 
                 dispatch({ 
                     type: AT.LOGIN_GOOGLE_ERROR,
-                    err: err,
+                    error:err,
             })
         })  
         
@@ -56,57 +111,67 @@ export const signOut = () => {
     }
 }
 
-
-
-export const fetchAuthProfile = (Profile) => { 
-	return  (dispatch, {getFirestore, getFirebase}) => { 
-        const firestore = getFirestore()
-     
-
-        firestore.collection('Profile').doc('YL5oPZWpoOG9jAhEfHmu').get().then( (Profile) =>  { 
-
-            dispatch({
-                type: AT.Fetch_Auth_Profile_Success,
-            });
-        }).catch((err) => {
-            dispatch({
-                type: AT.Fetch_Auth_Profile_Error,
-                err: err,
-            });
-        })
-    }
-    
-        
-
-}
-
-
-export const updateAuthProfile = (Profile) => { 
+export const updateAuthProfile = (Profile,user) => { 
     return (dispatch , getState,{getFirebase,getFirestore}) => { 
       console.log(Profile)
         const firestore = getFirestore()
-  console.log(getState);
   
-   firestore.collection("Profile").doc("YL5oPZWpoOG9jAhEfHmu").update({
-         ...Profile,
+  console.log(user.uid)
+   firestore.collection("Profile").doc(user.email).update({
+         displayName: Profile.displayName,
+         email: Profile.email,
+        avatar: Profile.avatar,
+        phoneNumber: Profile.phoneNumber,
     }).then( () =>  { 
+        alert("Bạn đã cập nhật thông tin cá nhân")
+        
         dispatch({
             type: AT.Update_Auth_Profile_Success,
         });
+
+        window.location.reload()
     }).catch((err) => {
+        alert(err)
         dispatch({
             type: AT.Update_Auth_Profile_Error,
-            err: err,
+            error:err,
         });
     })
     }
 
-    // const db = firebase.firestore();
+}
 
-    // db.collection("Profile").doc("YL5oPZWpoOG9jAhEfHmu").update({
-    // ...Profile,
-    // });  
+export const createUser = (user) => {   
+    
+        return (dispatch,getState, {getFirebase, getFirestore}) => { 
+            const firestore = getFirestore();
+            const displayName = user.firstName + " " + user.lastName
+            firestore.collection('Profile').doc(user.email).set({                    
+                email: user.email ,
+                password:user.password,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                displayName: displayName,
+                publicKey: user.publicKey,
+                gender: null,
+                phoneNumber: null,
+                follower:[],
+                following:[],
+                friends:[],
+            }).then( () =>  { 
+                dispatch({
+                    type: "CREATE_USER",
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: "CREATE_USER_ERROR",
+                    error:err,
+                });
+            })
+        }
+    }
+
+
 
 
     
-}

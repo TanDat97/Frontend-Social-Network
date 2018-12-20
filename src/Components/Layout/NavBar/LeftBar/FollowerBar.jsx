@@ -1,16 +1,18 @@
 import React from 'react';
 
-const FollowerBar = ( {Follower}) => {
+const FollowerBar = ( {follower}) => {
+    console.log(follower)
     return (
         <div className ="card">
         <div className = "card-body">
-        <a href="/thayTenODay/follower"><h3 className ="card-title text-secondary">Followers</h3> </a>
+        <h3 className ="card-title text-secondary">Followers</h3>
             <div className = "card-text">
                 <ul className="list-unstyled"> 
                     {
-                        Follower.Follower_List.map(each => { 
+
+                        follower.map((each,index) => { 
                             return (
-                                <li><a href = "#follower" >#{each.name}</a></li>
+                                <li key = {index}><a href = {"/profile/" + each.publicKey}  >#{each.displayName}</a></li>
                             )
                         })
                     }

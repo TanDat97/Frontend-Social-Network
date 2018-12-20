@@ -1,114 +1,163 @@
 import React, { Component } from 'react';
 import {Col, Row, FormGroup,Form, FormControl, Button, Media} from "react-bootstrap";
+
+//Action
 import {postStatus} from '../../Store/Actions/postAction'
+import {followFriend} from "../../Store/Actions/followActions"
 //Connect redux
 import { connect } from 'react-redux';
 //Plugin
-import InfiniteScrool from "react-infinite-scroller"
+
 import { compose } from 'redux'
-import { isEmpty, firestoreConnect } from 'react-redux-firebase';
-import Profile from "../Layout/NavBar/LeftBar/Profile";
-import People from "../Layout/NavBar/RightBar/Followings";
+import { firestoreConnect } from 'react-redux-firebase';
+
+import LeftBar from "../Layout/NavBar/LeftBar/LeftBar";
+import RightBar from "../Layout/NavBar/RightBar/RightBar";
 import Post from "./Post";
-import {CommentStatus} from '../../Store/Actions/commentsActions'
-import SigninLink from '../Layout/NavBar/HeaderBar/Link/SigninLink'
+
+import {CommentToPost} from '../../Store/Actions/commentsActions'
+import {liketoPost} from '../../Store/Actions/likeActions'
+import {Keypair} from "stellar-base"
+import axios from "axios"
+
+import Avatar from 'react-avatar';
+
+import LoadingSpinner from "../../Plugin/LoadingSpinner"
+import {NavLink} from "react-router-dom"
+import * as globalVariable from "../../Global/Variable/GlobalVariable"
+
 const avatarUser = {
     height: "50px",
     width: "50px",
     borderRadius: "50%"
 }
 
+
 class Newfeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: [],
-       
-        }        
+            text: "",
+            isLoading: true,
+            authProfile: {},
+        }
     }
+
+    handleOnClick() { 
+        const publicKey = Keypair.random().publicKey();
+        console.log(publicKey);
+        var postReq = "/create_account/?public_key=" + publicKey
+        axios.post(postReq , {
+            
+        })
+        .then(function (response) {
+          console.log(response.data);
+          
+        })
+        .catch(function (error) {
+          alert(error)
+        });
+    }
+   
     handleChange = (e) =>{
         this.setState({
-            
             [e.target.id]: e.target.value
         })
     }
-    handleComments(getPost){
-      
-    console.log(this.ref.tag.value)
-        var text = "dfasdfasdf"
-        //this.ref.tag.value = null
-        console.log(text)
-        this.props.CommentStatus(text,getPost)
+    handleComments(e,eachPost){
+        var comment =  {
+            text: document.getElementById(eachPost.id).value,
+            userComment: this.state.authProfile,
+        }; 
+        
+        this.props.CommentToPost(comment,eachPost)
+
+        document.getElementById(eachPost.id).value = ""
     }
     handleSubmit = (e)=>{
         e.preventDefault();
-        
-        var id = new Date()
+
+        var postedTime = new Date();
+
         var post =  {
-            //userPost: authUser,
-           
-            userPost: {
-            
-                firstName: "Dai",
-               // lastName:"Nguyen",
-                email: "asd@gmail",
-                gender: "nam"
-            },
-         
-            postedTime: new Date(),
+            userPost: this.state.authProfile,
+            postedTime: postedTime.getTime(),
             text: this.state.text,
-            comments:[
-                {
-                   text: "Hello" ,
-                   Profile:[{
-                       id: "àdasfdasdf",
-                       name: "ádfasfasfd"
-                   }]
-                },
-                {
-                    text: "Hello B" ,
-                   Profile:[{
-                       id: "àdasfdasdf",
-                       name: "ádfasfasfd"
-                   }]
-                }
-            ],
+            comments:[],
             images:[],
+            like: [
+            ],
         }
-        this.state.text = ""
+        
         this.props.postStatus(post)
+        this.setState = ({
+            text : ""
+        })
         this.props.history.replace('/')
         
     }
-  render() {
-    // console.log(this.props.fireStore.Post)
-    var getPost = this.props.fireStore.Post
 
-    console.log(this.props.fireStore.Post)
-  
-   if(getPost){
-       console.log(getPost.uid);
+
+
+    
+  render() {
+    
+    if(this.props.fireStore.Profile && this.props.auth.uid && this.props.fireStore.Post && this.state.isLoading){
+            
+        var listProfile = this.props.fireStore.Profile 
+
+        var authProfile = listProfile.find(each => each.email === this.props.auth.email)
+
+        this.setState({ 
+            isLoading: false,
+            authProfile: authProfile,
+        })  
+    }   
+
+   if(this.state.isLoading){
        
-    return (
-        <Row>
-            <Col xs= {6} md = {3}>
-                <Profile Follower = {this.props.follower} Following = {this.props.following}/>
-            </Col>
-            <Col xs={6} md={6}>
-                <div className ="card bg-light">
+        return( <div><LoadingSpinner/></div>)
+   }
+   else {
+    
+       
+       var getPost = this.props.fireStore.Post
+       console.log(getPost);
+       getPost = getPost.slice().sort ((a,b) =>{
+            if (a.postedTime > b.postedTime)
+                return -1;
+            if (a.postedTime < b.postedTime)
+                return 1;
+            return 0
+        });
+
+        var authProfile = this.state.authProfile
+        console.log(authProfile);
+        
+        return (
+            <Row>
+            
+                <Col xs= {6} md = {3}>
+                    <LeftBar userProfile = {authProfile}/>
+                </Col>
+                
+                <Col xs={6} md={6}>
+                    {this.props.auth.uid?
+                    <div className ="card bg-light">
                     <div className = "card-body">
                         <h5 className ="card-title text-secondary">Tạo bài viết</h5>
                         <div className = "card-text">
                             <Media>
                                 <Media.Left>
-                                    <a className="mr-3" href="/profile">
-                                        <img alt=""  style ={avatarUser} src="https://znews-photo.zadn.vn/w1024/Uploaded/mdf_xqkxvu/2018_11_19/Lucern1.JPG"/>
-                                    </a>
+                                <a className="mr-3" href="/profile">
+                                    <NavLink to = {"/profile/" + authProfile.publicKey}><Avatar src ={authProfile.avatar? authProfile.avatar: globalVariable.default_avatar} size = {40} round = {true}/> </NavLink>
+                                    
+                                </a>
                                 </Media.Left>
-                                <Media.Body >
+                                <Media.Body className = "ml-3" >
                                     <Form onSubmit = {this.handleSubmit}>
                                     <FormGroup controlId="formControlsTextarea" >
-                                        <input className = "form-control" componentClass="textarea" id = "text" value = {this.state.text} onChange = {this.handleChange} placeholder = "What's up?..."/>
+                                        <input className = "form-control"  id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
                                     </FormGroup>
                                     <Button type="submit" className ="float-right">Post</Button>
                                     </Form>
@@ -121,7 +170,7 @@ class Newfeed extends Component {
                                             <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
                                         </li>
                                         <li className = "nav-item">
-                                          
+                                        
                                             <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
                                         </li>
                                         <li className = "nav-item">
@@ -130,56 +179,74 @@ class Newfeed extends Component {
                                     </ul>
                                 </Media.Body>
                             </Media>
+                           
                         </div>
                     </div>  
-                </div>
-                <br/>
-                {getPost.map ( each => {
-                    console.log(each.id);
+                   
+                    </div>
                     
-                    return (
-                        <div> 
-                            <Post getPost = {each}/>
-                           <br/>
-                            <Form >
-                                <FormGroup controlId="formControlsTextarea">
-                                <input className = "form-control" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
-                                </FormGroup>
+                    :null
+                    }
+                    {this.props.auth.uid?<div><br/></div>:null} 
+                    {getPost.map ( (each,index) => {
+                        console.log(each.id);
+                        
+                        return (
+                       
+                        <div className = "animate-post" key = {index}>
+                       
+                            <div className = "card" >        
+                                <div className="card-body"> 
+                                    <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/>
                                 
-                                <button  onClick = {()=>this.handleComments(each)} className ="float-right">Post</button>
-                                <ul className="nav">
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
-                                    </li>
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
-                                    </li>
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
-                                    </li>
-                                    <li className = "nav-item">
-                                        <a className = "nav-link" href="/"><i className="fa fa-smile-o"></i></a>
-                                    </li>
-                                </ul>
-                                </Form>
+                                
+                                    {this.props.auth.uid?
+                                    <Form >
+                                    <FormGroup controlId="formControlsTextarea">
+                                    <input className = "form-control" name="message-to-send" id= {each.id} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
+                                    </FormGroup>
+                                    
+                                    <Button name = {each.id} onClick = {(e)=>this.handleComments(e,each)} className ="float-right">Post</Button>
+                                    <ul className="nav">
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-map-marker"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-camera"></i></a>
+                                        </li>
+                                        <li className = "nav-item">
+                                            <a className = "nav-link" href="/"><i className="fa fa-smile-o"></i></a>
+                                        </li>
+                                    </ul>
+                                    </Form> 
+                                    :null
+                                    }
+                                    <br/>
+                                </div>                            
+                            </div>
                             <br/>
-
                         </div>
-                    )
-                })}
+                      
+                        )
+                    })}
+
+                    
+                </Col>
+                <Col xs={6} md={3}>
+                    <RightBar userProfile = {authProfile}/>
+                </Col>
 
                 
-            </Col>
-            <Col xs={6} md={3}>
-                <People/>
-            </Col>
-        </Row>
-    );
-     
-   }
-   else {
-    return( <div> Loading....</div>)
-   }
+            </Row>
+
+            
+        );
+        
+    }
+   
     
   }
 }
@@ -189,7 +256,7 @@ class Newfeed extends Component {
 const  mapStateToProps = (state) => {
     console.log(state)
     return {
-        
+        auth: state.firebase.auth,
         follower: state.follower,
         following: state.following,
         fireStore: state.firestore.ordered
@@ -200,7 +267,9 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => { 
     return { 
        postStatus: (Post) => (dispatch(postStatus(Post))),
-      CommentStatus: (text, Comments) => (dispatch(CommentStatus(text, Comments)))
+       CommentToPost: (comment, post) => (dispatch(CommentToPost(comment, post))),
+       followFriend: (friend,authUser,post) => (dispatch(followFriend(friend,authUser,post))),
+       liketoPost: (post, userLike) => (dispatch(liketoPost(post,userLike)))
     }
 }
 
