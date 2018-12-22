@@ -8,7 +8,7 @@ import * as globalVariable from "../../../Global/Variable/GlobalVariable"
 import Avatar from "react-avatar"
 const LeftHomePage = ({userProfile})=> {
 
-    console.log(userProfile);
+    console.log(userProfile.avatar);
   
    
       

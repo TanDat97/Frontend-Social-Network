@@ -36,12 +36,49 @@ const avatarUser = {
 class Newfeed extends Component {
     constructor(props) {
         super(props);
+        var authKey = localStorage.getItem("authKey");
         this.state = {
-            text: "",
             isLoading: true,
-            authProfile: {},
-        }
+            authProfile: null,
+            paramPublicKey:null,
+            authKey: authKey,
+          };
+
+          this.getAccountFromServer.bind(this)
     }
+
+    getAccountFromServer () { 
+        var getAmount = "/account/"
+        
+        
+        axios.post(getAmount, {
+            public_key: this.state.paramPublicKey,
+        })
+        .then((response) => {
+            var data = response.data
+            if ( data.error)  
+                this.props.history.push(data.redirect)
+            
+            else {
+                 var userProfile = {}
+                 
+                userProfile.amount = data.amount;            
+                userProfile.displayName = data.displayName? data.displayName : "Account";
+                userProfile["followings"] = data.followings ? data.followings: new Array()
+                userProfile["post"] = data.post? data.post : new Array()
+                userProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+                console.log(userProfile.avatar);
+                
+                this.setState({ 
+                    isLoading: false,
+                    authProfile: userProfile,
+                })  
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        });
+    } 
 
     handleOnClick() { 
         const publicKey = Keypair.random().publicKey();
@@ -102,16 +139,8 @@ class Newfeed extends Component {
     
   render() {
     
-    if(this.props.fireStore.Profile && this.props.auth.uid && this.props.fireStore.Post && this.state.isLoading){
-            
-        var listProfile = this.props.fireStore.Profile 
-
-        var authProfile = listProfile.find(each => each.email === this.props.auth.email)
-
-        this.setState({ 
-            isLoading: false,
-            authProfile: authProfile,
-        })  
+    if(this.state.authKey && this.state.isLoading){
+        this.getAccountFromServer()
     }   
 
    if(this.state.isLoading){
@@ -121,8 +150,7 @@ class Newfeed extends Component {
    else {
     
        
-       var getPost = this.props.fireStore.Post
-       console.log(getPost);
+        var getPost = this.state.authProfile.post        
        getPost = getPost.slice().sort ((a,b) =>{
             if (a.postedTime > b.postedTime)
                 return -1;
@@ -142,7 +170,7 @@ class Newfeed extends Component {
                 </Col>
                 
                 <Col xs={6} md={6}>
-                    {this.props.auth.uid?
+                    {this.state.authProfile?
                     <div className ="card bg-light">
                     <div className = "card-body">
                         <h5 className ="card-title text-secondary">Tạo bài viết</h5>
@@ -187,8 +215,8 @@ class Newfeed extends Component {
                     
                     :null
                     }
-                    {this.props.auth.uid?<div><br/></div>:null} 
-                    {getPost.map ( (each,index) => {
+                    {this.state.authProfile?<div><br/></div>:null} 
+                    {(getPost.lenght === 0 )?getPost.map ( (each,index) => {
                         console.log(each.id);
                         
                         return (
@@ -200,7 +228,7 @@ class Newfeed extends Component {
                                     <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/>
                                 
                                 
-                                    {this.props.auth.uid?
+                                    {this.state.authProfile?
                                     <Form >
                                     <FormGroup controlId="formControlsTextarea">
                                     <input className = "form-control" name="message-to-send" id= {each.id} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
@@ -231,7 +259,7 @@ class Newfeed extends Component {
                         </div>
                       
                         )
-                    })}
+                    }): <div>No one posted yet!</div>}
 
                     
                 </Col>

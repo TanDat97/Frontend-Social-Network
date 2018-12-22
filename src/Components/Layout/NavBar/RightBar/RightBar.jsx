@@ -9,14 +9,14 @@ const avatarFollowing = {
 }
 
 const Followings = ({userProfile}) => {
-  var following = userProfile.following
+  var followings = userProfile.followings
   
   return (
     <div>
       <div className = "card">
         <div className = "card-body">
           <NavLink to = {"/following/" + userProfile.publicKey}><h5 className ="card-title text-secondary">Followings</h5></NavLink>
-          {  following.map(each => { 
+          {  followings.map(each => { 
             var avatar = each.avatar? each.avatar : globalVariable.default_avatar
             return (
               

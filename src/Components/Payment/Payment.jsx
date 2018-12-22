@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import * as HandleTransaction from "../../Function/HandleTransaction"
+import { StrKey, Keypair } from 'stellar-base';
 
 
 class Payment extends Component {
     constructor(props) {
         super(props);
+        
         this.state = { 
             isSubmitButtonEnable: true,
             paramPublicKey:null,
@@ -37,19 +39,39 @@ class Payment extends Component {
     }
 
     handleOnSubmit() { 
-        const send_public_key =  document.getElementById("pb_send").value;
-        const send_private_key = document.getElementById("pr_send").value
         const receive_public_key = document.getElementById("pb_receive").value        
         const amount = parseInt(document.getElementById("amount").value)
+        const send_private_key = document.getElementById("pr_send").value
 
-        HandleTransaction
-        .encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key)
-        .then((response)=>{
-            alert(response);
-        })
-        .catch((err) => {
-           alert(err);
-        })
+        
+        
+        if (StrKey.isValidEd25519SecretSeed(send_private_key) ) {
+            var send_public_key = Keypair.fromSecret("SBPFHJYPXKTN57UFHXM72UGOFREECEM2TAKFVSZDFBTKMQ5VFDYKWH5W");
+            send_public_key = send_public_key.publicKey()
+            var getAccount = "/account/"
+            axios.post(getAccount, { 
+                public_key: send_public_key
+            }).then(response => { 
+                var sequence = response.data.sequence
+                
+                
+                var paymentEncode = HandleTransaction.encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key,sequence)
+
+                axios.post("/broadcast_commit",{
+                    encodeTransaction: paymentEncode,
+                }).then(response => {
+                    alert(response.data.message)
+                    window.location.reload();
+                }).catch(err=> { 
+                    alert(err)
+                })
+            })
+            
+            
+        }
+        else { 
+            alert("Invalid private key!");
+        }
     }
 
     enableSubmitButton() { 
@@ -72,11 +94,6 @@ class Payment extends Component {
                 <br/>
                 <form onSubmit = {this.handleSubmit} className = "white"> 
                     <h2><strong>Chuyển khoản</strong> </h2>
-                    
-                    <div className = "input-field">
-                        <label htmlFor = "text">Public Key Send</label>
-                        <input type ="text" class="form-control" id = "pb_send" required/>
-                    </div>
 
                     <div className = "input-field">
                         <label htmlFor = "text">Private Key Send</label>
@@ -103,18 +120,5 @@ class Payment extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
 
-    };
-}
-
-function mapDispatchToProps(state) {
-    return {
-
-    };
-}
-
-export default connect(
-    mapStateToProps,mapDispatchToProps
-)(Payment);
+export default Payment;

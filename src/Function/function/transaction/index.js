@@ -1,13 +1,13 @@
-import * as vstruct from 'varstruct';
-import * as crypto from 'crypto';
-import { Keypair } from 'stellar-base';
-import * as v1 from './v1';
+const vstruct = require('varstruct');
+const crypto = require('crypto');
+const { Keypair } = require('stellar-base');
+const v1 = require('./v1');
 
 const Transaction = vstruct([
   { name: 'version', type: vstruct.UInt8 },
 ]);
 
-export const encode = (tx) => {
+export function encode(tx) {
   switch (tx.version) {
     case 1:
       return v1.encode(tx);
@@ -17,19 +17,18 @@ export const encode = (tx) => {
   };
 }
 
-export const decode = (data) => {
+export function decode(data) {
   const versionTx = Transaction.decode(data);
   switch (versionTx.version) {
     case 1:
       return v1.decode(data);
-      break;
     
     default:
       throw Error('Unsupport version');
   }
 }
 
-export const  getUnsignedHash = (tx) =>{
+export function getUnsignedHash(tx) {
   return crypto
     .createHash('sha256')
     .update(encode({
@@ -39,23 +38,23 @@ export const  getUnsignedHash = (tx) =>{
     .digest();
 }
 
-export const  sign = (tx, secret) => {
+export function sign(tx, secret) {
   const key = Keypair.fromSecret(secret);
-  
+  tx.account = key.publicKey();
   tx.signature = key.sign(getUnsignedHash(tx));
 }
 
-export const verify = (tx) => {
+export function verify(tx) {
   const key = Keypair.fromPublicKey(tx.account);
   return key.verify(getUnsignedHash(tx), tx.signature);
 }
 
-export const hash = (tx) => {
+export function hash(tx) {
   return tx.hash = crypto.createHash('sha256')
     .update(encode(tx))
     .digest()
-    .slice(0, 20)
     .toString('hex')
     .toUpperCase();
 }
+
 

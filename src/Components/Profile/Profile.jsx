@@ -20,9 +20,10 @@ class HomePage extends Component {
             isLoading: true,
             userProfile: null,
             paramPublicKey:null,
+            authKey: null,
           };
 
-          this.getAmountAccountFromServer.bind(this)
+          this.getAccountFromServer.bind(this)
     }
 
    
@@ -33,49 +34,57 @@ class HomePage extends Component {
         var public_key = pathName.split("/");
         public_key = public_key[2]
 
+        var authKey = localStorage.getItem("authKey");
+        
+        
         this.setState({
             paramPublicKey: public_key,
+            authKey:JSON.parse(authKey),
         })
     }
 
     
-   getAmountAccountFromServer (userProfile) { 
-        var getAmount = "/account/calculate_amount/"
+    getAccountFromServer () { 
+        var getAmount = "/account/"
+        
         
         axios.post(getAmount, {
-            public_key: this.state.paramPublicKey, // Truyen publickey tu params
+            public_key: this.state.paramPublicKey,
         })
         .then((response) => {
-            var data = response.data;
-            userProfile.amount = data.amount;            
-
-            this.setState({
-                userProfile: userProfile,
-            })
+            var data = response.data
+            if ( data.error)  
+                this.props.history.push(data.redirect)
             
-            console.log(this.state.userProfile);
-            
+            else {
+                 var userProfile = {}
+                 
+                userProfile.amount = data.amount;            
+                userProfile.displayName = data.displayName? data.displayName : "Account";
+                userProfile["followings"] = data.followings ? data.followings: new Array()
+                userProfile["post"] = data.post? data.post : new Array()
+                userProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+                console.log(userProfile.avatar);
+                
+                this.setState({ 
+                    isLoading: false,
+                    userProfile: userProfile,
+                })  
+            }
         })
         .catch( (error) => {
             console.log(error);
         });
-   } 
+    } 
     
     
   render() {
+    var authKey = this.state.authKey
     
-    if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
-        
-        var listProfile = this.props.fireStore.Profile 
-        var userProfile = listProfile.find(each => each.publicKey === this.state.paramPublicKey)
-        console.log(this.state.paramPublicKey);
-        
-        this.getAmountAccountFromServer(userProfile)
-
-        this.setState({ 
-            isLoading: false,
-            userProfile: userProfile,
-        })  
+    if(authKey && this.state.isLoading){
+    
+        this.getAccountFromServer()
+   
     }
 
     if  (this.state.isLoading) {
@@ -85,10 +94,9 @@ class HomePage extends Component {
         )
       }
     else{
-        var getPost = this.props.fireStore.Post
-        console.log(getPost);
+        var getPost = this.state.userProfile.post        
         var userProfile = this.state.userProfile
-        console.log(userProfile);
+
         
         return (
             <div className = "animate-post">
@@ -98,8 +106,7 @@ class HomePage extends Component {
                     <LeftHomePage userProfile = {userProfile}  />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
-                    
-                   
+  
                     <br/>
                  
                     <nav>
@@ -120,14 +127,14 @@ class HomePage extends Component {
                                 <div className = "card-body">
                     
                             <div className = "card-text">
-                                {getPost.map ( (each,index) => {
+                                {(getPost.lenght===0)?getPost.map ( (each,index) => {
                                     return (
                                         <div key = {index}> 
                                             <Post post = {each} authUser = {userProfile}/>
                                             <br/>
                                         </div>
                                     )
-                                    })}
+                                    }): <div>No one posted yet! </div>}
                                 </div>
                             </div>
                             </div>  
@@ -142,7 +149,7 @@ class HomePage extends Component {
                     </div>
                     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     
-                    <AboutProfile/>
+                    {/* <AboutProfile/> */}
                     </div>
                     <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
                     </div>
@@ -159,7 +166,8 @@ class HomePage extends Component {
 
 
 const  mapStateToProps = (state) => {
-    console.log(state.firestore.ordere)
+    console.log(state);
+    
     return {
         auth: state.firebase.auth,
         follower: state.follower,

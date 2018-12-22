@@ -7,23 +7,66 @@ import { compose } from 'redux'
 
 
 import LoadingSpinner from "../../../../Plugin/LoadingSpinner"
+import Axios from 'axios';
 
 class HeaderBar extends Component {
   constructor(props) {
     super(props);
+    var authKey = localStorage.getItem("authKey");
+    authKey =JSON.parse(authKey)
     this.state = {
-      
-   
+      authProfile:null,
+      authKey: authKey,
     }        
-}
+  }
+
+  
+
+  componentWillMount() { 
+
+    console.log(this.state.authKey);
+    var getAccount = "/account/"
+    if ( this.state.authKey){
+      Axios.post(getAccount, {
+          public_key: this.state.authKey.publicKey,
+      })
+      .then((response) => {
+          var data = response.data
+          if ( data.error)  
+              this.props.history.push(data.redirect)
+          
+          else {
+                var authProfile = {}
+                
+              authProfile.amount = data.amount;            
+              authProfile.displayName = data.displayName? data.displayName : "Account";
+              authProfile["followings"] = data.followings ? data.followings: new Array()
+              authProfile["post"] = data.post? data.post : new Array()
+              authProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+              
+              localStorage.removeItem("authProfile")
+              localStorage.setItem("authProfile",JSON.stringify(authProfile))
+              
+              this.setState({ 
+                  isLoading: false,
+                  authProfile: authProfile,
+              })  
+          }
+      })
+      .catch( (error) => {
+          console.log(error);
+      });
+    }
+  }
+
 
   render() {
-    const links = this.props.auth.uid ? <SigninLink /> : <SignoutLink/>
+    const links = this.state.authProfile ? <SigninLink /> : <SignoutLink/>
     console.log(links)
     console.log(this.props.auth)
 
     
-    if(links){
+    if(!this.state.isLoading){
       return (
        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow sticky-top">
           <div className = "container">

@@ -21,25 +21,25 @@ class AboutProfile extends Component{
     }
     componentDidMount(){
         
-        var listProfile = this.props.fireStore.Profile
-        var auth = this.props.auth
-        var userLog
-        listProfile.map(each=>{
-            if(each.email == auth.email)
-            {
-                userLog = each
+        // var listProfile = this.props.fireStore.Profile
+        // var auth = this.props.auth
+        // var userLog
+        // listProfile.map(each=>{
+        //     if(each.email == auth.email)
+        //     {
+        //         userLog = each
              
-            }
-        })
+        //     }
+        // })
      
-            this.setState({
-                displayName: userLog.displayName,
-                 email: userLog.email,
-                 gender: userLog.gender,
-                 phoneNumber: userLog.phoneNumber,
-                 avatar: userLog.avatar,
-                 authUser: userLog,
-             });
+        //     this.setState({
+        //         displayName: userLog.displayName,
+        //          email: userLog.email,
+        //          gender: userLog.gender,
+        //          phoneNumber: userLog.phoneNumber,
+        //          avatar: userLog.avatar,
+        //          authUser: userLog,
+        //      });
         
      
      
@@ -109,20 +109,20 @@ class AboutProfile extends Component{
     handleSubmit = (e) =>  {
         e.preventDefault();
      
-        var auth = this.props.auth // auth firebase
+        // var auth = this.props.auth // auth firebase
        
-         if(auth)
-         {
-            var Profile  = {
-                displayName: this.state.displayName,
-               email: this.state.email,
-               gender: this.state.gender,
-               phoneNumber: this.state.phoneNumber,
-               avatar: this.state.avatar,
-            }
-            this.props.updateAuthProfile(Profile, auth)
+        //  if(auth)
+        //  {
+        //     var Profile  = {
+        //         displayName: this.state.displayName,
+        //        email: this.state.email,
+        //        gender: this.state.gender,
+        //        phoneNumber: this.state.phoneNumber,
+        //        avatar: this.state.avatar,
+        //     }
+        //     this.props.updateAuthProfile(Profile, auth)
         
-         }
+        //  }
     }
     
     render(){
@@ -156,17 +156,7 @@ class AboutProfile extends Component{
                 <Col componentClass={ControlLabel} md={2}>
                     Gender
                         </Col>
-                   <Col sm = {2}>
-                   <div>
-                        <select id="gender" onChange={this.handleChange.bind(this)}>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                           
-                        </select>
-                        <p></p>
-                       
-                    </div>
-                        </Col>
+                  
                     </FormGroup> 
                     <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} md={2}>

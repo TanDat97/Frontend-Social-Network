@@ -13,7 +13,7 @@ import { firestoreReducer} from 'redux-firestore'
 
 const rootReducer = combineReducers( { 
     post: postReducer,
-    auth: authReducer,
+    authKey: authReducer,
 
     follower: followerReducer,
     following: followingReducer,   

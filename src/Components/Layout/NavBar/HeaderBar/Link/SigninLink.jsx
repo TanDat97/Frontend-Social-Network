@@ -6,37 +6,77 @@ import {signOut, createUser} from '../../../../../Store/Actions/authActions'
 import Avatar from 'react-avatar';
 
 import { compose } from 'redux'
-import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 
 import * as globalVariable from "../../../../../Global/Variable/GlobalVariable"
+import Axios from 'axios';
+
 class SigninLink extends Component {
     constructor(props) {
         super(props);
-  
+        var authKey = localStorage.getItem("authKey");
+        authKey =JSON.parse(authKey)
         this.state = {
-            authUser: null,
+            authProfile: null,
             isLoading: true,
+            authKey: authKey,
         };
+    }
+
+    handleSignOut() {
+        Axios.get("/signout").then((response) => { 
+            console.log(response.data);
+            var data = response.data;
+            alert(data.message);
+            localStorage.removeItem("authProfile")
+            localStorage.removeItem("authKey")
+            this.props.history.push(data.redirect);
+           
+        })
+    }
+
+    componentDidMount() {
+        var getAccount = "/account/"
+      Axios.post(getAccount, {
+          public_key: this.state.authKey.publicKey,
+      })
+      .then((response) => {
+          var data = response.data
+          if ( data.error)  
+              this.props.history.push(data.redirect)
+          
+          else {
+                var authProfile = {}
+                
+              authProfile.amount = data.amount;            
+              authProfile.displayName = data.displayName? data.displayName : "Account";
+              authProfile["followings"] = data.followings ? data.followings: new Array()
+              authProfile["post"] = data.post? data.post : new Array()
+              authProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+              
+              this.setState({ 
+                  isLoading: false,
+                  authProfile: authProfile,
+              })  
+          }
+      })
+      .catch( (error) => {
+          console.log(error);
+      });
+        
     }
 
 
     render(){
         
-        if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
-            console.log(authUser);
-            var listProfile = this.props.fireStore.Profile 
-            var authUser = listProfile.find(each => each.email === this.props.auth.email)
-    
+        if(this.state.authProfile && this.state.isLoading){
             this.setState({ 
                 isLoading: false,
-                authUser: authUser,
             })  
-           
-            
         }
         
         if (!this.state.isLoading) {
-            var authUser = this.state.authUser
+            var authUser = this.state.authProfile
             return (
                 <div>
                 <NavLink to = {"/profile/"+ authUser.publicKey}><Avatar src ={authUser.avatar? authUser.avatar : globalVariable.default_avatar} size = {40} round = {true}/></NavLink>
@@ -49,7 +89,7 @@ class SigninLink extends Component {
                         
                         
                         
-                        <li><a href="/signin" onClick = {this.props.signOut}><i className="fa fa-fw fa-users"></i><span> Sign Out</span></a></li>
+                        <li><a href="/signin" onClick = {this.handleSignOut.bind(this)}><i className="fa fa-fw fa-users"></i><span> Sign Out</span></a></li>
                         
                     
                     </ul>

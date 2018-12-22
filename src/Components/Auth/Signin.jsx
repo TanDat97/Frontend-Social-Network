@@ -4,17 +4,16 @@ import {signIn, signInWithGoogle} from  '../../Store/Actions/authActions'
 import {Row, Col} from "react-bootstrap"
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+import {Keypair,StrKey} from "stellar-base"
 
-import GoogleButton from 'react-google-button'
-import  {withRouter} from 'react-router-dom'
+import Axios from 'axios';
 class Signin extends Component {
 
     constructor(props) {
         super(props)
         
         this.state = { 
-            email: '',
-            password:'',
+            privateKey: null,
             login: false,
         }
     }
@@ -29,19 +28,38 @@ class Signin extends Component {
 
     handleSubmit = (e) =>  {
         e.preventDefault();
-      
-        const listUser = this.props.fireStore.Profile
-     
-        var emailLogin = listUser.find( each => each.email === this.state.email && each.password === this.state.password)
-    
-        if( emailLogin) {
-            this.props.signIn(this.state)
-            this.props.history.replace('/')
+        var privateKey = this.state.privateKey
+
+        if (StrKey.isValidEd25519SecretSeed(privateKey) ) {
+            var key = Keypair.fromSecret(privateKey);
+            var publicKey = key.publicKey()
+            
+            Axios.post ( "/signin/", {
+                username: publicKey,
+                password: "1",
+            }).then(response => {
+                var data = response.data
+                if ( data.error) { 
+                    alert(data.error)
+                }
+                else { 
+                    alert(data.message);
+                    var authKey = {
+                        publicKey: publicKey,
+                        privateKey: this.state.privateKey,
+                    }
+                    this.props.signIn(authKey)
+                    this.props.history.push(data.redirect)
+                }
+                
+            }).catch(err => { 
+                console.log(err);
+            })
         }
-        else {
-            alert("Sai tài khoản hoặc mật khẩu")
-        }  
-      
+        else 
+            alert("Invalid private key!")
+        
+
     }
        
     
@@ -57,13 +75,10 @@ class Signin extends Component {
                     <h2><strong>Sign In </strong> </h2>
                     <form onSubmit =  {this.handleSubmit}>
                     <div class="form-group"> 
-                        <label htmlFor="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onChange= {this.handleChange} required/>
+                        <label htmlFor="exampleInputEmail1">Private Key</label>
+                        <input type="text" class="form-control" id="privateKey" aria-describedby="emailHelp" placeholder="Enter private key here..." onChange= {this.handleChange} required/>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" onChange= {this.handleChange} required/>
-                    </div>
+                   
                     
            
                     <br/>
@@ -75,7 +90,7 @@ class Signin extends Component {
 
                </Row>
             <br/>
-			</div> 
+			</div>
 
         );
     }
@@ -91,7 +106,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => { 
     return { 
-        signIn: (creds) => dispatch(signIn(creds)),
+        signIn: (authKey) => dispatch(signIn(authKey)),
 
     }
 }

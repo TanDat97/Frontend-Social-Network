@@ -1,16 +1,11 @@
 import React from 'react';
 import {Col, Row } from "react-bootstrap"
-import FollowerBar from "./FollowerBar"
+
 import { connect } from 'react-redux';
 import {NavLink} from "react-router-dom"
 
 const LeftBar = ({userProfile}) => {
-    console.log(userProfile);
-    const follower = userProfile.follower;
-    const following = userProfile.following;
-    
-
-    console.log(userProfile);
+    const followings = userProfile.followings;
     
     return (
         <div>
@@ -20,21 +15,14 @@ const LeftBar = ({userProfile}) => {
                     <Row>
                         <Col xs={6} md={6}>
                             <h5>
-                                <Row><small>Followers </small></Row>
-                                <Row><NavLink to={"/follower/" + userProfile.publicKey}>{follower.length}</NavLink></Row>
-                            </h5>
-                        </Col>
-                        <Col xs={6} md={6}>
-                            <h5>
                                 <Row><small>Followings </small></Row>
-                                <Row><NavLink to={"/following/" + userProfile.publicKey}>{following.length}</NavLink></Row>
+                                <Row><NavLink to={"/following/" + userProfile.publicKey}>{followings.length}</NavLink></Row>
                             </h5>
                         </Col>
                     </Row>
                 </div>  
             </div>
             <br/>
-            <FollowerBar follower = {follower}/>
         </div>
     )
 

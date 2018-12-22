@@ -58,25 +58,18 @@ export const signUp = (authUser) => {
 
     }
 }
-export const signIn = (credentials) => { 
-    return (dispatch , getState, {getFirebase}) => { 
-        const firebase = getFirebase() ;
-        firebase.auth().signInWithEmailAndPassword(
-            credentials.email,
-            credentials.password,
-        ).then(() => 
-            { 
-            dispatch({
-                type: AT.LOGIN_SUCCESS})
-            }).catch((err)=> 
-            { 
-                dispatch({ 
-                    type: AT.LOGIN_ERROR,
-                    error:err,
-            })
+
+export const signIn = (authKey) => { 
+    return(dispatch) =>{ 
+        console.log(authKey);
+        localStorage.setItem("authKey",JSON.stringify(authKey))
+        dispatch({
+            type: AT.SIGNIN_SUCCESS,
+            authKey: authKey,
         })
     }
 }
+  
 
 export const signInWithGoogle = (credentials) => { 
     return (dispatch, getState, {getFirebase}) => { 
