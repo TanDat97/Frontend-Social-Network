@@ -18,13 +18,16 @@ import Post from "./Post";
 import {CommentToPost} from '../../Store/Actions/commentsActions'
 import {liketoPost} from '../../Store/Actions/likeActions'
 import {Keypair} from "stellar-base"
-import axios from "axios"
+
 
 import Avatar from 'react-avatar';
 
 import LoadingSpinner from "../../Plugin/LoadingSpinner"
 import {NavLink} from "react-router-dom"
 import * as globalVariable from "../../Global/Variable/GlobalVariable"
+import { StrKey } from 'stellar-base/lib/strkey';
+import Axios from 'axios';
+import * as handleTransaction from "../../Function/HandleTransaction"
 
 // const avatarUser = {
 //     height: "50px",
@@ -51,7 +54,7 @@ class Newfeed extends Component {
     //     var getAmount = "/account/"
         
         
-    //     axios.post(getAmount, {
+    //     Axios .post(getAmount, {
     //         public_key: this.state.paramPublicKey,
     //     })
     //     .then((response) => {
@@ -85,7 +88,7 @@ class Newfeed extends Component {
         const publicKey = Keypair.random().publicKey();
         console.log(publicKey);
         var postReq = "/create_account/?public_key=" + publicKey
-        axios.post(postReq , {
+        Axios .post(postReq , {
             
         })
         .then(function (response) {
@@ -103,35 +106,87 @@ class Newfeed extends Component {
         })
     }
     handleComments(e,eachPost){
-        var comment =  {
-            text: document.getElementById(eachPost.id).value,
-            userComment: this.state.authProfile,
-        }; 
+        // var comment =  {
+        //     text: document.getElementById(eachPost.id).value,
+        //     userComment: this.state.authProfile,
+        // }; 
         
-        this.props.CommentToPost(comment,eachPost)
+        // this.props.CommentToPost(comment,eachPost)
 
-        document.getElementById(eachPost.id).value = ""
+        // document.getElementById(eachPost.id).value = ""
+        // var privateKey = this.state.authKey.privateKey
+        // if (StrKey.isValidEd25519SecretSeed(privateKey) ) {
+        //     var publicKey = Keypair.fromSecret(privateKey);
+        //     publicKey = publicKey.publicKey()
+        //     var getAccount = "/account/"
+        //     Axios .post(getAccount, { 
+        //         public_key: publicKey
+        //     }).then(response => { 
+        //         var data = response.data
+        //         if ( data.error) { 
+        //             alert(data.error)
+        //             this.props.history.push(data.redirect)
+        //         }
+        //         else {
+        //             var sequence = data.sequence + 0
+        //             var postEncode = handleTransaction.encodePostTransaction(publicKey, content, privateKey, sequence)
+        //             console.log(postEncode);
+                    
+        //             // Axios .post("/broadcast_commit",{
+        //             //     enCodeTransaction: paymentEncode,
+        //             // }).then(response => {
+        //             //     alert(response.data.message)
+        //             //     window.location.reload();
+        //             // }).catch(err=> { 
+        //             //     alert(err)
+        //             // })
+        //         }
+        //     })
+            
+            
+        // }
+        // else { 
+        //     alert("Invalid private key!");
+        // }
     }
     handleSubmit = (e)=>{
         e.preventDefault();
 
-        var postedTime = new Date();
-
-        var post =  {
-            userPost: this.state.authProfile,
-            postedTime: postedTime.getTime(),
-            text: this.state.text,
-            comments:[],
-            images:[],
-            like: [
-            ],
-        }
+        var privateKey = this.state.authKey.privateKey
+        var publicKey = this.state.authKey.publicKey
         
-        this.props.postStatus(post)
-        this.setState = ({
-            text : ""
-        })
-        this.props.history.replace('/')
+        if (StrKey.isValidEd25519SecretSeed(privateKey) ) {
+            
+            var getAccount = "/account/"
+            Axios.post(getAccount, { 
+                public_key: publicKey
+            }).then(response => { 
+                var data = response.data
+                if ( data.error) { 
+                    alert(data.error)
+                    this.props.history.push(data.redirect)
+                }
+                else {
+                    var sequence = data.sequence + 0
+                    var contentPost = document.getElementById("contentPost").value
+                    var postEncode =  handleTransaction.encodePostTransaction(publicKey, contentPost, privateKey, sequence)
+                    
+                    Axios.post("/broadcast_commit",{
+                        enCodeTransaction: postEncode,
+                    }).then(response => {
+                        alert(response.data.message)
+                        window.location.reload();
+                    }).catch(err=> { 
+                        alert(err)
+                    })
+                }
+            })
+            
+            
+        }
+        else { 
+            alert("Invalid private key!");
+        }
         
     }
 
@@ -151,6 +206,9 @@ class Newfeed extends Component {
         authKey = JSON.parse(authKey)
         var authProfile = localStorage.getItem("authProfile");
         authProfile = JSON.parse(authProfile)
+
+        console.log(authProfile);
+        
         if ( authProfile && authKey && this.state.isLoading)
         this.setState({ 
             authProfile:authProfile,
@@ -214,7 +272,7 @@ class Newfeed extends Component {
                                     <Media.Body className = "ml-3" >
                                         <Form onSubmit = {this.handleSubmit}>
                                         <FormGroup controlId="formControlsTextarea" >
-                                            <input className = "form-control"  id = "text" onChange = {this.handleChange} placeholder = "What's up?..."/>
+                                            <input className = "form-control"  id = "contentPost" onChange = {this.handleChange} placeholder = "What's up?..."/>
                                         </FormGroup>
                                         <Button type="submit" className ="float-right">Post</Button>
                                         </Form>

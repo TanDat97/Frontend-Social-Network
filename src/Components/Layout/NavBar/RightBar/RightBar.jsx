@@ -9,7 +9,7 @@ const avatarFollowing = {
 }
 
 const Followings = ({userProfile}) => {
-  var followings = userProfile.followings
+  var followings = userProfile.followings.addresses
   
   return (
     <div>
@@ -20,13 +20,11 @@ const Followings = ({userProfile}) => {
             var avatar = each.avatar? each.avatar : globalVariable.default_avatar
             return (
               
-            <div className="media">
+            <div className="media text-truncate">
                   <img src= {avatar} alt="" style = {avatarFollowing} className ="mr-3"/>
                   <div className="media-body">
-                    <NavLink to = {"/profile/" + each.publicKey}><h6 className="mt-0">{each.displayName}</h6></NavLink>
-                    <p><i className="fa fa-user"></i>
-                    Followed
-                    </p>
+                    <NavLink to = {"/profile/" + each}><h6 className="mt-0">{each}</h6></NavLink>
+                    <p><i className="fa fa-user"></i></p>
                 </div>
             </div>
             )

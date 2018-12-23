@@ -32,7 +32,8 @@ const LeftHomePage = ({userProfile, authKey})=> {
                                     <li>
                                         <div className="btn-group-vertical btn-block">
                                             {userProfile.publicKey === authKey.publicKey? null : <NavLink to = {"/payment/" + userProfile.publicKey} className="btn btn-default"><i className="fa fa-money pull-right" aria-hidden="true"></i>Payment</NavLink>}
-                                            <NavLink to = {"/signup/"} className="btn btn-default"><i className="fa fa-user pull-right" aria-hidden="true"></i>Create Account</NavLink>
+                                            {userProfile.publicKey !== authKey.publicKey? null : <NavLink to = {"/signup/"} className="btn btn-default"><i className="fa fa-user pull-right" aria-hidden="true"></i>Create Account</NavLink>}
+                                            
                                         </div>
                                     </li>
                                 </ul>

@@ -21,11 +21,11 @@ class AboutProfile extends Component{
             authProfile: authProfile? authProfile:null,
             authKey: authKey? authKey:null,
             isLoading: true,
+            isUploaded: false,
         }
     }
     
     handleChangeImage =  (e) => {
-        console.log("Uploading");
         document.getElementById("upload_status").innerText = "Loading..."
         var reader = new FileReader();
         var file = e.target.files[0];
@@ -36,23 +36,26 @@ class AboutProfile extends Component{
                 reader.readAsDataURL(file);   
                 reader.onload = (upload) =>{
                     this.setState({
-                        avatar: upload.target.result
+                        avatar: upload.target.result,
+                        isUploaded:true,
                     });
                 };
                 
             setTimeout(() =>  {
                 console.log(this.state.avatar);
                 document.getElementById("upload_status").innerText = ""
-                alert("Upload thành công")
-                
+                document.getElementById("uploaded_image").src = this.state.avatar
             }, 1000);
           }
           else{
             setTimeout(() =>  {
                 this.setState({
-                    avatar: this.state.avatar
+                    avatar: this.state.avatar,
+                    isUploaded:false,
                 })
                 document.getElementById("upload_status").innerText = "Upload Fail!!!!!!"
+                document.getElementById("uploaded_image").src = ""
+                
                 alert("Image có dung lượng lớn hơn 20KB!!!")
                 
             }, 1000);
@@ -60,9 +63,11 @@ class AboutProfile extends Component{
         }
         else {
             this.setState({
-                avatar: this.state.avatar
+                avatar: this.state.avatar,
+                isUploaded: true,
             })
             document.getElementById("upload_status").innerText = ""
+            document.getElementById("uploaded_image").src = this.state.avatar
         }
        
     }
@@ -96,25 +101,9 @@ class AboutProfile extends Component{
                         <input className = 'form-control' type="text" id = "displayName" value = {authProfile.displayName} />
                         </Col>
                     </FormGroup>
-        
-                    <FormGroup controlId="formHorizontalEmail">
-                        <Col componentClass={ControlLabel} md={2}>
-                        Public Key
-                        </Col>
-                        <Col sm={10}>
-                        <input className = "form-control" type="text" value = {authProfile.publicKey} id = "publicKey" />
-                        </Col>
-                    </FormGroup>
-
-                    <FormGroup controlId="formHorizontalEmail">
-                        <Col componentClass={ControlLabel} md={2}>
-                        Private Key
-                        </Col>
-                        <Col sm={10}>
-                        <input className = "form-control" type="text" id = "privateKey"/>
-                        </Col>
-                    </FormGroup>
-
+                    <br/>
+                        <img src = "" id = "uploaded_image" hidden = {!this.state.isUploaded}/>
+                    <br/>
                     <FormGroup>
                         <Col smOffset={2} sm={10}>
                         <input ref="file" type="file" name="file" 
@@ -125,10 +114,9 @@ class AboutProfile extends Component{
                               />                       
                          <label id = "upload_status"></label>
                         </Col>
-                    </FormGroup>
-                    <FormGroup>
+                    
                         <Col smOffset={2} sm={10}>
-                        <input type="submit" className= "float-right btn btn-primary" value = "Submit" />
+                        <input type="submit" className= "float-right btn btn-primary" value = "Update" />
                         </Col>
                     </FormGroup>
                 </Form> 

@@ -46,27 +46,30 @@ class Payment extends Component {
         
         
         if (StrKey.isValidEd25519SecretSeed(send_private_key) ) {
-            var send_public_key = Keypair.fromSecret("SBPFHJYPXKTN57UFHXM72UGOFREECEM2TAKFVSZDFBTKMQ5VFDYKWH5W");
+            var send_public_key = Keypair.fromSecret(send_private_key);
             send_public_key = send_public_key.publicKey()
             var getAccount = "/account/"
             axios.post(getAccount, { 
                 public_key: send_public_key
             }).then(response => { 
-                var sequence = response.data.sequence + 1
-                console.log(sequence);
-                
-                
-                var paymentEncode = handleTransaction.encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key,sequence)
-                console.log(paymentEncode);
-                
-                axios.post("/broadcast_commit",{
-                    enCodeTransaction: paymentEncode,
-                }).then(response => {
-                    alert(response.data.message)
-                    // window.location.reload();
-                }).catch(err=> { 
-                    alert(err)
-                })
+                var data = response.data
+                if ( data.error) { 
+                    alert(data.error)
+                    this.props.history.push(data.redirect)
+                }
+                else {
+                    var sequence = data.sequence + 0
+                    var paymentEncode = handleTransaction.encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key,sequence)
+                    
+                    axios.post("/broadcast_commit",{
+                        enCodeTransaction: paymentEncode,
+                    }).then(response => {
+                        alert(response.data.message)
+                        window.location.reload();
+                    }).catch(err=> { 
+                        alert(err)
+                    })
+                }
             })
             
             

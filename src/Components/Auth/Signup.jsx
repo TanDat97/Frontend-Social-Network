@@ -4,7 +4,8 @@ import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux'
 import {signUp,createUser} from '../../Store/Actions/authActions'
 import {Keypair, StrKey} from "stellar-base"
-
+import Axios from 'axios';
+import * as handleTransaction from "../../Function/HandleTransaction"
 class Signup extends Component {
     constructor(props) {
         super(props);
@@ -40,33 +41,39 @@ class Signup extends Component {
     handleSubmit = (e) =>  {
         e.preventDefault();
         var authPrivateKey = document.getElementById("authPrivateKey").value
+        var newPublicKey = document.getElementById("newPublicKey").value
+        
         
         if (StrKey.isValidEd25519SecretSeed(authPrivateKey) ) {
             var key = Keypair.fromSecret(authPrivateKey);
-            var publicKey = key.publicKey()
+            var authPublicKey = key.publicKey()
+            console.log(authPublicKey);
             
-            // Axios.post ( "/signin/", {
-            //     username: publicKey,
-            //     password: "1",
-            // }).then(response => {
-            //     var data = response.data
-            //     if ( data.error) { 
-            //         alert(data.error)
-            //     }
-            //     else { 
-            //         alert(data.message);
-            //         var authKey = {
-            //             publicKey: publicKey,
-            //             privateKey: this.state.privateKey,
-            //         }
-            //         this.props.signIn(authKey)
+            var getAccount = "/account/"
+            Axios.post(getAccount, { 
+                public_key: authPublicKey
+            }).then(response => { 
+                var data = response.data
+                if ( data.error) { 
+                    alert(data.error)
+                    this.props.history.push(data.redirect)
+                }
+                else {
+                    var sequence = data.sequence + 0
+                    console.log(sequence);
                     
-            //         window.location.replace("/")
-            //     }
-                
-            // }).catch(err => { 
-            //     console.log(err);
-            // })
+                    var createEncode = handleTransaction.encodeCreateAccountTransaction(authPublicKey,newPublicKey,authPrivateKey,sequence)
+                    console.log(createEncode);
+                    Axios.post("/broadcast_commit",{
+                        enCodeTransaction: createEncode,
+                    }).then(response => {
+                        alert(response.data.message)
+                        window.location.reload();
+                    }).catch(err=> { 
+                        alert(err)
+                    })
+                }
+            })
         }
         else 
             alert("Invalid private key!")

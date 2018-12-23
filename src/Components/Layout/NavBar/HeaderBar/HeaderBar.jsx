@@ -43,7 +43,7 @@ componentWillMount() {
 
               authProfile.amount = data.amount;            
               authProfile.displayName = data.displayName? data.displayName : "Account";
-              authProfile["followings"] = data.followings ? data.followings: new Array()
+              authProfile["followings"] = data.followings ? data.followings: new Object({ addresses: new Array()})
               authProfile["post"] = data.post? data.post : new Array()
               authProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
               

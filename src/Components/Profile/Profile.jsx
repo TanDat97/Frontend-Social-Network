@@ -21,6 +21,7 @@ class HomePage extends Component {
             userProfile: null,
             paramPublicKey:null,
             authKey: null,
+            isUpdated: false,
           };
 
           this.getAccountFromServer.bind(this)
@@ -33,13 +34,22 @@ class HomePage extends Component {
         var authKey = localStorage.getItem("authKey");
         
         
+        console.log(this.props.match.params.publicKey);
         this.setState({
             paramPublicKey: publicKey,
             authKey:JSON.parse(authKey),
+          
         })
+        
     }
+  
 
-    
+    // componentDidUpdate() { 
+    //     if( !this.state.isUpdated) { 
+    //         this.getAccountFromServer()
+    //     }
+    // }
+
     getAccountFromServer () { 
         var getAmount = "/account/"
         
@@ -57,7 +67,7 @@ class HomePage extends Component {
                  
                 userProfile.amount = data.amount;            
                 userProfile.displayName = data.displayName? data.displayName : "Account";
-                userProfile["followings"] = data.followings ? data.followings: new Array()
+                userProfile["followings"] = data.followings ? data.followings: new Object({ addresses: new Array()})
                 userProfile["post"] = data.post? data.post : new Array()
                 userProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
 
@@ -66,7 +76,8 @@ class HomePage extends Component {
               
                 //Khong setItem Localstorage cho authProfile 
                 this.setState({ 
-                    isLoading: false,
+                    isUpdated:true,
+                    isLoading:false,
                     userProfile: userProfile,
                 })  
             }
@@ -79,6 +90,8 @@ class HomePage extends Component {
     
   render() {
     var authKey = this.state.authKey
+    
+    
     
     if(authKey && this.state.isLoading){
     
@@ -112,7 +125,11 @@ class HomePage extends Component {
               
                     <div className="nav nav-tabs" id="nav-tab" role="tablist">
                         <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-                        <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">About</a>
+                        {userProfile.publicKey !== this.state.authKey.publicKey 
+                            ? null:
+                            <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Update</a>    
+                        }
+                        
                         
                     </div>
                     </nav>
