@@ -29,16 +29,12 @@ class HomePage extends Component {
    
 
     componentWillMount() { 
-        var pathName = this.props.history.location.pathname;
-        
-        var public_key = pathName.split("/");
-        public_key = public_key[2]
-
+        var publicKey = this.props.match.params.publicKey
         var authKey = localStorage.getItem("authKey");
         
         
         this.setState({
-            paramPublicKey: public_key,
+            paramPublicKey: publicKey,
             authKey:JSON.parse(authKey),
         })
     }
@@ -64,8 +60,11 @@ class HomePage extends Component {
                 userProfile["followings"] = data.followings ? data.followings: new Array()
                 userProfile["post"] = data.post? data.post : new Array()
                 userProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
-                console.log(userProfile.avatar);
-                
+
+                userProfile["publicKey"] =  this.props.match.params.publicKey
+                // userProfile["privateKey"] = this.state.authKey.privateKey
+              
+                //Khong setItem Localstorage cho authProfile 
                 this.setState({ 
                     isLoading: false,
                     userProfile: userProfile,
@@ -103,7 +102,7 @@ class HomePage extends Component {
                 
                 <div >
                 <Row>
-                    <LeftHomePage userProfile = {userProfile}  />
+                    <LeftHomePage userProfile = {userProfile} authKey = {this.state.authKey}  />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
   
@@ -114,7 +113,7 @@ class HomePage extends Component {
                     <div className="nav nav-tabs" id="nav-tab" role="tablist">
                         <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
                         <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">About</a>
-                        <a className ="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                        
                     </div>
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
@@ -148,10 +147,8 @@ class HomePage extends Component {
                         
                     </div>
                     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    
-                    {/* <AboutProfile/> */}
+                        <AboutProfile/>
                     </div>
-                    <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
                     </div>
                      
                         

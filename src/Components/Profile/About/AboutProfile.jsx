@@ -5,45 +5,25 @@ import {DropdownButton,Form,FormGroup,Col,Button,ControlLabel,FormControl,Button
 import {updateAuthProfile} from '../../../Store/Actions/authActions'
 import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
+import LoadingSpinner from '../../../Plugin/LoadingSpinner';
+import Axios from 'axios';
 class AboutProfile extends Component{
     constructor(props) {
         super(props);
-  
+        
+        var authKey = localStorage.getItem("authKey");
+        authKey = JSON.parse(authKey)
+
+        var authProfile = localStorage.getItem("authProfile");
+        authProfile = JSON.parse(authProfile)
+
         this.state = {
-            displayName: "",
-            email: "",
-            gender: "",
-            phoneNumber:"",
-            publicKey: "",
-            avatar: "",
-            authUser:[],
+            authProfile: authProfile? authProfile:null,
+            authKey: authKey? authKey:null,
+            isLoading: true,
         }
     }
-    componentDidMount(){
-        
-        // var listProfile = this.props.fireStore.Profile
-        // var auth = this.props.auth
-        // var userLog
-        // listProfile.map(each=>{
-        //     if(each.email == auth.email)
-        //     {
-        //         userLog = each
-             
-        //     }
-        // })
-     
-        //     this.setState({
-        //         displayName: userLog.displayName,
-        //          email: userLog.email,
-        //          gender: userLog.gender,
-        //          phoneNumber: userLog.phoneNumber,
-        //          avatar: userLog.avatar,
-        //          authUser: userLog,
-        //      });
-        
-     
-     
-    }
+    
     handleChangeImage =  (e) => {
         console.log("Uploading");
         document.getElementById("upload_status").innerText = "Loading..."
@@ -68,11 +48,6 @@ class AboutProfile extends Component{
             }, 1000);
           }
           else{
-
-               
-
-            
-         
             setTimeout(() =>  {
                 this.setState({
                     avatar: this.state.avatar
@@ -81,9 +56,7 @@ class AboutProfile extends Component{
                 alert("Image có dung lượng lớn hơn 20KB!!!")
                 
             }, 1000);
-           
           }
-        
         }
         else {
             this.setState({
@@ -94,88 +67,54 @@ class AboutProfile extends Component{
        
     }
 
-    handleChange = (e) =>  {
-     
-   
-            this.setState({
-          
-                [e.target.id]: e.target.value,
-            })
-         
-         
-        
-    }
+
 
     handleSubmit = (e) =>  {
         e.preventDefault();
-     
-        // var auth = this.props.auth // auth firebase
-       
-        //  if(auth)
-        //  {
-        //     var Profile  = {
-        //         displayName: this.state.displayName,
-        //        email: this.state.email,
-        //        gender: this.state.gender,
-        //        phoneNumber: this.state.phoneNumber,
-        //        avatar: this.state.avatar,
-        //     }
-        //     this.props.updateAuthProfile(Profile, auth)
+        var privateKey = document.getElementById("privateKey").value;
+        console.log(privateKey);
         
-        //  }
     }
+
+    
     
     render(){
-            console.log(this.state.authUser)
-       
+        var authProfile = this.state.authProfile
+
+        if ( authProfile) {
         return (
 
             <div className = "card">    
                 <div className = "card-body bg-white">
-                <Form horizontal onSubmit= {this.handleSubmit}>
-                
-                
+                <Form horizontal onSubmit= {this.handleSubmit.bind(this)}>
     
-                <FormGroup controlId="formHorizontalText" onSubmit= {this.handleSubmit.bind(this)} >
-                
-                    
+                    <FormGroup controlId="formHorizontalText">
                         <Col componentClass={ControlLabel} md = {2}>
                         UserName
                         </Col>
                         <Col sm={10} >
-                        <input className = 'form-control' type="text" id = "displayName" value = {this.state.displayName}   onChange = {this.handleChange.bind(this)}/>
+                        <input className = 'form-control' type="text" id = "displayName" value = {authProfile.displayName} />
                         </Col>
-                    
                     </FormGroup>
         
-                    
-                  
-
-                    <FormGroup controlId="formHorizontalText">
-                
-                <Col componentClass={ControlLabel} md={2}>
-                    Gender
-                        </Col>
-                  
-                    </FormGroup> 
                     <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} md={2}>
-                        Email
+                        Public Key
                         </Col>
                         <Col sm={10}>
-                        <input className = "form-control" type="email" value = {this.state.email} id = "email" onChange = {this.handleChange.bind(this)} disabled/>
+                        <input className = "form-control" type="text" value = {authProfile.publicKey} id = "publicKey" />
                         </Col>
                     </FormGroup>
 
-                    <FormGroup controlId="formHorizontalNumber">
+                    <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} md={2}>
-                        Phone
+                        Private Key
                         </Col>
                         <Col sm={10}>
-                        <input className = "form-control" type="text" value = {this.state.phoneNumber} id = "phoneNumber" onChange = {this.handleChange.bind(this)}/>
+                        <input className = "form-control" type="text" id = "privateKey"/>
                         </Col>
                     </FormGroup>
-                   
+
                     <FormGroup>
                         <Col smOffset={2} sm={10}>
                         <input ref="file" type="file" name="file" 
@@ -192,14 +131,19 @@ class AboutProfile extends Component{
                         <input type="submit" className= "float-right btn btn-primary" value = "Submit" />
                         </Col>
                     </FormGroup>
-                    </Form> 
-               
-                      
-                    </div>
-                    <br/>
+                </Form> 
+                </div>
+
+                <br/>
+                
             </div> 
 
         )
+
+        }
+        else { 
+            return (<div><LoadingSpinner/></div>)
+        }
     }
 }
 

@@ -21,8 +21,7 @@ class HeaderBar extends Component {
   }
 
   
-
-  componentWillMount() { 
+componentWillMount() { 
 
     console.log(this.state.authKey);
     var getAccount = "/account/"
@@ -32,19 +31,25 @@ class HeaderBar extends Component {
       })
       .then((response) => {
           var data = response.data
-          if ( data.error)  
+          if ( data.error)  {
               this.props.history.push(data.redirect)
-          
+              localStorage.removeItem("authKey");
+              localStorage.removeItem("authProfile");
+
+          }
           else {
-                var authProfile = {}
-                
+              var authProfile = {}
+              localStorage.removeItem("authProfile") 
+
               authProfile.amount = data.amount;            
               authProfile.displayName = data.displayName? data.displayName : "Account";
               authProfile["followings"] = data.followings ? data.followings: new Array()
               authProfile["post"] = data.post? data.post : new Array()
               authProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
               
-              localStorage.removeItem("authProfile")
+              authProfile["publicKey"] = this.state.authKey.publicKey
+              authProfile["privateKey"] = this.state.authKey.privateKey
+              
               localStorage.setItem("authProfile",JSON.stringify(authProfile))
               
               this.setState({ 
@@ -59,14 +64,25 @@ class HeaderBar extends Component {
     }
   }
 
+  handleSignOut() {
+    Axios.get("/signout").then((response) => { 
+        console.log(response.data);
+        var data = response.data;
+        
+        localStorage.clear()
+        alert(data.message + localStorage.length);
+        
+         
+        window.location.replace(data.redirect);
+       
+    })
+  }
 
   render() {
-    const links = this.state.authProfile ? <SigninLink /> : <SignoutLink/>
-    console.log(links)
-    console.log(this.props.auth)
-
+    const links = this.state.authProfile ? <SigninLink authProfile = {this.state.authProfile} handleSignOut = {this.handleSignOut.bind(this)}/> : <SignoutLink/>
     
-    if(!this.state.isLoading){
+    console.log(this.state.authProfile);
+    
       return (
        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow sticky-top">
           <div className = "container">
@@ -90,11 +106,7 @@ class HeaderBar extends Component {
         </nav>
    
       )
-    }
-    else{
-      return (<div><LoadingSpinner/></div>)
-    }
-    
+
   }
 }
 

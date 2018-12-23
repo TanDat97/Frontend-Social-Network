@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux'
 import {signUp,createUser} from '../../Store/Actions/authActions'
-import {Keypair} from "stellar-base"
+import {Keypair, StrKey} from "stellar-base"
 
 class Signup extends Component {
     constructor(props) {
@@ -39,74 +39,66 @@ class Signup extends Component {
 
     handleSubmit = (e) =>  {
         e.preventDefault();
-        const listUser = this.props.fireStore.Profile
-  
-        if (this.state.password.length >= 6) {
-        if (this.state.password === this.state.password2) {
-            var isEmailExisted = listUser.find( each => each.email === this.state.email)
-            if(isEmailExisted) {
-                alert("Email đã tồn tại")
-            }
-            else {
-                this.props.signUp(this.state)
-                this.props.history.replace('/')
-            }
+        var authPrivateKey = document.getElementById("authPrivateKey").value
+        
+        if (StrKey.isValidEd25519SecretSeed(authPrivateKey) ) {
+            var key = Keypair.fromSecret(authPrivateKey);
+            var publicKey = key.publicKey()
             
+            // Axios.post ( "/signin/", {
+            //     username: publicKey,
+            //     password: "1",
+            // }).then(response => {
+            //     var data = response.data
+            //     if ( data.error) { 
+            //         alert(data.error)
+            //     }
+            //     else { 
+            //         alert(data.message);
+            //         var authKey = {
+            //             publicKey: publicKey,
+            //             privateKey: this.state.privateKey,
+            //         }
+            //         this.props.signIn(authKey)
+                    
+            //         window.location.replace("/")
+            //     }
+                
+            // }).catch(err => { 
+            //     console.log(err);
+            // })
         }
-        else {
-            alert("Vui lòng nhập lại password")
-        }
-        }
-        else {
-            alert("Mật khẩu ít hơn 6 kí tự")
-        }
+        else 
+            alert("Invalid private key!")
 
      }
 
     render() {
         return (
-            <div className = "container"> 
+            <div className = "container container"> 
                 <br/>
-                <form onSubmit = {this.handleSubmit} className = "white"> 
+                <form  className = "white"> 
                     <h2><strong>Sign Up </strong> </h2>
                     
-                    <div className = "form-group">
-                        <label htmlFor = "text">FirstName</label>
-                        <input type ="text" class="form-control" id = "firstName" onChange= {this.handleChange} required/>
-                    </div>
-
-                    <div className = "input-field">
-                        <label htmlFor = "text">LastName</label>
-                        <input type ="text" class="form-control" id = "lastName" onChange= {this.handleChange} required/>
-                    </div>
-                   
                     <div className = "input-field">
                         <label htmlFor = "text">Public Key</label>
-                        
-                        <input type ="text" class="form-control" value= {this.state.publicKey?this.state.publicKey:null} id = "publicKey" onChange= {this.handleChange} required/>
+                        <input type ="text" className="form-control" value= {this.state.publicKey?this.state.publicKey:null} id = "newPublicKey" disabled/>
 
                         <label htmlFor = "text">Private Key</label>
-                        <input type ="text" class="form-control" value= {this.state.privateKey} id = "privateKey" disabled/>
-                        <button onClick= {this.handleCreateKey} class="btn btn-primary">Create Private Key</button>
+                        <input type ="text" className="form-control" value= {this.state.privateKey} id = "newPrivateKey" disabled/>
+                        <br/>
+                        <button onClick= {this.handleCreateKey} className="btn btn-sm btn-primary">Create Private Key</button>
                     </div>
                   
-                   
+                    <br/>
 
                     <div className = "input-field">
-                        <label htmlFor = "email">Email</label>
-                        <input type ="email" class="form-control" id = "email" onChange= {this.handleChange}required/>
+                        <label htmlFor = "text">Your Private key (required)</label>
+                        <input type ="text" className="form-control" id = "authPrivateKey" onChange= {this.handleChange}required/>
                     </div>
                     
-                    <div className = "input-field">
-                        <label htmlFor = "password">Password</label>
-                        <input type ="password" class="form-control" id = "password" onChange= {this.handleChange}required/>
-                    </div>
-                    <div className = "input-field">
-                        <label htmlFor = "password">Confirm Password</label>
-                        <input type ="password" class="form-control" id = "password2" onChange= {this.handleChange}  required/>
-                    </div>
                      <br/>
-                        <button type="submit" class="btn btn-primary blue">Login</button>
+                        <button onClick = {this.handleSubmit} type = "submit" className="btn btn-primary blue pull-right">Login</button>
                     
                 </form>
                 <br/>

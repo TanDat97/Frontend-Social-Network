@@ -34,7 +34,7 @@ const Followings = ({userProfile}) => {
          
         </div>
         <div className="card-footer">
-          <a href="#FindFollower"><i className="fa fa-user"></i> Find people you know</a>
+          <a href={"/following/" + userProfile.publicKey}><i className="fa fa-user"></i> All people you following</a>
         </div>
       </div>
       <br/>

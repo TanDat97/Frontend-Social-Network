@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import * as HandleTransaction from "../../Function/HandleTransaction"
+import * as handleTransaction from "../../Function/HandleTransaction"
 import { StrKey, Keypair } from 'stellar-base';
 
 
@@ -52,16 +52,18 @@ class Payment extends Component {
             axios.post(getAccount, { 
                 public_key: send_public_key
             }).then(response => { 
-                var sequence = response.data.sequence
+                var sequence = response.data.sequence + 1
+                console.log(sequence);
                 
                 
-                var paymentEncode = HandleTransaction.encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key,sequence)
-
+                var paymentEncode = handleTransaction.encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key,sequence)
+                console.log(paymentEncode);
+                
                 axios.post("/broadcast_commit",{
-                    encodeTransaction: paymentEncode,
+                    enCodeTransaction: paymentEncode,
                 }).then(response => {
                     alert(response.data.message)
-                    window.location.reload();
+                    // window.location.reload();
                 }).catch(err=> { 
                     alert(err)
                 })

@@ -15,9 +15,6 @@ import Payment from "./Components/Payment/Payment"
 class App extends Component {
   render() {
     return (
-        
-          
-         
           <BrowserRouter >
               <div>
                 <HeaderBar/>

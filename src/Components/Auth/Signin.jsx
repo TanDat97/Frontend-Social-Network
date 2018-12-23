@@ -49,7 +49,8 @@ class Signin extends Component {
                         privateKey: this.state.privateKey,
                     }
                     this.props.signIn(authKey)
-                    this.props.history.push(data.redirect)
+                    
+                    window.location.replace("/")
                 }
                 
             }).catch(err => { 
@@ -68,7 +69,7 @@ class Signin extends Component {
     
         
         return (
-            <div className = "container">
+            <div className="rounded shadow bg-light container">
             <br/>
                <Row>   
                     <Col xs = {6} md = {8}>
@@ -113,8 +114,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
     connect(mapStateToProps,mapDispatchToProps),
-    firestoreConnect((props) => [
-        {collection: 'Profile'},
-    
-    ]) ,  
+      
 )(Signin);
