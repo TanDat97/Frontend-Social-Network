@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import * as handleTransaction from "../../Function/HandleTransaction"
 import { StrKey, Keypair } from 'stellar-base';
+import { encodeAndCommitTX } from '../../Store/Actions/transactionActions';
 
 
 class Payment extends Component {
@@ -46,32 +47,11 @@ class Payment extends Component {
         
         
         if (StrKey.isValidEd25519SecretSeed(send_private_key) ) {
-            var send_public_key = Keypair.fromSecret(send_private_key);
-            send_public_key = send_public_key.publicKey()
-            var getAccount = "/account/"
-            axios.post(getAccount, { 
-                public_key: send_public_key
-            }).then(response => { 
-                var data = response.data
-                if ( data.error) { 
-                    alert(data.error)
-                    this.props.history.push(data.redirect)
-                }
-                else {
-                    var sequence = data.sequence + 0
-                    var paymentEncode = handleTransaction.encodePaymentTransaction(send_public_key,receive_public_key,amount,send_private_key,sequence)
-                    
-                    axios.post("/broadcast_commit",{
-                        enCodeTransaction: paymentEncode,
-                    }).then(response => {
-                        alert(response.data.message)
-                        window.location.reload();
-                    }).catch(err=> { 
-                        alert(err)
-                    })
-                }
-            })
-            
+            var contentTx = {
+                type: "payment",
+                amount: amount,
+            }
+            this.props.encodeAndCommitTX(contentTx,send_private_key,receive_public_key)
             
         }
         else { 
@@ -126,4 +106,20 @@ class Payment extends Component {
 }
 
 
-export default Payment;
+function mapStateToProps(state) {
+    return {
+
+    };
+}
+
+function matDispatchToProps(dispatch) {
+    return {
+        
+        encodeAndCommitTX: (contentTx, privateKey, address) => dispatch(encodeAndCommitTX (contentTx, privateKey, address))
+    };
+}
+
+export default connect(
+    mapStateToProps,matDispatchToProps
+)(Payment);
+

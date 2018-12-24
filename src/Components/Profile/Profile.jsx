@@ -10,105 +10,64 @@ import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 
 import LoadingSpinner from "../../Plugin/LoadingSpinner"
 //Connect redux
-import { connect } from 'react-redux';
+import {withRouter} from "react-router-dom"
+import {connect} from "react-redux"
 import axios from "axios"
+import { getAccountFromServer } from '../../Store/Actions/getAccountActions';
 class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            amount: 0,
-            isLoading: true,
-            userProfile: null,
             paramPublicKey:null,
             authKey: null,
-            isUpdated: false,
           };
-
-          this.getAccountFromServer.bind(this)
     }
 
    
 
-    componentWillMount() { 
+    componentWillMount() {
         var publicKey = this.props.match.params.publicKey
         var authKey = localStorage.getItem("authKey");
-        
-        
-        console.log(this.props.match.params.publicKey);
+
         this.setState({
             paramPublicKey: publicKey,
             authKey:JSON.parse(authKey),
-          
-        })
-        
-    }
-  
-
-    // componentDidUpdate() { 
-    //     if( !this.state.isUpdated) { 
-    //         this.getAccountFromServer()
-    //     }
-    // }
-
-    getAccountFromServer () { 
-        var getAmount = "/account/"
-        
-        
-        axios.post(getAmount, {
-            public_key: this.state.paramPublicKey,
-        })
-        .then((response) => {
-            var data = response.data
-            if ( data.error)  
-                this.props.history.push(data.redirect)
             
-            else {
-                 var userProfile = {}
-                 
-                userProfile.amount = data.amount;            
-                userProfile.displayName = data.displayName? data.displayName : "Account";
-                userProfile["followings"] = data.followings ? data.followings: new Object({ addresses: new Array()})
-                userProfile["post"] = data.post? data.post : new Array()
-                userProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+        }) 
 
-                userProfile["publicKey"] =  this.props.match.params.publicKey
-                // userProfile["privateKey"] = this.state.authKey.privateKey
-              
-                //Khong setItem Localstorage cho authProfile 
-                this.setState({ 
-                    isUpdated:true,
-                    isLoading:false,
-                    userProfile: userProfile,
-                })  
-            }
-        })
-        .catch( (error) => {
-            console.log(error);
-        });
-    } 
+    }
+
+   
+
+    componentDidUpdate(prevProps) { 
+        if (this.props.match.params.publicKey !== prevProps.match.params.publicKey) {
+            var publicKey = this.props.match.params.publicKey
+            this.setState({
+                paramPublicKey: publicKey,
+            })
+            this.props.getAccountFromServer(publicKey)
+          }
+    }
+
+    componentDidMount() { 
+        this.props.getAccountFromServer(this.state.paramPublicKey)
+    }
     
     
   render() {
-    var authKey = this.state.authKey
-    
-    
-    
-    if(authKey && this.state.isLoading){
-    
-        this.getAccountFromServer()
-   
-    }
+    var userProfile = this.props.getAccount.userProfile
 
-    if  (this.state.isLoading) {
+    if  (!userProfile) {
         return (
            <div><LoadingSpinner/></div>
             
         )
       }
     else{
-        var getPost = this.state.userProfile.post        
-        var userProfile = this.state.userProfile
-
+              
+        var getPost = userProfile.post 
+        console.log(userProfile);
+        
         
         return (
             <div className = "animate-post">
@@ -180,24 +139,24 @@ class HomePage extends Component {
 
 
 const  mapStateToProps = (state) => {
-    console.log(state);
-    
     return {
-        auth: state.firebase.auth,
-        follower: state.follower,
-        following: state.following,
-        firebase: state.firebase,
-        fireStore: state.firestore.ordered,
-        
+        getAccount: state.getAccount,
+    };
+}
+
+const  mapDispatchToProps = (dispatch) => {
+    return {
+        getAccountFromServer: (publicKey) => dispatch( getAccountFromServer(publicKey)),
     };
 }
 
 
-export default compose(
-    connect(mapStateToProps),
+export default withRouter(compose(
+    connect(mapStateToProps,mapDispatchToProps),
     firestoreConnect((props) => [
         {collection: 'Profile'},
         {collection: 'Post'}
     ]) 
-)(HomePage);
+)(HomePage));
+
 

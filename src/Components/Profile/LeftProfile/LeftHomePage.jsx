@@ -17,7 +17,7 @@ const LeftHomePage = ({userProfile, authKey})=> {
                         <div className="panel-body">
                             <div className="inner-all">
                             <div className = "card">
-                            <a href="/"><img className="card-img" alt="" src={userProfile.avatar? userProfile.avatar: globalVariable.default_avatar}/></a>
+                            <a href= {"/profile/" +  userProfile.publicKey}><img className="card-img" alt="" src={userProfile.avatar? userProfile.avatar: globalVariable.default_avatar}/></a>
 
                             <div className = "card-body">
                                 <ul className="list-unstyled">

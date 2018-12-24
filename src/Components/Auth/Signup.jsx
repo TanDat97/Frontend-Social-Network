@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import {signUp,createUser} from '../../Store/Actions/authActions'
 import {Keypair, StrKey} from "stellar-base"
 import Axios from 'axios';
+import {encodeAndCommitTX} from "../../Store/Actions/transactionActions"
 import * as handleTransaction from "../../Function/HandleTransaction"
 class Signup extends Component {
     constructor(props) {
@@ -45,35 +46,11 @@ class Signup extends Component {
         
         
         if (StrKey.isValidEd25519SecretSeed(authPrivateKey) ) {
-            var key = Keypair.fromSecret(authPrivateKey);
-            var authPublicKey = key.publicKey()
-            console.log(authPublicKey);
-            
-            var getAccount = "/account/"
-            Axios.post(getAccount, { 
-                public_key: authPublicKey
-            }).then(response => { 
-                var data = response.data
-                if ( data.error) { 
-                    alert(data.error)
-                    this.props.history.push(data.redirect)
-                }
-                else {
-                    var sequence = data.sequence + 0
-                    console.log(sequence);
-                    
-                    var createEncode = handleTransaction.encodeCreateAccountTransaction(authPublicKey,newPublicKey,authPrivateKey,sequence)
-                    console.log(createEncode);
-                    Axios.post("/broadcast_commit",{
-                        enCodeTransaction: createEncode,
-                    }).then(response => {
-                        alert(response.data.message)
-                        window.location.reload();
-                    }).catch(err=> { 
-                        alert(err)
-                    })
-                }
-            })
+            var contentTx = {
+                type: "create_account",
+                newPublicKey: newPublicKey,
+            }
+            this.props.encodeAndCommitTX(contentTx, authPrivateKey,null);
         }
         else 
             alert("Invalid private key!")
@@ -105,7 +82,7 @@ class Signup extends Component {
                     </div>
                     
                      <br/>
-                        <button onClick = {this.handleSubmit} type = "submit" className="btn btn-primary blue pull-right">Login</button>
+                        <button onClick = {this.handleSubmit} type = "submit" className="btn btn-primary pull-right">Create</button>
                     
                 </form>
                 <br/>
@@ -128,13 +105,11 @@ const mapDispatchToProps = (dispatch) => {
     return { 
         signUp: (user) => dispatch(signUp(user)),
         createUser: (user) => dispatch(createUser(user)),
+        encodeAndCommitTX: (contentTx, privateKey, address) => dispatch(encodeAndCommitTX (contentTx, privateKey, address)),
     }
 }
 
-export default compose(
- connect(mapStateToProps,mapDispatchToProps),
-    firestoreConnect((props) => [
-        {collection: 'Profile'},
-    
-    ]) ,  
+
+export default connect(
+    mapStateToProps,mapDispatchToProps
 )(Signup);

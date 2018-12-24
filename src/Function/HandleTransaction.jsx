@@ -40,7 +40,7 @@ export const  encodePaymentTransaction = (account, address, amount, private_key,
 
 export const  encodePostTransaction = (account, contentPost, private_key, sequence) => {
   
-    var post = { type: 1, text: content, }
+    var post = { type: 1, text: contentPost}
     var content = new Buffer.from(JSON.stringify(post));
 
     const tx = {
@@ -61,77 +61,39 @@ export const  encodePostTransaction = (account, contentPost, private_key, sequen
      
 }
 
-// function encodeUpdateNameTransaction  (account, updateNameParams, private_key) {
-//     return new Promise((resolve, reject) => {     
-//         var req = publicDomain + "/tx_search?query=%22account=%27"+account+"%27%22"    
-//         axios.get(req)
-//         .then(response => {
-//             const data = response.data.result.txs.map((each) => {
-//                 each.tx = decodeTransaction(each.tx);
-//                 each.tx.memo = each.tx.memo.toString();
-//                 each.tx.signature = each.tx.signature.toString('hex');
-//                 return each;
-//             })
-//             var sequence = findSequenceAvailable(data, account);
-//             const tx = {
-//                 version: 1, 
-//                 operation: "update_account",
-//                 params: {
-//                         key: 'name',
-//                         value: updateNameParams,
-//                     },
-//                 account: account,
-//                 sequence: sequence,
-//                 memo: Buffer.alloc(0),
-//             }
-//             transaction.sign(tx, private_key);
-//             const txEncode =  "0x" + transaction.encode(tx).toString('hex')
-//             resolve(txEncode);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             reject(error);
-//         });
-//     }, err => {
-//         reject(err);
-//     });
-// }
+export const encodeUpdateNameTransaction = (account, updateNameParams, private_key,sequence) => {
+    const tx = {
+        version: 1, 
+        operation: "update_account",
+        params: {
+                key: 'name',
+                value: updateNameParams,
+            },
+        account: account,
+        sequence: sequence,
+        memo: Buffer.alloc(0),
+    }
+    transaction.sign(tx, private_key);
+    const txEncode =  "0x" + transaction.encode(tx).toString('hex')
+    return txEncode
+}
 
-// function encodeUpdatePictureTransaction  (account, updatePictureParams, private_key) {
-//     return new Promise((resolve, reject) => {     
-//         var req = publicDomain + "/tx_search?query=%22account=%27"+account+"%27%22"    
-//         axios.get(req)
-//         .then(response => {
-//             const data = response.data.result.txs.map((each) => {
-//                 each.tx = decodeTransaction(each.tx);
-//                 each.tx.memo = each.tx.memo.toString();
-//                 each.tx.signature = each.tx.signature.toString('hex');
-//                 return each;
-//             })
-//             var sequence = findSequenceAvailable(data, account);
-//             const tx = {
-//                 version: 1, 
-//                 operation: "update_account",
-//                 params: {
-//                         key: 'picture',
-//                         value: updatePictureParams,
-//                     },
-//                 account: account,
-//                 sequence: sequence,
-//                 memo: Buffer.alloc(0),
-//             }
-//             transaction.sign(tx, private_key);
-//             const txEncode = transaction.encode(tx).toString('base64');
-//             resolve(txEncode);
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             reject(error);
-//         });
-//     }, err => {
-//         reject(err);
-//     });
-// }
+export const encodeUpdatePictureTransaction = (account, updatePictureParams, private_key,sequence) => {
+    const tx = {
+        version: 1, 
+        operation: "update_account",
+        params: {
+                key: 'picture',
+                value: updatePictureParams,
+            },
+        account: account,
+        sequence: sequence,
+        memo: Buffer.alloc(0),
+    }
+    transaction.sign(tx, private_key);
+    const txEncode = transaction.encode(tx).toString('base64');
+    return txEncode
+}
 
 // function encodeUpdateFollowingsTransaction  (account, Followings, private_key) {
 //     return new Promise((resolve, reject) => {     
