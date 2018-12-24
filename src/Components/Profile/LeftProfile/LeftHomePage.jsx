@@ -24,8 +24,9 @@ const LeftHomePage = ({userProfile, authKey})=> {
                                     <li className="text-center">
                                         <h4 className="text-capitalize">{userProfile.displayName}</h4>
                                      
-                                        <p className="text-muted text-capitalize"> <i className="fa fa-phone"></i> {userProfile.phoneNumber}</p>
-                                        <p className="text-muted text-capitalize"> Tài khoản: {userProfile.amount?userProfile.amount:0} TRE</p>
+                                        <p className="text-muted text-capitalize"> <i className="fa fa-setting"></i> </p>
+                                        <p className="text-muted text-capitalize"> Tài khoản: {userProfile.amount} TRE</p>
+                                        <p className="text-muted text-capitalize"> Energy: {userProfile.energy} OXY</p>
                                     </li>
                                    
                                     <li><br/></li>

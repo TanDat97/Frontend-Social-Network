@@ -19,11 +19,13 @@ export const getAccountFromServer = (publicKey) => {
             else {
                  var userProfile = {}
                  
-                userProfile.amount = data.amount;            
+                userProfile["amount"] = data.amount?data.amount: "Nan";
+                userProfile["energy"] = data.energy? data.energy : "Nan";            
                 userProfile.displayName = data.displayName? data.displayName : "Account";
                 userProfile["followings"] = data.followings ? data.followings: new Object({ addresses: new Array()})
                 userProfile["post"] = data.post? data.post : new Array()
                 userProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+                
 
                 userProfile["publicKey"] =  publicKey
                 // userProfile["privateKey"] = this.state.authKey.privateKey

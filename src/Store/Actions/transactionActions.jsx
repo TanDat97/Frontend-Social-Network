@@ -2,27 +2,9 @@ import * as  AT from './ActionTypes'
 import Axios from 'axios';
 import { Keypair } from 'stellar-base/lib/keypair';
 import * as  handleTransaction from "../../Function/HandleTransaction"
-import { connect } from 'net';
-// export const broadCastCommit = (encodeTx) => {
-//     return (dispatch) => { 
-//         Axios.post("/broadcast_commit",{
-//             enCodeTransaction: encodeTx,
-//         }).then(response => {
-//             alert(response.data.message)
-//             window.location.reload();
-//             dispatch({ 
-//                 message: response.data.message,
-//                 type: AT.BROAD_CAST_SUCCESS,
-//             })
-//         }).catch(err=> { 
-//             alert(err)
-//             dispatch({
-//                 error: err,
-//                 type: AT.BROAD_CAST_ERROR,
-//             })
-//         })
-//     } 
-// }
+import vstruct from "varstruct"
+
+
 
 export const encodeAndCommitTX = (contentTx, privateKey, address) => {
     return (dispatch) => {
@@ -50,6 +32,7 @@ export const encodeAndCommitTX = (contentTx, privateKey, address) => {
                     case "post":
                         var postEncode =  handleTransaction.encodePostTransaction(publicKey, contentTx.contentPost, privateKey, sequence)
                         broadCastCommit(postEncode, dispatch)
+                        
                     break;
     
                     case "payment":
@@ -57,11 +40,18 @@ export const encodeAndCommitTX = (contentTx, privateKey, address) => {
                         broadCastCommit(paymentEncode, dispatch)
                     break;
     
-                    case "update_account":
+                    case "update_name":
+                        var displayName = new Buffer.from(contentTx.displayName);
+                        var updateNameEncode = handleTransaction.encodeUpdateNameTransaction(publicKey,displayName,privateKey,sequence)
+                        broadCastCommit(updateNameEncode, dispatch)
                         // var paymentEncode = handleTransaction.encodePaymentTransaction(publicKey,address,contentTx.amount,privateKey,sequence)  
                         // RPCCommit(paymentEncode, dispatch)
-                        // var paymentEncode = handleTransaction.encodePaymentTransaction(publicKey,address,contentTx.amount,privateKey,sequence)  
-                        // RPCCommit(paymentEncode, dispatch)
+                    break;
+
+                    case "update_avatar":
+                        // var avatar = new Buffer.from(contentTx.avatar);
+                        var updateAvatarTx = handleTransaction.encodeUpdatePictureTransaction(publicKey, contentTx.avatar,privateKey,sequence)
+                        commitUpdateAvatar(updateAvatarTx,dispatch)
                     break;
                 }
             }
@@ -91,18 +81,18 @@ const broadCastCommit = (encodeTx,dispatch) => {
 }
 
 
-const RPCCommit = (encodeTx,dispatch) => {
-    Axios.post("/broadcast_commit",{
-        enCodeTransaction: encodeTx,
+const commitUpdateAvatar = (encodePictureTransaction,dispatch) => {
+    Axios.post("/update_picture",{
+        encodePictureTransaction: encodePictureTransaction,
     }).then(response => {
-        alert("Commit - " + response.data.message)
+        alert("Commit Picture - " + response.data.message)
         window.location.reload();
         dispatch({ 
             message: response.data.message,
             type: AT.BROAD_CAST_SUCCESS,
         })
     }).catch(err=> { 
-        alert("Commit" + err)
+        alert("Commit Picture - " + err)
         dispatch({
             error: err,
             type: AT.BROAD_CAST_ERROR,

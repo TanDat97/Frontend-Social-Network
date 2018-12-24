@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom"
 import * as globalVariable from "../../../../Global/Variable/GlobalVariable"
 
 const LeftBar = ({userProfile}) => {
-    const followings = userProfile.followings.addresses;
+    const followings = userProfile.followings;
     console.log(userProfile);
     
     return (

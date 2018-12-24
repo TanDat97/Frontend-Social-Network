@@ -1,4 +1,14 @@
 import  * as transaction from './function/transaction/index';
+import vstruct from "varstruct"
+
+const PlainTextContent = vstruct([
+    { name: 'type', type: vstruct.UInt8 },
+    { name: 'text', type: vstruct.VarString(vstruct.UInt16BE) },
+]);
+const ReactContent = vstruct([
+    { name: 'type', type: vstruct.UInt8 },
+    { name: 'reaction', type: vstruct.UInt8 },
+  ]);
 
 export const encodeCreateAccountTransaction = (account, address, private_key,sequence) =>{
 
@@ -41,8 +51,7 @@ export const  encodePaymentTransaction = (account, address, amount, private_key,
 export const  encodePostTransaction = (account, contentPost, private_key, sequence) => {
   
     var post = { type: 1, text: contentPost}
-    var content = new Buffer.from(JSON.stringify(post));
-
+    var content = new Buffer.from(PlainTextContent.encode(post));
     const tx = {
         version: 1, 
         operation: "post",
