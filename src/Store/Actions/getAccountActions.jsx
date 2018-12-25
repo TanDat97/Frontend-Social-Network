@@ -18,6 +18,8 @@ export const getAccountFromServer = (publicKey) => {
             
             else {
                  var userProfile = {}
+                
+                
                  
                 userProfile["amount"] = data.amount?data.amount: "Nan";
                 userProfile["energy"] = data.energy? data.energy : "Nan";            
@@ -29,7 +31,7 @@ export const getAccountFromServer = (publicKey) => {
 
                 userProfile["publicKey"] =  publicKey
                 // userProfile["privateKey"] = this.state.authKey.privateKey
-              
+                
                 //Khong setItem Localstorage cho authProfile 
                 dispatch({
                     userProfile: userProfile,

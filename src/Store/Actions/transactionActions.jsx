@@ -44,13 +44,11 @@ export const encodeAndCommitTX = (contentTx, privateKey, address) => {
                         var displayName = new Buffer.from(contentTx.displayName);
                         var updateNameEncode = handleTransaction.encodeUpdateNameTransaction(publicKey,displayName,privateKey,sequence)
                         broadCastCommit(updateNameEncode, dispatch)
-                        // var paymentEncode = handleTransaction.encodePaymentTransaction(publicKey,address,contentTx.amount,privateKey,sequence)  
-                        // RPCCommit(paymentEncode, dispatch)
                     break;
 
                     case "update_avatar":
-                        // var avatar = new Buffer.from(contentTx.avatar);
-                        var updateAvatarTx = handleTransaction.encodeUpdatePictureTransaction(publicKey, contentTx.avatar,privateKey,sequence)
+                        var avatar = contentTx.avatar
+                        var updateAvatarTx = handleTransaction.encodeUpdatePictureTransaction(publicKey,avatar,privateKey,sequence)
                         commitUpdateAvatar(updateAvatarTx,dispatch)
                     break;
                 }

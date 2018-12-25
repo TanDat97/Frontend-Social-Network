@@ -51,7 +51,7 @@ componentWillMount() {
               authProfile["privateKey"] = this.state.authKey.privateKey
               
               localStorage.setItem("authProfile",JSON.stringify(authProfile))
-              
+           
               this.setState({ 
                   isLoading: false,
                   authProfile: authProfile,

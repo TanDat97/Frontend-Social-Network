@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 //Plugin
 
 import { compose } from 'redux'
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isEmpty } from 'react-redux-firebase';
 
 import LeftBar from "../Layout/NavBar/LeftBar/LeftBar";
 import RightBar from "../Layout/NavBar/RightBar/RightBar";
@@ -30,6 +30,7 @@ import { StrKey } from 'stellar-base/lib/strkey';
 import Axios from 'axios';
 import * as handleTransaction from "../../Function/HandleTransaction"
 
+
 // const avatarUser = {
 //     height: "50px",
 //     width: "50px",
@@ -42,10 +43,12 @@ class Newsfeed extends Component {
         super(props);
         var authKey = localStorage.getItem("authKey")
         authKey = JSON.parse(authKey)
+        var authProfile = localStorage.getItem("authProfile")
+        authProfile = JSON.parse(authProfile)
         this.state = {
             paramPublicKey:null,
             authKey: authKey?authKey:null,
-            authProfile: null,
+            authProfile: authProfile?authProfile:null,
           };
     }
 
@@ -116,34 +119,39 @@ class Newsfeed extends Component {
         //     alert("Invalid private key!");
         // }
     }
+
+    
     handleSubmit = (e)=>{
         e.preventDefault();
 
         var privateKey = this.state.authKey.privateKey
         var contentPost = document.getElementById("contentPost").value
-        if (StrKey.isValidEd25519SecretSeed(privateKey) ) {
+        var authProfile = this.state.authProfile
+        
+        
+        if (StrKey.isValidEd25519SecretSeed(privateKey)  && authProfile) {
             var contentTx = {
-                type: "post",
-                contentPost: contentPost,
+            type: "post",
+            contentPost: contentPost,
             }
             this.props.encodeAndCommitTX(contentTx,privateKey,null)  
         }
         else { 
             alert("Invalid private key!");
         }
+
+        document.getElementById("contentPost").value = ""
         
     }
 
     componentDidMount() 
     { 
-        if ( this.state.authKey)
-            this.props.getAccountFromServer(this.state.authKey.publicKey)
+        
     }
     
   render() 
     {
-        var authProfile = this.props.getAccount.userProfile
-        console.log(authProfile);
+        var authProfile = this.state.authProfile
         
         if(localStorage.length === 0){
             return(
@@ -154,24 +162,24 @@ class Newsfeed extends Component {
                 </div>
             )
         }
-        else if ( !authProfile) { 
+        else if ( !authProfile || isEmpty(this.props.fireStore)){ 
 
             return( <div><LoadingSpinner/></div>)
         }
         else {
 
             
-            var getPost = authProfile.post        
+            
+            var getPost = this.props.fireStore.Post 
+            console.log(getPost);
+                 
             getPost = getPost.slice().sort ((a,b) =>{
-                if (a.postedTime > b.postedTime)
+                if (a.post.header.time > b.post.header.time)
                     return -1;
-                if (a.postedTime < b.postedTime)
+                if (a.post.header.time < b.post.header.time)
                     return 1;
                 return 0
             });
-
-            var authProfile = authProfile
-            console.log(authProfile);
             
             return (
                 <Row>
@@ -227,7 +235,7 @@ class Newsfeed extends Component {
                         :null
                         }
                         {authProfile?<div><br/></div>:null} 
-                        {(getPost.lenght === 0 )?getPost.map ( (each,index) => {
+                        {(getPost.lenght !== 0 )?getPost.map ( (each,index) => {
                             console.log(each.id);
                             
                             return (
@@ -236,7 +244,8 @@ class Newsfeed extends Component {
                             
                                 <div className = "card" >        
                                     <div className="card-body"> 
-                                        <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/>
+                                        {/* <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/> */}
+                                        <Post post = {each} authUser = {authProfile} followFriend = {1} liketoPost = {2} />
                                     
                                     
                                         {authProfile?
@@ -324,12 +333,13 @@ class Newsfeed extends Component {
 function mapStateToProps(state) {
     return {
         getAccount: state.getAccount,
+        fireStore: state.firestore.ordered
     };
 }
 
-function matDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
-        
+        postStatus: (post) => dispatch(postStatus(post)), 
         encodeAndCommitTX: (contentTx, privateKey, address) => dispatch(encodeAndCommitTX (contentTx, privateKey, address)),
         getAccountFromServer: (publicKey) => dispatch( getAccountFromServer(publicKey)),
     };
@@ -337,7 +347,10 @@ function matDispatchToProps(dispatch) {
 
 
 
-export default connect(
-    mapStateToProps,matDispatchToProps
-)(Newsfeed);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect((props) => [
+        {collection: 'Post'},
+    ])   
+)(Newsfeed)
 

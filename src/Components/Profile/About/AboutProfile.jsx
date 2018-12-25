@@ -54,20 +54,18 @@ class AboutProfile extends Component{
         document.getElementById("upload_status").className = "text-info"
         var reader = new FileReader();
         var file = e.target.files[0];
+        var avatar;
         if(file)
         {
           if(file.size <= 20480)
           {
                 reader.readAsDataURL(file);   
                 reader.onload = (upload) =>{
-                    var avatar =  upload.target.result
+                    avatar =  upload.target.result
                     avatar = avatar.split(',')
                     var image64 = avatar[1]
                     var buffer = new Buffer.from(image64,"base64")
-                    buffer =Uint16Array.from(buffer)
-             
-                    console.log(buffer);
-                    
+
                     this.setState({
                         avatar: buffer,
                     })
@@ -76,7 +74,7 @@ class AboutProfile extends Component{
             setTimeout(() =>  {
                 
                 document.getElementById("upload_status").innerText = ""
-                document.getElementById("uploaded_image").src = this.state.avatar
+                document.getElementById("uploaded_image").src = avatar [0] + "," + avatar[1]
             }, 1000);
           }
           else{
@@ -124,8 +122,7 @@ class AboutProfile extends Component{
 
     handleUpdateName() { 
         var displayName = document.getElementById("displayName").value;
-        console.log(displayName);
-        
+
         var publicKey = this.state.authKey.publicKey
         var privateKey = this.state.authKey.privateKey
         if (displayName) { 

@@ -88,13 +88,14 @@ export const encodeUpdateNameTransaction = (account, updateNameParams, private_k
 }
 
 export const encodeUpdatePictureTransaction = (account, updatePictureParams, private_key,sequence) => {
+    
     const tx = {
         version: 1, 
         operation: "update_account",
         params: {
-                key: 'picture',
-                value: updatePictureParams,
-            },
+            key: 'picture',
+            value: updatePictureParams,
+        },
         account: account,
         sequence: sequence,
         memo: Buffer.alloc(0),
