@@ -9,24 +9,25 @@ const avatarFollowing = {
 }
 
 const Followings = ({userProfile}) => {
-  var following = userProfile.following
+  var followings = userProfile.followings
+  if ( followings) 
+    followings = new Array()
+  
   
   return (
     <div>
       <div className = "card">
         <div className = "card-body">
           <NavLink to = {"/following/" + userProfile.publicKey}><h5 className ="card-title text-secondary">Followings</h5></NavLink>
-          {  following.map(each => { 
+          {  followings.map(each => { 
             var avatar = each.avatar? each.avatar : globalVariable.default_avatar
             return (
               
-            <div className="media">
+            <div className="media text-truncate">
                   <img src= {avatar} alt="" style = {avatarFollowing} className ="mr-3"/>
                   <div className="media-body">
-                    <NavLink to = {"/profile/" + each.publicKey}><h6 className="mt-0">{each.displayName}</h6></NavLink>
-                    <p><i className="fa fa-user"></i>
-                    Followed
-                    </p>
+                    <NavLink to = {"/profile/" + each}><h6 className="mt-0">{each}</h6></NavLink>
+                    <p><i className="fa fa-user"></i></p>
                 </div>
             </div>
             )
@@ -34,7 +35,7 @@ const Followings = ({userProfile}) => {
          
         </div>
         <div className="card-footer">
-          <a href="#FindFollower"><i className="fa fa-user"></i> Find people you know</a>
+          <a href={"/following/" + userProfile.publicKey}><i className="fa fa-user"></i> All people you following</a>
         </div>
       </div>
       <br/>

@@ -7,23 +7,82 @@ import { compose } from 'redux'
 
 
 import LoadingSpinner from "../../../../Plugin/LoadingSpinner"
+import Axios from 'axios';
 
 class HeaderBar extends Component {
   constructor(props) {
     super(props);
+    var authKey = localStorage.getItem("authKey");
+    authKey =JSON.parse(authKey)
     this.state = {
-      
-   
+      authProfile:null,
+      authKey: authKey,
     }        
-}
+  }
+
+  
+componentWillMount() { 
+
+    console.log(this.state.authKey);
+    var getAccount = "/account/"
+    if ( this.state.authKey){
+      Axios.post(getAccount, {
+          public_key: this.state.authKey.publicKey,
+      })
+      .then((response) => {
+          var data = response.data
+          if ( data.error)  {
+              this.props.history.push(data.redirect)
+              localStorage.removeItem("authKey");
+              localStorage.removeItem("authProfile");
+
+          }
+          else {
+              var authProfile = {}
+              localStorage.removeItem("authProfile") 
+
+              authProfile.amount = data.amount;            
+              authProfile.displayName = data.displayName? data.displayName : "Account";
+              authProfile["followings"] = data.followings ? data.followings: new Object({ addresses: new Array()})
+              authProfile["post"] = data.post? data.post : new Array()
+              authProfile["avatar"] = data.picture? "data:image/jpg;base64, " + data.picture : null
+              
+              authProfile["publicKey"] = this.state.authKey.publicKey
+              authProfile["privateKey"] = this.state.authKey.privateKey
+              
+              localStorage.setItem("authProfile",JSON.stringify(authProfile))
+           
+              this.setState({ 
+                  isLoading: false,
+                  authProfile: authProfile,
+              })  
+          }
+      })
+      .catch( (error) => {
+          console.log(error);
+      });
+    }
+  }
+
+  handleSignOut() {
+    Axios.get("/signout").then((response) => { 
+        console.log(response.data);
+        var data = response.data;
+        
+        localStorage.clear()
+        alert(data.message + localStorage.length);
+        
+         
+        window.location.replace(data.redirect);
+       
+    })
+  }
 
   render() {
-    const links = this.props.auth.uid ? <SigninLink /> : <SignoutLink/>
-    console.log(links)
-    console.log(this.props.auth)
-
+    const links = this.state.authProfile ? <SigninLink authProfile = {this.state.authProfile} handleSignOut = {this.handleSignOut.bind(this)}/> : <SignoutLink/>
     
-    if(links){
+    console.log(this.state.authProfile);
+    
       return (
        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow sticky-top">
           <div className = "container">
@@ -47,11 +106,7 @@ class HeaderBar extends Component {
         </nav>
    
       )
-    }
-    else{
-      return (<div><LoadingSpinner/></div>)
-    }
-    
+
   }
 }
 

@@ -10,104 +10,86 @@ import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 
 import LoadingSpinner from "../../Plugin/LoadingSpinner"
 //Connect redux
-import { connect } from 'react-redux';
+import {withRouter} from "react-router-dom"
+import {connect} from "react-redux"
 import axios from "axios"
+import { getAccountFromServer } from '../../Store/Actions/getAccountActions';
 class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            amount: 0,
-            isLoading: true,
-            userProfile: null,
             paramPublicKey:null,
+            authKey: null,
           };
-
-          this.getAmountAccountFromServer.bind(this)
     }
 
    
 
-    componentWillMount() { 
-        var pathName = this.props.history.location.pathname;
-        
-        var public_key = pathName.split("/");
-        public_key = public_key[2]
+    componentWillMount() {
+        var publicKey = this.props.match.params.publicKey
+        var authKey = localStorage.getItem("authKey");
 
         this.setState({
-            paramPublicKey: public_key,
-        })
+            paramPublicKey: publicKey,
+            authKey:JSON.parse(authKey),
+            
+        }) 
+
     }
 
-    
-   getAmountAccountFromServer (userProfile) { 
-        var getAmount = "/account/"
-        
-        axios.post(getAmount, {
-            public_key: this.state.paramPublicKey, // Truyen publickey tu params
-        })
-        .then((response) => {
-            var data = response.data;
-            userProfile.amount = data.amount;            
+   
 
+    componentDidUpdate(prevProps) { 
+        if (this.props.match.params.publicKey !== prevProps.match.params.publicKey) {
+            var publicKey = this.props.match.params.publicKey
             this.setState({
-                userProfile: userProfile,
+                paramPublicKey: publicKey,
             })
-            
-            console.log(this.state.userProfile);
-            
-        })
-        .catch( (error) => {
-            console.log(error);
-        });
-   } 
+            this.props.getAccountFromServer(publicKey)
+          }
+    }
+
+    componentDidMount() { 
+        this.props.getAccountFromServer(this.state.paramPublicKey)
+    }
     
     
   render() {
-    
-    if(this.props.fireStore.Profile && this.props.fireStore.Post && this.state.isLoading){
-        
-        var listProfile = this.props.fireStore.Profile 
-        var userProfile = listProfile.find(each => each.publicKey === this.state.paramPublicKey)
-        console.log(this.state.paramPublicKey);
-        
-        this.getAmountAccountFromServer(userProfile)
+    var userProfile = this.props.getAccount.userProfile
 
-        this.setState({ 
-            isLoading: false,
-            userProfile: userProfile,
-        })  
-    }
-
-    if  (this.state.isLoading) {
+    if  (!userProfile) {
         return (
            <div><LoadingSpinner/></div>
             
         )
       }
     else{
-        var getPost = this.props.fireStore.Post
-        console.log(getPost);
-        var userProfile = this.state.userProfile
+              
+        var getPost = userProfile.post 
         console.log(userProfile);
+        
         
         return (
             <div className = "animate-post">
                 
                 <div >
                 <Row>
-                    <LeftHomePage userProfile = {userProfile}  />
+                    <LeftHomePage userProfile = {userProfile} authKey = {this.state.authKey}  />
                     <Col lg = {9} md = {9} sm = {8}>
                     <TopHomePage/>
-                    
-                   
+  
                     <br/>
                  
                     <nav>
               
                     <div className="nav nav-tabs" id="nav-tab" role="tablist">
                         <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-                        <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">About</a>
-                        <a className ="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                        {userProfile.publicKey !== this.state.authKey.publicKey 
+                            ? null:
+                            <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Update</a>    
+                        }
+                        
+                        
                     </div>
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
@@ -120,14 +102,14 @@ class HomePage extends Component {
                                 <div className = "card-body">
                     
                             <div className = "card-text">
-                                {getPost.map ( (each,index) => {
+                                {(getPost.lenght===0)?getPost.map ( (each,index) => {
                                     return (
                                         <div key = {index}> 
                                             <Post post = {each} authUser = {userProfile}/>
                                             <br/>
                                         </div>
                                     )
-                                    })}
+                                    }): <div>No one posted yet! </div>}
                                 </div>
                             </div>
                             </div>  
@@ -141,10 +123,8 @@ class HomePage extends Component {
                         
                     </div>
                     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    
-                    <AboutProfile/>
+                        <AboutProfile/>
                     </div>
-                    <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
                     </div>
                      
                         
@@ -159,23 +139,24 @@ class HomePage extends Component {
 
 
 const  mapStateToProps = (state) => {
-    console.log(state.firestore.ordere)
     return {
-        auth: state.firebase.auth,
-        follower: state.follower,
-        following: state.following,
-        firebase: state.firebase,
-        fireStore: state.firestore.ordered,
-        
+        getAccount: state.getAccount,
+    };
+}
+
+const  mapDispatchToProps = (dispatch) => {
+    return {
+        getAccountFromServer: (publicKey) => dispatch( getAccountFromServer(publicKey)),
     };
 }
 
 
-export default compose(
-    connect(mapStateToProps),
+export default withRouter(compose(
+    connect(mapStateToProps,mapDispatchToProps),
     firestoreConnect((props) => [
         {collection: 'Profile'},
         {collection: 'Post'}
     ]) 
-)(HomePage);
+)(HomePage));
+
 

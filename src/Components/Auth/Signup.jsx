@@ -3,8 +3,10 @@ import { compose } from 'redux'
 import { isEmpty, firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux'
 import {signUp,createUser} from '../../Store/Actions/authActions'
-import {Keypair} from "stellar-base"
-
+import {Keypair, StrKey} from "stellar-base"
+import Axios from 'axios';
+import {encodeAndCommitTX} from "../../Store/Actions/transactionActions"
+import * as handleTransaction from "../../Function/HandleTransaction"
 class Signup extends Component {
     constructor(props) {
         super(props);
@@ -39,74 +41,48 @@ class Signup extends Component {
 
     handleSubmit = (e) =>  {
         e.preventDefault();
-        const listUser = this.props.fireStore.Profile
-  
-        if (this.state.password.length >= 6) {
-        if (this.state.password === this.state.password2) {
-            var isEmailExisted = listUser.find( each => each.email === this.state.email)
-            if(isEmailExisted) {
-                alert("Email đã tồn tại")
+        var authPrivateKey = document.getElementById("authPrivateKey").value
+        var newPublicKey = document.getElementById("newPublicKey").value
+        
+        
+        if (StrKey.isValidEd25519SecretSeed(authPrivateKey) ) {
+            var contentTx = {
+                type: "create_account",
+                newPublicKey: newPublicKey,
             }
-            else {
-                this.props.signUp(this.state)
-                this.props.history.replace('/')
-            }
-            
+            this.props.encodeAndCommitTX(contentTx, authPrivateKey,null);
         }
-        else {
-            alert("Vui lòng nhập lại password")
-        }
-        }
-        else {
-            alert("Mật khẩu ít hơn 6 kí tự")
-        }
+        else 
+            alert("Invalid private key!")
 
      }
 
     render() {
         return (
-            <div className = "container"> 
+            <div className = "container container"> 
                 <br/>
-                <form onSubmit = {this.handleSubmit} className = "white"> 
+                <form  className = "white"> 
                     <h2><strong>Sign Up </strong> </h2>
                     
-                    <div className = "form-group">
-                        <label htmlFor = "text">FirstName</label>
-                        <input type ="text" class="form-control" id = "firstName" onChange= {this.handleChange} required/>
-                    </div>
-
-                    <div className = "input-field">
-                        <label htmlFor = "text">LastName</label>
-                        <input type ="text" class="form-control" id = "lastName" onChange= {this.handleChange} required/>
-                    </div>
-                   
                     <div className = "input-field">
                         <label htmlFor = "text">Public Key</label>
-                        
-                        <input type ="text" class="form-control" value= {this.state.publicKey?this.state.publicKey:null} id = "publicKey" onChange= {this.handleChange} required/>
+                        <input type ="text" className="form-control" value= {this.state.publicKey?this.state.publicKey:null} id = "newPublicKey" disabled/>
 
                         <label htmlFor = "text">Private Key</label>
-                        <input type ="text" class="form-control" value= {this.state.privateKey} id = "privateKey" disabled/>
-                        <button onClick= {this.handleCreateKey} class="btn btn-primary">Create Private Key</button>
+                        <input type ="text" className="form-control" value= {this.state.privateKey} id = "newPrivateKey" disabled/>
+                        <br/>
+                        <button onClick= {this.handleCreateKey} className="btn btn-sm btn-primary">Create Private Key</button>
                     </div>
                   
-                   
+                    <br/>
 
                     <div className = "input-field">
-                        <label htmlFor = "email">Email</label>
-                        <input type ="email" class="form-control" id = "email" onChange= {this.handleChange}required/>
+                        <label htmlFor = "text">Your Private key (required)</label>
+                        <input type ="text" className="form-control" id = "authPrivateKey" onChange= {this.handleChange}required/>
                     </div>
                     
-                    <div className = "input-field">
-                        <label htmlFor = "password">Password</label>
-                        <input type ="password" class="form-control" id = "password" onChange= {this.handleChange}required/>
-                    </div>
-                    <div className = "input-field">
-                        <label htmlFor = "password">Confirm Password</label>
-                        <input type ="password" class="form-control" id = "password2" onChange= {this.handleChange}  required/>
-                    </div>
                      <br/>
-                        <button type="submit" class="btn btn-primary blue">Login</button>
+                        <button onClick = {this.handleSubmit} type = "submit" className="btn btn-primary pull-right">Create</button>
                     
                 </form>
                 <br/>
@@ -129,13 +105,11 @@ const mapDispatchToProps = (dispatch) => {
     return { 
         signUp: (user) => dispatch(signUp(user)),
         createUser: (user) => dispatch(createUser(user)),
+        encodeAndCommitTX: (contentTx, privateKey, address) => dispatch(encodeAndCommitTX (contentTx, privateKey, address)),
     }
 }
 
-export default compose(
- connect(mapStateToProps,mapDispatchToProps),
-    firestoreConnect((props) => [
-        {collection: 'Profile'},
-    
-    ]) ,  
+
+export default connect(
+    mapStateToProps,mapDispatchToProps
 )(Signup);

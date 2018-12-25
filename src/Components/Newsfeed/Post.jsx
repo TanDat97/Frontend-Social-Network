@@ -5,8 +5,8 @@ import Avatar from 'react-avatar';
 import moment from 'moment';
 import Comments from "./Comments"
 import  {NavLink} from "react-router-dom"
-
-
+import * as timeHandle from "../../Function/TimeHandle"
+import * as globalVariable from "../../Global/Variable/GlobalVariable"
 const avatarUser = {
     height: "40px",
     width: "40px",
@@ -14,14 +14,29 @@ const avatarUser = {
 }
 
 const Post = ( {post,authUser, followFriend, liketoPost}) => {
-    var userPost = post.userPost;
-    var likeUser = post.like.find(each => each === authUser.email)
+    // var userPost = post.userPost;
+    var likeUser = post.like.find(each => each === authUser.publicKey)
+    var followings = authUser.followings.addresses
     var likeIcon = likeUser? 
                     <i className="fas fa-thumbs-up"> {post.like.length}</i> 
                     :<i className="far fa-thumbs-up"> {post.like.length}</i>
-    var isExistFollowing = authUser.following.find(each => each.email === userPost.email)
-    console.log(isExistFollowing)
-
+    var isExistFollowing = followings.find(each => each.publicKey === userPost.publicKey)
+    // console.log(isExistFollowing)
+    console.log(post);
+    
+    post = post.post
+    var Post = { 
+        contentPost: post.params.content.text,
+        comments: post.comments,
+        postedTime: timeHandle.TimeToMilliSeconds(post.header.time)
+    }
+    var userPost =  { 
+        publicKey: post.account,
+        avatar: null,
+        displayName: "",
+    }
+    
+    
     
     return (
            
@@ -31,11 +46,11 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                             <Row>
                                 <div></div>
                                 <Col xs = {6} md = {1}>
-                                    <NavLink to = {"/profile/" + userPost.publicKey}>< Avatar src ={userPost.avatar} size = {50} round = {true}/></NavLink>
+                                    <NavLink to = {"/profile/" + userPost.publicKey}>< Avatar src ={userPost.avatar?userPost.avatar : globalVariable.default_avatar} size = {50} round = {true}/></NavLink>
                                 </Col>
                                 <Col xs = {6} className = "ml-3" md = {8}>
                                     <NavLink to = {"/profile/" + userPost.publicKey}><h6>{userPost.displayName}</h6></NavLink>
-                                    <h6  className = "font-weight-light pb-2">{moment(post.postedTime).calendar()}</h6>
+                                    <h6  className = "font-weight-light pb-2">{moment(Post.postedTime).calendar()}</h6>
                                 </Col>
                               
                                 {
@@ -56,7 +71,7 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                             </Row>
                         </Media.Heading>
                                 
-                        <p>{post.text}</p>
+                        <p>{Post.contentPost}</p>
                         <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
                         <ul className="nav">
                        
@@ -77,8 +92,8 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                         
                         {   
 
-                            post.comments?
-                            post.comments.map((each,index) =>{
+                            Post.comments?
+                            Post.comments.map((each,index) =>{
                                 console.log(each);
                                 
                                 return (

@@ -5,7 +5,7 @@ import {BrowserRouter ,Route, Switch} from 'react-router-dom';
 import HeaderBar from "./Components/Layout/NavBar/HeaderBar/HeaderBar";
 import Newsfeed from './Components/Newsfeed/Newsfeed';
 import HomePage from './Components/Profile/Profile'
-import Following from './Components/Follow/Following/Followings';
+import FollowPage from './Components/Follow/FollowPage';
 import Follower from './Components/Follow/Follower/Follwers';
 import Signin from './Components/Auth/Signin'
 import Signup from './Components/Auth/Signup'
@@ -15,9 +15,6 @@ import Payment from "./Components/Payment/Payment"
 class App extends Component {
   render() {
     return (
-        
-          
-         
           <BrowserRouter >
               <div>
                 <HeaderBar/>
@@ -31,8 +28,8 @@ class App extends Component {
                   <Route path = "/payment" component = {Payment}/>
                   <Route exact path = "/redirect" component = {RedirectPage}/>
                   <Route path = "/signup" component = {Signup}/>
-                  <Route exact path="/following/:publicKey" component={Following}/>
-                  <Route exact path="/follower/:publicKey" component={Follower}/>
+                  {/* <Route exact path="/following/:publicKey" component={FollowPage}/> */}
+                  {/* <Route exact path="/follower/:publicKey" component={Follower}/> */}
                   </Switch>
                 </div>
               </div>

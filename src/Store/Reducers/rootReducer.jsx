@@ -8,15 +8,18 @@ import authReducer from "./authReducer"
 import followingReducer from './followingReducer'
 import {firebaseReducer} from 'react-redux-firebase'
 //
+import getAccountReducer from "./getAccountReducer"
 import { firestoreReducer} from 'redux-firestore'
+import transactionReducer from "./transactionReducer"
 
 
 const rootReducer = combineReducers( { 
     post: postReducer,
-    auth: authReducer,
-
+    authKey: authReducer,
+    getAccount: getAccountReducer,
     follower: followerReducer,
-    following: followingReducer,   
+    following: followingReducer,
+    transactionActions: transactionReducer,
     
     firestore: firestoreReducer,
     firebase: firebaseReducer
