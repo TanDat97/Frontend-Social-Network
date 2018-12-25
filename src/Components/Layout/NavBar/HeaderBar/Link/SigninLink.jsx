@@ -49,7 +49,7 @@ class SigninLink extends Component {
                         
                         
                         
-                        <li><a href="/signin" onClick = {this.props.signOut}><i className="fa fa-fw fa-users"></i><span> Sign Out</span></a></li>
+                        <li><a href="/signin" onClick = {this.props.signOut} class="dropdown-item"><i className="fa fa-fw fa-users"></i><span> Sign Out</span></a></li>
                         
                     
                     </ul>

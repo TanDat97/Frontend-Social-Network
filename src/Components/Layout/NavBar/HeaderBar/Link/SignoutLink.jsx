@@ -13,8 +13,8 @@ const SignoutLink = () => {
            
             
             
-            <li><a href="/signup" ><i className="fa fa-fw fa-users"></i><span> Sign Up</span></a></li>
-            <li><a href="/signin" ><i className="fa fa-fw fa-users"></i><span> Sign In</span></a></li>
+            <li><a href="/signup" class="dropdown-item"><i className="fa fa-fw fa-users"></i><span> Sign Up</span></a></li>
+            <li><a href="/signin" class="dropdown-item"><i className="fa fa-fw fa-users"></i><span> Sign In</span></a></li>
             
            
         </ul>

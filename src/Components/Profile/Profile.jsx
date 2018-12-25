@@ -40,7 +40,7 @@ class HomePage extends Component {
 
     
    getAmountAccountFromServer (userProfile) { 
-        var getAmount = "/account/calculate_amount/"
+        var getAmount = "/account/"
         
         axios.post(getAmount, {
             public_key: this.state.paramPublicKey, // Truyen publickey tu params
