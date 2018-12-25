@@ -51,19 +51,39 @@ class AboutProfile extends Component{
         var file = e.target.files[0];
         if(file)
         {
-            reader.readAsDataURL(file);   
-            reader.onload = (upload) =>{
+          if(file.size <= 20480)
+          {
+                reader.readAsDataURL(file);   
+                reader.onload = (upload) =>{
+                    this.setState({
+                        avatar: upload.target.result
+                    });
+                };
+                
+            setTimeout(() =>  {
+                console.log(this.state.avatar);
+                document.getElementById("upload_status").innerText = ""
+                alert("Upload thành công")
+                
+            }, 1000);
+          }
+          else{
+
+               
+
+            
+         
+            setTimeout(() =>  {
                 this.setState({
-                    avatar: upload.target.result
-                });
-            };
-            
-        setTimeout(() =>  {
-            console.log(this.state.avatar);
-            document.getElementById("upload_status").innerText = ""
-            alert("Upload thành công")
-            
-          }, 1000);
+                    avatar: this.state.avatar
+                })
+                document.getElementById("upload_status").innerText = "Upload Fail!!!!!!"
+                alert("Image có dung lượng lớn hơn 20KB!!!")
+                
+            }, 1000);
+           
+          }
+        
         }
         else {
             this.setState({
