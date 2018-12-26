@@ -10,9 +10,9 @@ const avatarFollowing = {
 
 const Followings = ({userProfile}) => {
   var followings = userProfile.followings
-  if ( followings) 
-    followings = new Array()
   
+    console.log(followings)
+
   
   return (
     <div>
@@ -26,8 +26,8 @@ const Followings = ({userProfile}) => {
             <div className="media text-truncate">
                   <img src= {avatar} alt="" style = {avatarFollowing} className ="mr-3"/>
                   <div className="media-body">
-                    <NavLink to = {"/profile/" + each}><h6 className="mt-0">{each}</h6></NavLink>
-                    <p><i className="fa fa-user"></i></p>
+                    <NavLink to = {"/profile/" + each}><h6 className="mt-0">{each.displayName?each.displayName:"Account"}</h6></NavLink>
+                    <p><i className="fa fa-user"></i> Followed</p>
                 </div>
             </div>
             )

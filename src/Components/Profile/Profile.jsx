@@ -59,6 +59,7 @@ class HomePage extends Component {
     
   render() {
     var userProfile = this.props.getAccount.userProfile
+
     var getPost = this.props.post.data
     console.log(getPost);
     
@@ -69,7 +70,8 @@ class HomePage extends Component {
         )
       }
     else{
-        
+    
+        console.log(userProfile.followings)
         var getPost = this.props.post.data
         console.log(getPost);
         try {

@@ -28,7 +28,7 @@ class App extends Component {
                   <Route path = "/payment" component = {Payment}/>
                   <Route exact path = "/redirect" component = {RedirectPage}/>
                   <Route path = "/signup" component = {Signup}/>
-                  {/* <Route exact path="/following/:publicKey" component={FollowPage}/> */}
+                  <Route exact path="/following/:publicKey" component={FollowPage}/>
                   {/* <Route exact path="/follower/:publicKey" component={Follower}/> */}
                   </Switch>
                 </div>
