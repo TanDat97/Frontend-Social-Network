@@ -98,13 +98,7 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
         
     })
     reaction = post.like.find(each => each === authUser.publicKey)
-    console.log(reaction);
     var isExistFollowing = followings.find(each => each === userPost.publicKey)
-    // console.log(isExistFollowing)
-    
-  
-    
-        
     
     return (
            

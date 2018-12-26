@@ -151,7 +151,7 @@ const commitUpdateAvatar = (encodePictureTransaction,dispatch) => {
             type: AT.BROAD_CAST_SUCCESS,
         })
     }).catch(err=> { 
-        alert("Commit Picture - " + err)
+        alert("Commit Picture error - " + err)
         dispatch({
             error: err,
             type: AT.BROAD_CAST_ERROR,

@@ -76,7 +76,6 @@ class Newsfeed extends Component {
         }
         this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
         
-        // console.log(followings);
         console.log(eachPost);
         document.getElementById(index).value = ""
         
@@ -145,8 +144,7 @@ class Newsfeed extends Component {
             type: 2, 
             reaction: parseInt(index), 
         }
-        console.log(index);
-        console.log(hash);
+       
         
         
         var contentTx = {
@@ -169,7 +167,6 @@ class Newsfeed extends Component {
   render() 
     {
         var authProfile = this.state.authProfile
-        console.log(this.props);
         
         
         if(localStorage.length === 0){
@@ -190,14 +187,11 @@ class Newsfeed extends Component {
             
             
             var getPost = this.props.getPost.data
-            console.log(getPost);
             
             try {
                 getPost.map ( each => each.post = JSON.parse(each.post)) 
             }
             catch(err) {
-                console.log(getPost);
-                
                 console.log(err);
                 
             }
@@ -208,8 +202,6 @@ class Newsfeed extends Component {
                     return 1;
                 return 0
             });
-            console.log(getPost);
-            console.log(authProfile);
             
             return (
                 <Row>
@@ -266,8 +258,6 @@ class Newsfeed extends Component {
                         }
                         {authProfile?<div><br/></div>:null} 
                         {(getPost.lenght !== 0 )?getPost.map ( (each,index) => {
-                            console.log(each.id);
-                            
                             return (
                             
                             <div className = "animate-post" key = {index}>

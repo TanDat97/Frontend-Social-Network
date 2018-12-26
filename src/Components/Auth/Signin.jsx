@@ -50,7 +50,7 @@ class Signin extends Component {
                     }
                     this.props.signIn(authKey)
                     
-                    window.location.replace("/")
+                    window.location.replace("/profile/" + publicKey)
                 }
                 
             }).catch(err => { 
