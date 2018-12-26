@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Col, Row, FormGroup,Form, FormControl, Button, Media} from "react-bootstrap";
 
 //Action
-import {postStatus} from '../../Store/Actions/postAction'
+import {postStatus, FetchPostByPage} from '../../Store/Actions/postAction'
 import {followFriend} from "../../Store/Actions/followActions"
 //Connect redux
 import { connect } from 'react-redux';
@@ -49,78 +49,39 @@ class Newsfeed extends Component {
             paramPublicKey:null,
             authKey: authKey?authKey:null,
             authProfile: authProfile?authProfile:null,
+            page:1,
           };
-    }
 
-   
-
-    handleOnClick() { 
-        const publicKey = Keypair.random().publicKey();
-        console.log(publicKey);
-        var postReq = "/create_account/?public_key=" + publicKey
-        Axios .post(postReq , {
-            
-        })
-        .then(function (response) {
-          console.log(response.data);
-          
-        })
-        .catch(function (error) {
-          alert(error)
-        });
-    }
-   
-    handleChange = (e) =>{
-        this.setState({
-            [e.target.id]: e.target.value
-        })
-    }
-    handleComments(e,eachPost){
-        // var comment =  {
-        //     text: document.getElementById(eachPost.id).value,
-        //     userComment: this.state.authProfile,
-        // }; 
+          this.loadMorePost = this.loadMorePost.bind(this)
+          this.handleFollowFriend = this.handleFollowFriend.bind(this)
+          this.handleLikePost = this.handleLikePost.bind(this)
+          this.handleComments = this.handleComments.bind(this)
+    }   
+  
+    handleComments(e,eachPost, authProfile, index){
+        e.preventDefault()
+        var hash = eachPost.post.header.data_hash;
+        var comment = { 
+            type: 1, 
+            text: document.getElementById(index).value, 
+        }
         
-        // this.props.CommentToPost(comment,eachPost)
-
-        // document.getElementById(eachPost.id).value = ""
-        // var privateKey = this.state.authKey.privateKey
-        // if (StrKey.isValidEd25519SecretSeed(privateKey) ) {
-        //     var publicKey = Keypair.fromSecret(privateKey);
-        //     publicKey = publicKey.publicKey()
-        //     var getAccount = "/account/"
-        //     Axios .post(getAccount, { 
-        //         public_key: publicKey
-        //     }).then(response => { 
-        //         var data = response.data
-        //         if ( data.error) { 
-        //             alert(data.error)
-        //             this.props.history.push(data.redirect)
-        //         }
-        //         else {
-        //             var sequence = data.sequence + 0
-        //             var postEncode = handleTransaction.encodePostTransaction(publicKey, content, privateKey, sequence)
-        //             console.log(postEncode);
-                    
-        //             // Axios .post("/broadcast_commit",{
-        //             //     enCodeTransaction: paymentEncode,
-        //             // }).then(response => {
-        //             //     alert(response.data.message)
-        //             //     window.location.reload();
-        //             // }).catch(err=> { 
-        //             //     alert(err)
-        //             // })
-        //         }
-        //     })
-            
-            
-        // }
-        // else { 
-        //     alert("Invalid private key!");
-        // }
+        
+        var contentTx = {
+            type: "comment",
+            data: {
+                comment,
+                hash,
+            }
+        }
+        this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
+        
+        // console.log(followings);
+        console.log(eachPost);
+        document.getElementById(index).value = ""
+        
     }
-
-    
+ 
     handleSubmit = (e)=>{
         e.preventDefault();
 
@@ -143,15 +104,73 @@ class Newsfeed extends Component {
         document.getElementById("contentPost").value = ""
         
     }
+    loadMorePost (page) { 
+        this.setState({
+            page: page,
+        })
+
+        this.props.FetchPostByPage(this.state.page)
+    } 
+    handleFollowFriend(userPost, authProfile) { 
+               // var f1 = "GBFNM2W3QNSPR4KGY4FNEF6YUF7STM5LF5VOARFCCQCSLPZMSEQTZ4MU";
+//     var f2 = "GCXEQNLGRDKEPUPLCZRGXYKAUQSI4Y56OHJPM4N35ZYZGH4LXMVUK5SD";
+//     var follwing= {
+//         addresses: [ base32.decode(f1), base32.decode(f2), ]
+//     }
+//     var updateParams = Buffer.from(Followings.encode(follwing));
+
+        var followings = authProfile.followings
+        if ( followings.addresses)
+            followings = followings.addresses
+
+        followings =  { 
+            addresses: [...followings,userPost.publicKey],
+        }
+        
+        var contentTx = {
+            type: "update_follow",
+            followings: followings,
+        }
+        
+        this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
+
+        console.log(followings);
+        console.log(authProfile);
+        
+    }
+
+    handleLikePost(post,authProfile, index){
+        var hash = post.post.header.data_hash;
+        var react = { 
+            type: 2, 
+            reaction: parseInt(index), 
+        }
+        console.log(index);
+        console.log(hash);
+        
+        
+        var contentTx = {
+            type: "react",
+            data: {
+                react,
+                hash,
+            }
+        }
+        this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
+        
+        
+    }
 
     componentDidMount() 
     { 
-        
+        this.props.FetchPostByPage(this.state.page)
     }
     
   render() 
     {
         var authProfile = this.state.authProfile
+        console.log(this.props);
+        
         
         if(localStorage.length === 0){
             return(
@@ -170,9 +189,18 @@ class Newsfeed extends Component {
 
             
             
-            var getPost = this.props.fireStore.Post 
+            var getPost = this.props.getPost.data
             console.log(getPost);
-                 
+            
+            try {
+                getPost.map ( each => each.post = JSON.parse(each.post)) 
+            }
+            catch(err) {
+                console.log(getPost);
+                
+                console.log(err);
+                
+            }
             getPost = getPost.slice().sort ((a,b) =>{
                 if (a.post.header.time > b.post.header.time)
                     return -1;
@@ -180,10 +208,12 @@ class Newsfeed extends Component {
                     return 1;
                 return 0
             });
+            console.log(getPost);
+            console.log(authProfile);
             
             return (
                 <Row>
-                
+                    
                     <Col xs= {6} md = {3}>
                         <LeftBar userProfile = {authProfile}/>
                     </Col>
@@ -204,7 +234,7 @@ class Newsfeed extends Component {
                                     <Media.Body className = "ml-3" >
                                         <Form onSubmit = {this.handleSubmit}>
                                         <FormGroup controlId="formControlsTextarea" >
-                                            <input className = "form-control"  id = "contentPost" onChange = {this.handleChange} placeholder = "What's up?..."/>
+                                            <input className = "form-control"  id = "contentPost" placeholder = "What's up?..."/>
                                         </FormGroup>
                                         <Button type="submit" className ="float-right">Post</Button>
                                         </Form>
@@ -245,16 +275,16 @@ class Newsfeed extends Component {
                                 <div className = "card" >        
                                     <div className="card-body"> 
                                         {/* <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/> */}
-                                        <Post post = {each} authUser = {authProfile} followFriend = {1} liketoPost = {2} />
+                                        <Post post = {each} authUser = {authProfile} followFriend = {this.handleFollowFriend} liketoPost = {this.handleLikePost} />
                                     
                                     
                                         {authProfile?
                                         <Form >
                                         <FormGroup controlId="formControlsTextarea">
-                                        <input className = "form-control" name="message-to-send" id= {each.id} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
+                                        <input className = "form-control" name="message-to-send" id= {index} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
                                         </FormGroup>
                                         
-                                        <Button name = {each.id} onClick = {(e)=>this.handleComments(e,each)} className ="float-right">Post</Button>
+                                        <Button name = {each.id} onClick = {(e)=>this.handleComments(e,each ,authProfile,index)} className ="float-right">Post</Button>
                                         <ul className="nav">
                                             <li className = "nav-item">
                                                 <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
@@ -281,7 +311,7 @@ class Newsfeed extends Component {
                             )
                         }): <div>No one posted yet!</div>}
 
-                        
+                        <center><button className = "btn btn-primary" onClick = {() => this.loadMorePost(this.state.page+1) }>Reload</button></center>
                     </Col>
                     <Col xs={6} md={3}>
                         <RightBar userProfile = {authProfile}/>
@@ -333,6 +363,7 @@ class Newsfeed extends Component {
 function mapStateToProps(state) {
     return {
         getAccount: state.getAccount,
+        getPost: state.post,
         fireStore: state.firestore.ordered
     };
 }
@@ -342,6 +373,7 @@ function mapDispatchToProps(dispatch) {
         postStatus: (post) => dispatch(postStatus(post)), 
         encodeAndCommitTX: (contentTx, privateKey, address) => dispatch(encodeAndCommitTX (contentTx, privateKey, address)),
         getAccountFromServer: (publicKey) => dispatch( getAccountFromServer(publicKey)),
+        FetchPostByPage: (page) => dispatch(FetchPostByPage(page))
     };
 }
 

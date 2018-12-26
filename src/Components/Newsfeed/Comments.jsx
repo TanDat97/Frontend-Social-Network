@@ -12,9 +12,11 @@ const avatarComment = {
 
 const Comments = ({comments}) => {
   
-    var userComment = comments.userComment
+    var userComment =  {
+        publicKey: comments.publicKey
+    }
     var text = comments.text
-    console.log(userComment);
+    console.log(comments);
     
     return (
        
@@ -24,7 +26,7 @@ const Comments = ({comments}) => {
                 <div className="media-body d-inline">
               
                     <div className = "container">
-                    <NavLink to= { "/profile/" + userComment.publicKey}> < img style = {avatarComment} src ={userComment.avatar} size = {40} round = {true}/> </NavLink> 
+                        <NavLink to= { "/profile/" + userComment.publicKey}> < img style = {avatarComment} src ={userComment.avatar} size = {40} round = {true}/> </NavLink> 
                         <NavLink to = {"/profile/" + userComment.publicKey}> {userComment.displayName}     </NavLink>  
                         {text}
                     </div>

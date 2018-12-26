@@ -31,3 +31,52 @@ export const postStatus = (post) => {
         } 
        
 }
+
+export const FetchPostByPage = (page) => {
+
+    return (dispatch , getState,{getFirebase,getFirestore}) => { 
+        const firestore = getFirestore()
+        console.log(page);
+        var startAt = page * 5 - 5
+        var query = firestore.collection("Post")
+                .orderBy("createTime",'desc')
+                .limit(page * 5)
+
+        return query.get().then(snap =>  { 
+            var data = new Array();
+                snap.forEach( doc => data.push(doc.data()))
+               
+                console.log(data);
+                dispatch({
+                    data: data,
+                    page:page,
+                    type: AT.Get_Post_Status_Success,
+                });
+                }).catch((err) => {
+                    dispatch({
+                        type: AT.Get_Post_Status_Error,
+                        error:err,
+                });
+            
+        })
+                
+                
+                
+                
+                // .get().then( (snapshot) =>  {
+                //     console.log(snapshot.data());
+                    
+                //     dispatch({
+                //         data: snapshot.data(),
+                //         page:page,
+                //         type: AT.Get_Post_Status_Success,
+                //     });
+                // }).catch((err) => {
+                //     dispatch({
+                //         type: AT.Get_Post_Status_Error,
+                //         error:err,
+                //     });
+                // })
+        } 
+       
+}

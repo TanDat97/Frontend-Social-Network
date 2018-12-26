@@ -13,30 +13,98 @@ const avatarUser = {
     borderRadius: "50%"
 }
 
+
+
 const Post = ( {post,authUser, followFriend, liketoPost}) => {
-    // var userPost = post.userPost;
-    var likeUser = post.like.find(each => each === authUser.publicKey)
-    var followings = authUser.followings.addresses
-    var likeIcon = likeUser? 
-                    <i className="fas fa-thumbs-up"> {post.like.length}</i> 
-                    :<i className="far fa-thumbs-up"> {post.like.length}</i>
-    var isExistFollowing = followings.find(each => each.publicKey === userPost.publicKey)
-    // console.log(isExistFollowing)
-    console.log(post);
+    var reactionCount = { 
+        like: 0,
+        love: 0,
+        haha: 0,
+        wow: 0,
+        sad: 0,
+        angry: 0,
+    }
+
+    var reactionValue = { 
+        "0": {value: 0, className: "far"},
+        "1": {value: 1, className: "far"},
+        "2": {value: 2, className: "far"},
+        "3": {value: 3, className: "far"},
+        "4": {value: 4, className: "far"},
+        "5": {value: 5, className: "far"},
+        "6": {value: 6, className: "far"},
+    }
     
-    post = post.post
+    var postInfo = post.post
     var Post = { 
-        contentPost: post.params.content.text,
-        comments: post.comments,
-        postedTime: timeHandle.TimeToMilliSeconds(post.header.time)
+        contentPost: postInfo.params.content.text,
+        comments: post.comments? post.comments: new Array(),
+        postedTime: timeHandle.TimeToMilliSeconds(postInfo.header.time)
     }
     var userPost =  { 
-        publicKey: post.account,
+        publicKey: postInfo.account,
         avatar: null,
         displayName: "",
     }
+
     
+    var followings 
+    if ( authUser.followings.addresses ) { 
+        followings = authUser.followings.addresses
+    }   
+    else { 
+        followings = authUser.followings
+    }
+
     
+    var reaction = post.like.map( each =>{ 
+        each = JSON.parse(each)
+        if (each) {
+            console.log(each);
+            
+            switch(each.reaction) {
+                case 0:
+                break 
+                case 1:
+                    reactionCount.like++
+                break;
+                    
+                case 2: 
+                    reactionCount.love++
+                break;
+                    
+                case 3: 
+                    reactionCount.haha++
+                break;
+                case 4:
+                    reactionCount.wow++
+                break;
+                case 5: 
+                    reactionCount.sad++
+                break;
+                case 6:
+                    reactionCount.angry++
+                break;
+            }
+            if ( each.publicKey === authUser.publicKey) { 
+                if (each.reaction !== 0){ 
+                    reactionValue[each.reaction].value = 0
+                    reactionValue[each.reaction].className = "fas"
+                }
+            }
+            
+        }
+        
+        
+    })
+    reaction = post.like.find(each => each === authUser.publicKey)
+    console.log(reaction);
+    var isExistFollowing = followings.find(each => each === userPost.publicKey)
+    // console.log(isExistFollowing)
+    
+  
+    
+        
     
     return (
            
@@ -55,15 +123,15 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                               
                                 {
 
-                                    // (userPost.follower.find( each =>each.email === authUser.email) || (authUser.email === userPost.email))? 
+                                    // (authProfile.followings.addresses.find( each =>each === userPost.account) || (authUser.publicKey === userPost.account))? 
                                     // null:
                                     // <Col xs = {6} className = "ml-3">
                                     // <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
                                     // </Col>
-                                    (isExistFollowing|| (authUser.email === userPost.email))? 
+                                    (isExistFollowing|| (authUser.publicKey === userPost.publicKey))? 
                                     null:
                                     <Col xs = {6} className = "ml-3">
-                                    <button onClick = {() => followFriend(userPost, authUser,post)}>Follow</button>
+                                    <button className = "btn btn-info" onClick = {() => followFriend(userPost, authUser)}>Follow</button>
                                     </Col>
                                 }
                               
@@ -71,22 +139,28 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
                             </Row>
                         </Media.Heading>
                                 
-                        <p>{Post.contentPost}</p>
-                        <img className = "img-fluid" src = "https://znews-photo.zadn.vn/w660/Uploaded/wyhktpu/2018_11_28/Anh_2.jpeg" alt=""/>                  
+                        <p>{Post.contentPost}</p>             
                         <ul className="nav">
                        
                             <li className = "nav-item">
-                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser)}>{likeIcon}</p>
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser,reactionValue["1"].value)}><i id="like" className={ reactionValue["1"].className + " fa-thumbs-up " }> {reactionCount.like}</i></p>
                             </li>
                             <li className = "nav-item">
-                                <a className = "nav-link" href="/"><i className="fa fa-comment"></i></a>
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser,reactionValue["2"].value)}><i id="love" className={ reactionValue["2"].className + " fa-heart "}>{reactionCount.love}</i></p>
                             </li>
                             <li className = "nav-item">
-                                <a className = "nav-link" href="/"><i className="fa fa-share-alt"></i></a>
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser,reactionValue["3"].value)}><i id = "haha" className={ reactionValue["3"].className + " fa-laugh-beam"}>{reactionCount.haha}</i></p>
                             </li>
                             <li className = "nav-item">
-                                <a className = "nav-link" ><i className="fa fa-share "></i></a>
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser,reactionValue["4"].value)}><i id ="wow" className={ reactionValue["4"].className + " fa-surprise"}>{reactionCount.wow}</i></p>
                             </li>
+                            <li className = "nav-item">
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser,reactionValue["5"].value)}><i id = "sad" className={ reactionValue["5"].className + " fa-frown-o"}>{reactionCount.sad}</i></p>
+                            </li>
+                            <li className = "nav-item">
+                                <p className = "nav-link" onClick ={() => liketoPost(post,authUser,reactionValue["6"].value)}><i id = "angry" className={ reactionValue["6"].className + " fa-angry"}>{reactionCount.angry}</i></p>
+                            </li>
+                            
                         </ul>
                         <div className="dropdown-divider"></div>
                         
@@ -94,7 +168,7 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
 
                             Post.comments?
                             Post.comments.map((each,index) =>{
-                                console.log(each);
+                                each = JSON.parse(each)
                                 
                                 return (
                                     <div key = {index}>
