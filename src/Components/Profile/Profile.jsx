@@ -14,6 +14,7 @@ import {withRouter} from "react-router-dom"
 import {connect} from "react-redux"
 import axios from "axios"
 import { getAccountFromServer } from '../../Store/Actions/getAccountActions';
+import { FetchPostByUser } from '../../Store/Actions/postAction';
 class HomePage extends Component {
     constructor(props) {
         super(props);
@@ -46,28 +47,48 @@ class HomePage extends Component {
                 paramPublicKey: publicKey,
             })
             this.props.getAccountFromServer(publicKey)
+            this.props.FetchPostByUser(this.props.match.params.publicKey)
           }
     }
 
     componentDidMount() { 
         this.props.getAccountFromServer(this.state.paramPublicKey)
+        this.props.FetchPostByUser(this.props.match.params.publicKey)
     }
     
     
   render() {
     var userProfile = this.props.getAccount.userProfile
 
-    if  (!userProfile) {
+    var getPost = this.props.post.data
+    console.log(getPost);
+    
+    if  (!userProfile || !getPost ) {
         return (
            <div><LoadingSpinner/></div>
             
         )
       }
     else{
-              
-        var getPost = userProfile.post 
-        console.log(userProfile);
-        
+    
+        console.log(userProfile.followings)
+        var getPost = this.props.post.data
+        console.log(getPost);
+        try {
+            getPost.map ( each => each.post = JSON.parse(each.post)) 
+        }
+        catch(err) {
+            console.log(err);
+            
+        }
+
+        getPost = getPost.slice().sort ((a,b) =>{
+            if (a.post.header.time > b.post.header.time)
+                return -1;
+            if (a.post.header.time < b.post.header.time)
+                return 1;
+            return 0
+        });
         
         return (
             <div className = "animate-post">
@@ -102,14 +123,23 @@ class HomePage extends Component {
                                 <div className = "card-body">
                     
                             <div className = "card-text">
-                                {(getPost.lenght===0)?getPost.map ( (each,index) => {
-                                    return (
-                                        <div key = {index}> 
-                                            <Post post = {each} authUser = {userProfile}/>
-                                            <br/>
-                                        </div>
-                                    )
-                                    }): <div>No one posted yet! </div>}
+                            {(getPost.lenght !== 0 )?getPost.map ( (each,index) => {
+                            return (
+                            
+                            <div className = "animate-post" key = {index}>
+                            
+                                <div className = "card" >        
+                                    <div className="card-body"> 
+                                        {/* <Post post = {each} authUser = {authProfile} followFriend = {this.props.followFriend.bind(this)} liketoPost = {this.props.liketoPost.bind(this)}/> */}
+                                        <Post post = {each} authUser = {userProfile}  />
+                                        <br/>
+                                    </div>                            
+                                </div>
+                                <br/>
+                            </div>
+                            
+                            )
+                        }): <div>No one posted yet!</div>}
                                 </div>
                             </div>
                             </div>  
@@ -141,12 +171,15 @@ class HomePage extends Component {
 const  mapStateToProps = (state) => {
     return {
         getAccount: state.getAccount,
+        fireStore: state.firestore.ordered,
+        post: state.post,
     };
 }
 
 const  mapDispatchToProps = (dispatch) => {
     return {
         getAccountFromServer: (publicKey) => dispatch( getAccountFromServer(publicKey)),
+        FetchPostByUser:(publicKey) => dispatch(FetchPostByUser(publicKey))
     };
 }
 
@@ -154,8 +187,8 @@ const  mapDispatchToProps = (dispatch) => {
 export default withRouter(compose(
     connect(mapStateToProps,mapDispatchToProps),
     firestoreConnect((props) => [
-        {collection: 'Profile'},
-        {collection: 'Post'}
+        // {collection: 'Profile'},
+        // {collection: 'Post'}
     ]) 
 )(HomePage));
 

@@ -72,7 +72,8 @@ class Newsfeed extends Component {
             data: {
                 comment,
                 hash,
-            }
+            },
+            props: this.props
         }
         this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
         
@@ -163,6 +164,11 @@ class Newsfeed extends Component {
     { 
         this.props.FetchPostByPage(this.state.page)
     }
+
+    // componentDidUpdate() {
+    //     console.log(123);
+    //     this.props.FetchPostByPage(this.state.page)
+    // }
     
   render() 
     {
@@ -178,7 +184,7 @@ class Newsfeed extends Component {
                 </div>
             )
         }
-        else if ( !authProfile || isEmpty(this.props.fireStore)){ 
+        else if ( !authProfile  ||  !this.props.getPost){ 
 
             return( <div><LoadingSpinner/></div>)
         }
@@ -274,7 +280,7 @@ class Newsfeed extends Component {
                                         <input className = "form-control" name="message-to-send" id= {index} placeholder="Type your message" rows="3" name = "tag" ref= "tags"></input>
                                         </FormGroup>
                                         
-                                        <Button name = {each.id} onClick = {(e)=>this.handleComments(e,each ,authProfile,index)} className ="float-right">Post</Button>
+                                        <Button name = {each.id} onClick = {(e)=>this.handleComments(e,each ,authProfile,index)} className ="btn btn-success float-right">Comment</Button>
                                         <ul className="nav">
                                             <li className = "nav-item">
                                                 <a className = "nav-link" href="/"><i className="fa fa-user"></i></a>
@@ -372,7 +378,7 @@ function mapDispatchToProps(dispatch) {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect((props) => [
-        {collection: 'Post'},
+        // {collection: 'Post'},
     ])   
 )(Newsfeed)
 
