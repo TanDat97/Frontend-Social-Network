@@ -50,7 +50,7 @@ const  mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect((props) => [
-        {collection: 'Profile'},
-        {collection: 'Post'},
+        // {collection: 'Profile'},
+        // {collection: 'Post'},
     ])   
 )(Comments);

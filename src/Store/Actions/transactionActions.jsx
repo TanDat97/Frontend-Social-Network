@@ -76,7 +76,7 @@ export const encodeAndCommitTX = (contentTx, privateKey, address) => {
 
                         var commentTx = handleTransaction.encodeInteractTransaction(publicKey,hash,content,privateKey,sequence)
                         console.log(commentTx);
-                        broadCastCommit(commentTx,dispatch)
+                        broadCastCommit(commentTx,dispatch,contentTx.props)
                         
                         // var content = new Buffer.from(PlainTextContent.encode(comment));
                         
@@ -119,12 +119,12 @@ export const encodeAndCommitTX = (contentTx, privateKey, address) => {
 }
 
 
-const broadCastCommit = (encodeTx,dispatch) => {
+const broadCastCommit = (encodeTx,dispatch,props) => {
         Axios.post("/broadcast_commit",{
             enCodeTransaction: encodeTx,
         }).then(response => {
             alert("Commit - " + response.data.message)
-            window.location.reload();
+            window.location.reload()
             dispatch({ 
                 message: response.data.message,
                 type: AT.BROAD_CAST_SUCCESS,

@@ -7,6 +7,7 @@ import Comments from "./Comments"
 import  {NavLink} from "react-router-dom"
 import * as timeHandle from "../../Function/TimeHandle"
 import * as globalVariable from "../../Global/Variable/GlobalVariable"
+import Axios from 'axios';
 const avatarUser = {
     height: "40px",
     width: "40px",
@@ -46,7 +47,6 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
         avatar: null,
         displayName: "",
     }
-
     
     var followings 
     if ( authUser.followings.addresses ) { 
@@ -56,7 +56,6 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
         followings = authUser.followings
     }
 
-    
     var reaction = post.like.map( each =>{ 
         each = JSON.parse(each)
         if (each) {
@@ -99,6 +98,7 @@ const Post = ( {post,authUser, followFriend, liketoPost}) => {
     })
     reaction = post.like.find(each => each === authUser.publicKey)
     var isExistFollowing = followings.find(each => each === userPost.publicKey)
+    
     
     return (
            

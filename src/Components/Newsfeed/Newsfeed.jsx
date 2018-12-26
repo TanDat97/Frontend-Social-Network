@@ -72,7 +72,8 @@ class Newsfeed extends Component {
             data: {
                 comment,
                 hash,
-            }
+            },
+            props: this.props
         }
         this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
         
@@ -163,6 +164,11 @@ class Newsfeed extends Component {
     { 
         this.props.FetchPostByPage(this.state.page)
     }
+
+    // componentDidUpdate() {
+    //     console.log(123);
+    //     this.props.FetchPostByPage(this.state.page)
+    // }
     
   render() 
     {
@@ -178,7 +184,7 @@ class Newsfeed extends Component {
                 </div>
             )
         }
-        else if ( !authProfile || isEmpty(this.props.fireStore)){ 
+        else if ( !authProfile  ||  !this.props.getPost){ 
 
             return( <div><LoadingSpinner/></div>)
         }
@@ -372,7 +378,7 @@ function mapDispatchToProps(dispatch) {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect((props) => [
-        {collection: 'Post'},
+        // {collection: 'Post'},
     ])   
 )(Newsfeed)
 
