@@ -5,8 +5,12 @@ import {NavLink} from "react-router-dom"
 import * as globalVariable from "../../../../Global/Variable/GlobalVariable"
 
 const LeftBar = ({userProfile}) => {
-    const followings = userProfile.followings;
-    console.log(userProfile);
+    var followings = userProfile.followings;
+    if (followings.addresses)
+        followings = followings.addresses
+
+    if ( !followings) 	
+        followings = new Array()
     
     return (
         <div>

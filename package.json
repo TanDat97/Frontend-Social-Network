@@ -33,7 +33,7 @@
     "stellar-base": "^0.9.0",
     "varstruct": "^6.1.2"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "https://backend-forest-network.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -112,12 +112,7 @@ class Newsfeed extends Component {
         this.props.FetchPostByPage(this.state.page)
     } 
     handleFollowFriend(userPost, authProfile) { 
-               // var f1 = "GBFNM2W3QNSPR4KGY4FNEF6YUF7STM5LF5VOARFCCQCSLPZMSEQTZ4MU";
-//     var f2 = "GCXEQNLGRDKEPUPLCZRGXYKAUQSI4Y56OHJPM4N35ZYZGH4LXMVUK5SD";
-//     var follwing= {
-//         addresses: [ base32.decode(f1), base32.decode(f2), ]
-//     }
-//     var updateParams = Buffer.from(Followings.encode(follwing));
+        
 
         var followings = authProfile.followings
         if ( followings.addresses)
@@ -132,7 +127,7 @@ class Newsfeed extends Component {
             followings: followings,
         }
         
-        this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
+        // this.props.encodeAndCommitTX(contentTx,authProfile.privateKey)
 
         console.log(followings);
         console.log(authProfile);
@@ -162,8 +157,25 @@ class Newsfeed extends Component {
 
     componentDidMount() 
     { 
+        document.addEventListener('scroll', this.trackScrolling);
         this.props.FetchPostByPage(this.state.page)
     }
+
+    isBottom(el) {
+        return el.getBoundingClientRect().bottom <= window.innerHeight;
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('scroll', this.trackScrolling);
+    }
+
+    trackScrolling = () => {
+        const wrappedElement = document.getElementById('bottom');
+        if (this.isBottom(wrappedElement)) {
+            console.log('header bottom reached');
+            this.loadMorePost(this.state.page + 1)
+        }
+    };
 
     // componentDidUpdate() {
     //     console.log(123);
@@ -306,8 +318,8 @@ class Newsfeed extends Component {
                             
                             )
                         }): <div>No one posted yet!</div>}
-
-                        <center><button className = "btn btn-primary" onClick = {() => this.loadMorePost(this.state.page+1) }>Reload</button></center>
+                        <div id ="bottom"></div>
+                        {/* <center><button className = "btn btn-primary" onClick = {() => this.loadMorePost(this.state.page+1) }>Reload</button></center> */}
                     </Col>
                     <Col xs={6} md={3}>
                         <RightBar userProfile = {authProfile}/>

@@ -10,8 +10,13 @@ const avatarFollowing = {
 
 const Followings = ({userProfile}) => {
   var followings = userProfile.followings
+  console.log(followings);
   
-    console.log(followings)
+  if (followings.addresses)
+      followings = followings.addresses
+
+  if ( !followings) 	
+    followings = new Array()
 
   
   return (

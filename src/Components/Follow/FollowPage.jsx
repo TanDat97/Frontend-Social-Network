@@ -58,9 +58,6 @@ class FollowPage extends Component {
   render() {
     var userProfile = this.props.getAccount.userProfile
 
-    var getPost = this.props.post.data
-    console.log(getPost);
-    
     if  (!userProfile ) {
         return (
            <div><LoadingSpinner/></div>
@@ -68,59 +65,57 @@ class FollowPage extends Component {
         )
       }
     else{
-    
-        console.log(userProfile.followings)
-        var getPost = this.props.post.data
-        console.log(getPost);
-        try {
-            getPost.map ( each => each.post = JSON.parse(each.post)) 
-        }
-        catch(err) {
-            console.log(err);
-            
-        }
+        var followings = userProfile.followings
+        if (followings.addresses)
+            followings = followings.addresses
 
-        getPost = getPost.slice().sort ((a,b) =>{
-            if (a.post.header.time > b.post.header.time)
-                return -1;
-            if (a.post.header.time < b.post.header.time)
-                return 1;
-            return 0
-        });
-        
+        if ( !followings) 	
+            followings = new Array()
         return (
-                 <Row>
-                    <Col xs={6} md={3}>
+            <Row>
+                <Col xs={6} md={3}>
                     <LeftBar userProfile = {userProfile}/>
-                    </Col>
-                    <Col xs={6} md={9}>
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-4">
-                                        <h5>
-                                            <big>FOLLOWING</big>
-                                            <br/>
-                                            <NavLink to={"/following/" + userProfile.publicKey}>{userProfile.followings.length}</NavLink>
-                                        </h5>
-                                    </div>
+                </Col>
+            {followings.length !== 0 ? 
+                <Col xs={6} md={9}>
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-4">
+                                    <h5>
+                                        <big>FOLLOWING</big>
+                                        <br/>
+                                        <NavLink to={"/following/" + userProfile.publicKey}>{userProfile.followings.length}</NavLink>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
-                        <br/>
-                        <div className="card-group">
-                            <Row>
-                                {userProfile.followings.map ( each => {
-                                return (
-                                    <Col xs = {6} md = {4}> 
-                                        <FollowCard following = {each}/>
-                                    </Col>
-                                    )
-                                })}
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
+                    </div>
+                    <br/>
+                    <div className="card-group">
+                        <Row>
+                            {followings.map ( each => {
+                            return (
+                                <Col xs = {6} md = {4}> 
+                                    <FollowCard following = {each}/>
+                                </Col>
+                                )
+                            })}
+                        </Row>
+                    </div>
+                </Col>
+            
+            
+            :
+            <Col xs={6} md={9}>
+            <div class="alert alert-info">
+                <center>
+                    <strong>You not follow anyone yet!!</strong>
+                </center>
+            </div>
+            </Col>
+            }
+            </Row>
         );
     }
   }
